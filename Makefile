@@ -21,7 +21,9 @@ INCLUDES = -I includes
 LDFLAGS = -lreadline
 
 SRC_FILES = readline.c\
-			lexer_split.c
+			print_token.c\
+			set_token_vals.c\
+			lexer_tokenize.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

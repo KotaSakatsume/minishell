@@ -6,40 +6,29 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/07 16:51:38 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/13 18:00:36 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int lexer(char *input)
 {
-	char** split_token;
-	static t_token** head_pp = NULL;
+	t_token **split_token;
 
-	if(head_pp == NULL)
+	split_token = lexer_tokenize(input);
+	if (split_token == NULL)
 	{
-		head_pp = malloc(sizeof(t_token*));
-		if(head_pp == NULL)
-		{
-			printf ("lexer : malloc\n");
-			return (1);
-		}
-		*head_pp = NULL;
-	}
-	split_token = lexer_split(input);
-	if(split_token == NULL)
-	{
-		//freetyekku
-		printf ("lexer_split : malloc\n");
+		perror("lexer: tokenize failed");
 		return (1);
 	}
-	cnv_splited_to_stoken(split_token, head_pp);
+	set_token_vals(split_token);
+	print_token(split_token);
+	// TODO: split_tokenのメモリ解放を実装
 	return (0);
 }
 
-
-int	main(void)
+int main(void)
 {
 	while (1)
 	{
@@ -47,11 +36,15 @@ int	main(void)
 		if (!input)
 		{ // CtrlD(EOF)
 			printf("exit\n");
-			break ;
+			break;
 		}
 		if (*input != '\0')
 		{
-			lexer(input);
+			if (lexer(input) != 0)
+			{
+				free(input);
+				continue;
+			}
 			add_history(input);
 		}
 		// rl_redisplay();
