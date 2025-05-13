@@ -1,14 +1,181 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/10 14:01:03 by kosakats          #+#    #+#             */
-/*   Updated: 2025/05/11 17:54:15 by kosakats         ###   ########.fr       */
+/*   Created: 2025/01/23 18:16:58 by kosakats          #+#    #+#             */
+/*   Updated: 2025/05/10 14:01:22 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// #include <readline/history.h>
+// #include <readline/readline.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <unistd.h>
+
+// int	main(void)
+// {
+// 	char	*line;
+
+// 	rl_outstream = stderr;
+// 	while (1)
+// 	{
+// 		line = readline("minishell$ ");
+// 		if (line == NULL)
+// 			break ;
+// 		if (*line)
+// 			add_history(line);
+// 		free(line);
+// 	}
+// 	exit(0);
+// }
+
+/*
+//  * getenvの使い方サンプル
+//  */
+// int	main(int argc, char *argv[])
+// {
+// 	char	*envp;
+
+// 	envp = getenv("PATH");
+// 	printf("%s\n", envp);
+// 	return (0);
+// }
+
+// #include <../include/minishell.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <sys/wait.h>
+// #include <unistd.h>
+
+// // トークンリストの解放
+// void	free_token_list(t_token *tokens)
+// {
+// 	t_token	*next;
+
+// 	while (tokens)
+// 	{
+// 		next = tokens->next;
+// 		free(tokens->value);
+// 		free(tokens->status);
+// 		free(tokens);
+// 		tokens = next;
+// 	}
+// }
+
+// // トークンリストを作成する関数（テスト用）
+// t_token	*create_test_tokens(void)
+// {
+// 	t_token_stat	*stat1;
+// 	t_token			*token1;
+
+// 	// t_token_stat	*stat2;
+// 	// t_token			*token2;
+// 	// t_token_stat	*stat3;
+// 	// t_token			*token3;
+// 	// トークン1: "ls"
+// 	stat1 = malloc(sizeof(t_token_stat));
+// 	stat1->token_type = WORD; //コマンド
+// 	stat1->in_quote = OUT;    //クオートなし
+// 	stat1->need_expand = 0;   //
+// 	stat1->after_space_is = 1;
+// 	stat1->marge_id = -1;
+// 	token1 = malloc(sizeof(t_token));
+// 	token1->id = 1;
+// 	token1->value = strdup("ls");
+// 	token1->status = stat1;
+// 	token1->next = NULL;
+// 	// トークン2: "|"
+// 	// stat2 = malloc(sizeof(t_token_stat));
+// 	// stat2->token_type = PIPE;
+// 	// stat2->in_quote = OUT;
+// 	// stat2->need_expand = 0;
+// 	// stat2->after_space_is = 1;
+// 	// stat2->marge_id = -1;
+// 	// token2 = malloc(sizeof(t_token));
+// 	// token2->id = 2;
+// 	// token2->value = strdup("|");
+// 	// token2->status = stat2;
+// 	// token2->next = NULL;
+// 	// token1->next = token2;
+// 	// // トークン3: "wc"
+// 	// stat3 = malloc(sizeof(t_token_stat));
+// 	// stat3->token_type = WORD;
+// 	// stat3->in_quote = OUT;
+// 	// stat3->need_expand = 0;
+// 	// stat3->after_space_is = 1;
+// 	// stat3->marge_id = -1;
+// 	// token3 = malloc(sizeof(t_token));
+// 	// token3->id = 3;
+// 	// token3->value = strdup("wc");
+// 	// token3->status = stat3;
+// 	// token3->next = NULL;
+// 	// token2->next = token3;
+// 	// return (token1);
+// }
+
+// // コマンド実行（トークンリストから）
+// void	execute_tokens(t_token *tokens)
+// {
+// 	int		pipe_fds[2];
+// 	char	*argv[] = {tokens->value, NULL};
+
+// 	if (!tokens)
+// 	{
+// 		printf("No tokens to execute.\n");
+// 		return ;
+// 	}
+// 	int in_fd = 0; // 最初は標準入力
+// 	while (tokens)
+// 	{
+// 		// パイプを作成
+// 		if (tokens->next && tokens->status->token_type == PIPE)
+// 		{
+// 			pipe(pipe_fds);
+// 		}
+// 		else
+// 		{
+// 			pipe_fds[1] = 1; // 最後のコマンドは標準出力
+// 		}
+// 		if (fork() == 0)
+// 		{
+// 			// 子プロセスで実行
+// 			dup2(in_fd, 0);       // 標準入力を設定
+// 			dup2(pipe_fds[1], 1); // 標準出力を設定
+// 			close(pipe_fds[0]);   // 読み込み側を閉じる
+// 			execvp(argv[0], argv);
+// 			// エラー処理
+// 			perror("execvp failed");
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		else
+// 		{
+// 			// 親プロセス
+// 			wait(NULL);          // 子プロセスの終了を待つ
+// 			close(pipe_fds[1]);  // 書き込み側を閉じる
+// 			in_fd = pipe_fds[0]; // 次のプロセスの入力を設定
+// 		}
+// 		tokens = tokens->next;
+// 	}
+// }
+
+// // メイン関数
+// int	main(void)
+// {
+// 	t_token	*tokens;
+
+// 	// テスト用トークンリストを作成
+// 	tokens = create_test_tokens();
+// 	// トークンを実行
+// 	execute_tokens(tokens);
+// 	// メモリ解放
+// 	free_token_list(tokens);
+// 	return (0);
+// }
 
 #include "minishell.h" // 提供された構造体のヘッダーファイル
 #include <assert.h>
@@ -155,44 +322,23 @@ void	visualize_tokens(t_token *head)
 	printf("==================\n");
 }
 
-int	main(int ac, char **av, char **envp)
+int	main(void)
 {
-	t_shell_env	*shell_env;
-	t_token		*token1;
-	t_token		*token2;
-	t_token		*token3;
-	t_token		*token4;
+	t_token	*token1;
 
-	// t_token		*token5;
-	// t_token		*token6;
-	shell_env = malloc(sizeof(t_shell_env));
-	if (!shell_env)
-	{
-		perror("Failed to allocate memory for shell_env");
-		return (EXIT_FAILURE);
-	}
-	shell_env->envp = envp;
-	shell_env->exit_status = 0;
-	(void)ac;
-	(void)av;
+	// t_token	*token2;
+	// t_token	*token3;
 	// トークンを作成
 	token1 = create_token(1, "ls", TYPE_WORD, QUOTE_OUT, 0, 1);
-	token2 = create_token(2, "|", TYPE_PIPE, QUOTE_OUT, 0, 1);
-	token3 = create_token(3, "grep", TYPE_WORD, QUOTE_OUT, 0, 0);
-	token4 = create_token(4, "|", TYPE_PIPE, QUOTE_OUT, 0, 1);
-	// token5 = create_token(5, ">", TYPE_REDIRECT_IN, QUOTE_OUT, 0, 1);
-	// token6 = create_token(6, "out", TYPE_WORD, QUOTE_OUT, 0, 1);
+	// token2 = create_token(2, "|", PIPE, OUT, 0, 1);
+	// token3 = create_token(3, "grep", WORD, OUT, 0, 0);
 	// トークンを連結
-	token1->next = token2;
-	token2->next = token3;
-	token3->next = token4;
-	// token4->next = token5;
-	// token5->next = token6;
+	// token1->next = token2;
+	// token2->next = token3;
 	// 可視化
 	visualize_tokens(token1);
-	execution_minishell(token1, shell_env);
+	execution_minishell(token1);
 	// メモリ解放
 	free_tokens(token1);
-	free(shell_env);
 	return (0);
 }
