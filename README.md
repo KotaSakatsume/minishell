@@ -42,7 +42,7 @@ typedef struct s_token_stat
 	t_in_quote in_quote;     // 何のクオート内にいるかどうか
 	int need_expand;         // 変数展開の必要があるかどうか
 	int after_space_is;      // 後ろにスペースがあるかどうか
-	int marge_id;            // スペースの有無から、コマンド結合グループ作成
+	int token_marge_id;            // スペースの有無から、コマンド結合グループ作成
 }			t_token_stat;
 
 typedef struct s_token
