@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:08:24 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/13 18:39:08 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/13 19:18:01 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,11 +167,20 @@ t_token *mk_t_token(char *start_ptr, char *end_ptr, int mode)
 	initialize_t_token_stat(t_token_node->status);
 
 	if (mode == mode_single_quote)
+	{
+
 		t_token_node->status->in_quote = QUOTE_SINGLE;
+	}
 	else if (mode == mode_double_quote)
+	{
+
 		t_token_node->status->in_quote = QUOTE_DOUBLE;
+	}
 	else if (mode == mode_normal)
+	{
+
 		t_token_node->status->in_quote = QUOTE_OUT;
+	}
 	else
 	{
 		perror("mk_t_token : mode is not valid");
@@ -211,6 +220,8 @@ char *serach_end_ptr(char *input, int mode)
 		}
 		input++;
 	}
+	if(*input != '\0')
+		input++;
 	return (input);
 }
 
@@ -262,7 +273,17 @@ t_token **lexer_tokenize(char *input)
 			mode = mode_normal;
 
 		end_ptr = serach_end_ptr(input, mode);
+		if (end_ptr == NULL)
+		{
+			// エラー処理
+			return (NULL);
+		}
 		t_token_node_ptr = mk_t_token(start_ptr, end_ptr, mode);
+		if (t_token_node_ptr == NULL)
+		{
+			// エラー処理
+			return (NULL);
+		}
 
 		input = end_ptr;
 		while (is_space(*input))

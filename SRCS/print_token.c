@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:38:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/13 18:25:31 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/13 19:14:36 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void print_token(t_token **head)
 {
 
-	static const char *token_type_str[] = {
+	const char *token_type_str[] = {
 	"TYPE_INITIAL",
 	"TYPE_WORD",
 	"TYPE_PIPE",
@@ -28,8 +28,8 @@ void print_token(t_token **head)
  	"TYPE_EOF"
 	};
 
-	static const char *quote_type_str[] = {
-		"QUOTE_INITIAL"
+	const char *quote_type_str[] = {
+		"QUOTE_INITIAL",
 		"QUOTE_OUT",
 		"QUOTE_SINGLE",
 		"QUOTE_DOUBLE"
