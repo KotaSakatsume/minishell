@@ -21,6 +21,7 @@ INCLUDES = -I includes
 LDFLAGS = -lreadline
 
 SRC_FILES = readline.c\
+			mk_shell_env.c\
 			print_for_debag.c\
 			set_token_vals.c\
 			lexer_tokenize.c\
