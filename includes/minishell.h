@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/14 13:58:16 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:02:51 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_token **lexer_tokenize(char *input);
 // set_token_vals.c
 void set_token_vals(t_token **head);
 
-// print_token.c
+// print_for_debag.c
 void print_token(t_token **head);
 void print_teststr(char* str);
 

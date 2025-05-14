@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:08:24 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/14 13:57:55 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:26:56 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ void all_free(char **dest, int num)
 		i++;
 	}
 }
-
-
 
 void rep_malloc(char **dest, char *input)
 {
@@ -236,6 +234,9 @@ t_token **lexer_tokenize(char *input)
 		if (end_ptr == NULL)
 		{
 			// NULLのとき、続けて読みとり
+			// free構造体all
+			print_teststr("detect : continue");
+			exit(1);
 			return (NULL);
 		}
 		t_token_node_ptr = mk_t_token(start_ptr, end_ptr, mode);
