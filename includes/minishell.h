@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/14 14:02:51 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:34:55 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ typedef struct s_token_stat
 	t_in_quote in_quote;	 // 何のクオート内にいるかどうか
 	int need_expand;		 // 変数展開の必要があるかどうか
 	int after_space_is;		 // 後ろにスペースがあるかどうか
-	int marge_id;			 // スペースの有無から、コマンド結合グループ作成
 } t_token_stat;
 
 typedef struct s_token
 {
 	int id;				  // 管理ID
+	int marge_id;		  // スペースの有無から、コマンド結合グループ作成
 	char *value;		  // トークンの値
 	t_token_stat *status; // 詳細項目
 	struct s_token *next; // 次のt_token(連結リスト)

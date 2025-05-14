@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:08:24 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/14 14:26:56 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:35:32 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void initialize_t_token(t_token *t_token_node)
 {
 	t_token_node->id = -1;
+	t_token_node->marge_id = -1;
 	t_token_node->value = NULL;
 	t_token_node->status = NULL;
 	t_token_node->next = NULL;
@@ -26,7 +27,6 @@ void initialize_t_token_stat(t_token_stat *t_token_stat_node)
 	t_token_stat_node->in_quote = QUOTE_INITIAL;
 	t_token_stat_node->need_expand = -1;
 	t_token_stat_node->after_space_is = -1;
-	t_token_stat_node->marge_id = -1;
 }
 
 void set_after_space(t_token *t_token_node, int after_space_exist)
