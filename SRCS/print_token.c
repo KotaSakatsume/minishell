@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:38:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/13 19:14:36 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:44:11 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ void print_token(t_token **head)
 			   node_ptr->id, node_ptr->value, token_type_str[node_ptr->status->token_type], quote_type_str[node_ptr->status->in_quote], node_ptr->status->need_expand, node_ptr->status->after_space_is, node_ptr->status->marge_id);
 		node_ptr = node_ptr->next;
 	}
+}
+
+void print_teststr(char* str)
+{
+	printf("------------------\n|%s|\n------------------\n", str);
+	return;
 }

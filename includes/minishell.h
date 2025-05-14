@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/13 18:19:19 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:58:16 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,12 @@ void set_token_vals(t_token **head);
 
 // print_token.c
 void print_token(t_token **head);
+void print_teststr(char* str);
+
+// serch_end_ptr.c
+char *serach_end_ptr(char *input, int mode);
+
+// utils.c
+int is_space(char c);
 
 #endif

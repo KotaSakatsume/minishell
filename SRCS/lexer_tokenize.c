@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:08:24 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/13 19:20:18 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:57:55 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,7 @@ void all_free(char **dest, int num)
 	}
 }
 
-int is_space(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
-		return (1);
-	return (0);
-}
+
 
 void rep_malloc(char **dest, char *input)
 {
@@ -190,41 +185,6 @@ t_token *mk_t_token(char *start_ptr, char *end_ptr, int mode)
 	return (t_token_node);
 }
 
-char *serach_end_ptr(char *input, int mode)
-{
-	char end_word;
-	if (mode == mode_single_quote)
-		end_word = '\'';
-	else if (mode == mode_double_quote)
-		end_word = '"';
-	else if (mode == mode_normal)
-	{
-		while (*input != '\0' && !is_space(*input))
-			input++;
-		return (input);
-	}
-	else
-	{
-		perror("serach_end_ptr : mode is not valid");
-		exit(1);
-	}
-
-	input++;
-	while (*input != end_word && *input != '\0')
-	{
-		if (*input == '\\')
-		{
-			input++;
-			if (*input == '\0')
-				return (input);
-		}
-		input++;
-	}
-	if (*input != '\0')
-		input++;
-	return (input);
-}
-
 void into_list(t_token **head, t_token *t_token_node_ptr)
 {
 	t_token *ptr;
@@ -243,7 +203,7 @@ void into_list(t_token **head, t_token *t_token_node_ptr)
 
 t_token **lexer_tokenize(char *input)
 {
-	printf("start_tokenize\n");
+	print_teststr("start_tokenize");
 	t_token **dest;
 	dest = malloc(sizeof(t_token *) * (1));
 	if (dest == NULL)
@@ -275,7 +235,7 @@ t_token **lexer_tokenize(char *input)
 		end_ptr = serach_end_ptr(input, mode);
 		if (end_ptr == NULL)
 		{
-			// エラー処理
+			// NULLのとき、続けて読みとり
 			return (NULL);
 		}
 		t_token_node_ptr = mk_t_token(start_ptr, end_ptr, mode);
