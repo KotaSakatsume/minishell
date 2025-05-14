@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:08:24 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/13 19:18:01 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/13 19:20:18 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ char *serach_end_ptr(char *input, int mode)
 		}
 		input++;
 	}
-	if(*input != '\0')
+	if (*input != '\0')
 		input++;
 	return (input);
 }
