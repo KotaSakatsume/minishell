@@ -6,11 +6,53 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 14:30:44 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 15:12:09 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void set_token_remove_quote(t_token *next_token_ptr)
+{
+	char *dest;
+	int len;
+	int i;
+
+	i = 0;
+	len = ft_strlen(next_token_ptr->value);
+	dest = malloc(len + 1 - 2);
+	if (dest == NULL)
+	{
+		perror("set_token_remove_quote : dest is NULL");
+		exit(1);
+	}
+	while (i < len - 2)
+	{
+		dest[i] = next_token_ptr->value[i + 1];
+		i++;
+	}
+	dest[i] = '\0';
+	free(next_token_ptr->value);
+	next_token_ptr->value = dest;
+}
+
+void set_stat_token_need_expand(t_token_stat *token_stat_ptr)
+{
+	if (token_stat_ptr->token_type == TYPE_WORD)
+	{
+		if (token_stat_ptr->in_quote == QUOTE_OUT || token_stat_ptr->in_quote == QUOTE_DOUBLE)
+			token_stat_ptr->need_expand = 1;
+		else if (token_stat_ptr->in_quote == QUOTE_SINGLE)
+			token_stat_ptr->need_expand = 0;
+		else
+		{
+			perror("set_stat_token_need_expand : token_stat_ptr->in_quote is not valid");
+			exit(1);
+		}
+	}
+	else
+		token_stat_ptr->need_expand = 0;
+}
 
 void set_stat_token_type(t_token_stat *token_stat_ptr, char *token_str)
 {
@@ -80,7 +122,7 @@ void set_token_stat_vals(t_token_stat *token_stat_ptr, char *token_str)
 {
 	set_stat_token_type(token_stat_ptr, token_str);
 	set_stat_token_in_quote(token_stat_ptr, token_str);
-	// set_stat_token_need_expand(token_stat_ptr);
+	set_stat_token_need_expand(token_stat_ptr);	
 }
 
 void lexer_set_token_vals(t_token **head)
@@ -95,6 +137,9 @@ void lexer_set_token_vals(t_token **head)
 	{
 		token_str = next_token_ptr->value;
 		set_token_stat_vals(next_token_ptr->status, token_str);
+		if(next_token_ptr->status->in_quote == QUOTE_SINGLE || next_token_ptr->status->in_quote == QUOTE_DOUBLE)
+			set_token_remove_quote(next_token_ptr);
+		// set_token_remove_backslash(next_token_ptr);
 		next_token_ptr = next_token_ptr->next;
 	}
 }
