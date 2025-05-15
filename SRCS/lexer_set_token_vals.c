@@ -6,11 +6,61 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 15:12:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 15:56:25 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void set_token_remove_backslash(t_token *next_token_ptr, int count_backslash_to_remove)
+{
+	int i;
+	int j;
+	char *dest;
+
+	dest = malloc(ft_strlen(next_token_ptr->value) - count_backslash_to_remove + 1);
+	if (dest == NULL)
+	{
+		perror("set_token_remove_backslash : dest is NULL");
+		exit(1);
+	}
+
+	i = 0;
+	j = 0;
+	while(next_token_ptr->value[i+j] != '\0')
+	{
+		if(next_token_ptr->value[i+j] == '\\')
+		{
+			j++;
+		}
+		dest[i] = next_token_ptr->value[i + j];
+		i++;
+	}
+	dest[i] = '\0';
+	free(next_token_ptr->value);
+	next_token_ptr->value = dest;
+}
+
+int check_token_remove_backslash(t_token *next_token_ptr)
+{
+	int count_backslash_to_remove;
+	int i;
+
+	i = 0;
+	count_backslash_to_remove = 0;
+	
+	while(next_token_ptr->value[i] != '\0')
+	{
+		if(next_token_ptr->value[i] == '\\')
+		{
+			count_backslash_to_remove++;
+			i++;
+		}
+		i++;
+	}
+	printf("count_backslash_to_remove : %d\n", count_backslash_to_remove);
+	return (count_backslash_to_remove);
+}
 
 void set_token_remove_quote(t_token *next_token_ptr)
 {
@@ -128,6 +178,7 @@ void set_token_stat_vals(t_token_stat *token_stat_ptr, char *token_str)
 void lexer_set_token_vals(t_token **head)
 {
 	char *token_str;
+	int count_backslash_to_remove;
 	t_token *next_token_ptr;
 	next_token_ptr = *head;
 
@@ -139,7 +190,9 @@ void lexer_set_token_vals(t_token **head)
 		set_token_stat_vals(next_token_ptr->status, token_str);
 		if(next_token_ptr->status->in_quote == QUOTE_SINGLE || next_token_ptr->status->in_quote == QUOTE_DOUBLE)
 			set_token_remove_quote(next_token_ptr);
-		// set_token_remove_backslash(next_token_ptr);
+		count_backslash_to_remove = check_token_remove_backslash(next_token_ptr);
+		if(count_backslash_to_remove != 0)
+			set_token_remove_backslash(next_token_ptr, count_backslash_to_remove);
 		next_token_ptr = next_token_ptr->next;
 	}
 }
