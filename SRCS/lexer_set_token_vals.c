@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 14:08:33 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:30:44 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void set_stat_token_type(t_token_stat *token_stat_ptr, char *token_str)
 		token_stat_ptr->token_type = TYPE_QUOTE_SINGLE;
 	else if (strcmp(token_str, "\"") == 0)
 		token_stat_ptr->token_type = TYPE_QUOTE_DOUBLE;
+	else if (strcmp(token_str, ";") == 0)
+		token_stat_ptr->token_type = TYPE_SEMICOLON;
 	else
 		token_stat_ptr->token_type = TYPE_WORD;
 }

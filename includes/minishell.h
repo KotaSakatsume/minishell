@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 14:03:54 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:29:55 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef enum token_type
 	TYPE_REDIRECT_HEREDOC, //  <<
 	TYPE_QUOTE_SINGLE,	   //  '
 	TYPE_QUOTE_DOUBLE,	   //  "
+	TYPE_SEMICOLON,		   //  ;
 	TYPE_EOF			   //
 } t_token_type;
 
