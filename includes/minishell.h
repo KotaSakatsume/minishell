@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 13:45:32 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:03:54 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ typedef struct s_shell_env
 // lexer_tokenize.c
 t_token **lexer_tokenize(char *input);
 
-// set_token_vals.c
-void set_token_vals(t_token **head);
+// lexer_set_token_vals.c
+void lexer_set_token_vals(t_token **head);
 
 // print_for_debag.c
 void print_token(t_token **head);
@@ -102,6 +102,7 @@ int is_space(char c);
 char *ft_strjoin(char const *s1, char const *s2);
 int ft_strncmp(char *s1, char *s2, int n);
 int ft_strcmp(char *s1, char *s2);
+int ft_strlen(char *str);
 
 // mk_shell_env.c
 t_shell_env *mk_shell_env(char **envp);

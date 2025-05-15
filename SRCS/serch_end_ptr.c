@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:55:53 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 13:45:32 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:20:05 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char *serach_end_ptr_normal(char *input)
 			if (*input == '\0')
 				return (NULL);
 		}
+		if (*(input) == '\'' || *(input) == '"' || *(input) == ';' || *(input) == '|' || *(input) == '>' || *(input) == '<')
+			return (input);
 		input++;
 	}
 	return (input);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_token_vals.c                                   :+:      :+:    :+:   */
+/*   lexer_set_token_vals.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/13 19:11:24 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:08:33 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,34 @@ void set_id(t_token **head)
 	}
 }
 
+void set_stat_token_in_quote(t_token_stat *token_stat_ptr, char *token_str)
+{
+	if (token_str == NULL)
+	{
+		perror("set_stat_token_in_quote : token_str is NULL");
+		exit(1);
+	}
+	if (ft_strlen(token_str) > 1)
+	{
+		if(token_str[0] == '\"' && token_str[ft_strlen(token_str) - 1] == '\"')
+			token_stat_ptr->in_quote = QUOTE_DOUBLE;
+		else if(token_str[0] == '\'' && token_str[ft_strlen(token_str) - 1] == '\'')
+			token_stat_ptr->in_quote = QUOTE_SINGLE;
+		else
+			token_stat_ptr->in_quote = QUOTE_OUT;
+	}
+	else
+		token_stat_ptr->in_quote = QUOTE_OUT;
+}
+
 void set_token_stat_vals(t_token_stat *token_stat_ptr, char *token_str)
 {
 	set_stat_token_type(token_stat_ptr, token_str);
+	set_stat_token_in_quote(token_stat_ptr, token_str);
 	// set_stat_token_need_expand(token_stat_ptr);
 }
 
-void set_token_vals(t_token **head)
+void lexer_set_token_vals(t_token **head)
 {
 	char *token_str;
 	t_token *next_token_ptr;

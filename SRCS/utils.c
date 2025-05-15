@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 13:41:46 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:03:18 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ int ft_strncmp(char *s1, char *s2, int n)
 		i++;
 	}
 	return (0);
+}
+
+int ft_strlen(char *str)
+{
+	int i;
+	i = 0;
+
+	if(str == NULL)
+		return (0);
+	while(str[i] != '\0')
+		i++;
+	return (i);
 }
