@@ -26,6 +26,7 @@ typedef enum token_type
 	TYPE_REDIRECT_HEREDOC, //  <<
 	TYPE_QUOTE_SINGLE,     //  ‘
 	TYPE_QUOTE_DOUBLE,     //  “
+        TYPE_SEMICOLON,        //  ;
 	TYPE_EOF               //
 }			t_token_type;
 
