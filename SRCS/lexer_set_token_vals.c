@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 15:56:25 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 15:57:35 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int check_token_remove_backslash(t_token *next_token_ptr)
 		}
 		i++;
 	}
-	printf("count_backslash_to_remove : %d\n", count_backslash_to_remove);
+	// printf("count_backslash_to_remove : %d\n", count_backslash_to_remove);
 	return (count_backslash_to_remove);
 }
 
