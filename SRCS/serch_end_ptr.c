@@ -6,11 +6,11 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:55:53 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/14 14:27:26 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:45:32 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 char *serach_end_ptr_quote(char *input, char end_word)
 {
@@ -46,7 +46,7 @@ char *serach_end_ptr_normal(char *input)
 		if (*input == '\\')
 		{
 			input++;
-			if(*input == '\0')
+			if (*input == '\0')
 				return (NULL);
 		}
 		input++;
@@ -54,21 +54,49 @@ char *serach_end_ptr_normal(char *input)
 	return (input);
 }
 
-
-
-char *serach_end_ptr(char *input, int mode)
+char *serach_end_ptr(char *input)
 {
+	int mode;
+
+	if (ft_strncmp(input, "\'", 1) == 0)
+		mode = mode_single_quote;
+	else if (ft_strncmp(input, "\"", 1) == 0)
+		mode = mode_double_quote;
+	else if (ft_strncmp(input, ";", 1) == 0)
+		mode = mode_semicolon;
+	else if (ft_strncmp(input, "|", 1) == 0)
+		mode = mode_pipe;
+	else if (ft_strncmp(input, ">>", 2) == 0)
+		mode = mode_redirect_append;
+	else if (ft_strncmp(input, "<<", 2) == 0)
+		mode = mode_redirect_heredoc;
+	else if (ft_strncmp(input, ">", 1) == 0)
+		mode = mode_redirect_out;
+	else if (ft_strncmp(input, "<", 1) == 0)
+		mode = mode_redirect_in;
+	else
+		mode = mode_normal;
+
 	char end_word;
 	if (mode == mode_single_quote)
-		return(serach_end_ptr_quote(input,'\''));
+		return (serach_end_ptr_quote(input, '\''));
 	else if (mode == mode_double_quote)
-		return(serach_end_ptr_quote(input,'"'));
+		return (serach_end_ptr_quote(input, '"'));
 	else if (mode == mode_normal)
-		return(serach_end_ptr_normal(input));
+		return (serach_end_ptr_normal(input));
+	else if (mode == mode_semicolon || mode == mode_pipe || mode == mode_redirect_in || mode == mode_redirect_out)
+	{
+		input++;
+		return (input);
+	}
+	else if (mode == mode_redirect_append || mode == mode_redirect_heredoc)
+	{
+		input += 2;
+		return (input);
+	}
 	else
 	{
 		perror("serach_end_ptr : mode is not valid");
 		exit(1);
 	}
 }
-

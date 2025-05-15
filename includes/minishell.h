@@ -6,25 +6,35 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/14 15:00:05 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:45:32 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-# define MINISHELL_H
+#define MINISHELL_H
 
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // for_error
-# define ERROR_ARGS 1
+#define ERROR_ARGS 1
+
+// for_readline_continue
+#define READLINE_EXIT 0
+#define READLINE_CONTINUE 1
 
 // for_utils
-# define mode_single_quote 1
-# define mode_double_quote 2
-# define mode_normal 0
+#define mode_normal 0
+#define mode_single_quote 1
+#define mode_double_quote 2
+#define mode_semicolon 3
+#define mode_pipe 4
+#define mode_redirect_in 5
+#define mode_redirect_out 6
+#define mode_redirect_append 7
+#define mode_redirect_heredoc 8
 
 // def_struct
 typedef enum token_type
@@ -66,11 +76,11 @@ typedef struct s_token
 	struct s_token *next; // 次のt_token(連結リスト)
 } t_token;
 
-//環境変数と終了ステータス
+// 環境変数と終了ステータス
 typedef struct s_shell_env
 {
-	char **envp;		// 環境変数を格納する配列
-	int exit_status;	// 終了ステータス
+	char **envp;	 // 環境変数を格納する配列
+	int exit_status; // 終了ステータス
 } t_shell_env;
 
 // lexer_tokenize.c
@@ -81,14 +91,17 @@ void set_token_vals(t_token **head);
 
 // print_for_debag.c
 void print_token(t_token **head);
-void print_teststr(char* str);
+void print_teststr(char *str);
 void print_shell_env(t_shell_env *shell_env_ptr);
 
 // serch_end_ptr.c
-char *serach_end_ptr(char *input, int mode);
+char *serach_end_ptr(char *input);
 
 // utils.c
 int is_space(char c);
+char *ft_strjoin(char const *s1, char const *s2);
+int ft_strncmp(char *s1, char *s2, int n);
+int ft_strcmp(char *s1, char *s2);
 
 // mk_shell_env.c
 t_shell_env *mk_shell_env(char **envp);

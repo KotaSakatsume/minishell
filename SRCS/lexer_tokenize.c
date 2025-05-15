@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:08:24 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/14 14:35:32 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:48:18 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,26 +159,26 @@ t_token *mk_t_token(char *start_ptr, char *end_ptr, int mode)
 	}
 	initialize_t_token_stat(t_token_node->status);
 
-	if (mode == mode_single_quote)
-	{
+	// if (mode == mode_single_quote)
+	// {
 
-		t_token_node->status->in_quote = QUOTE_SINGLE;
-	}
-	else if (mode == mode_double_quote)
-	{
+	// 	t_token_node->status->in_quote = QUOTE_SINGLE;
+	// }
+	// else if (mode == mode_double_quote)
+	// {
 
-		t_token_node->status->in_quote = QUOTE_DOUBLE;
-	}
-	else if (mode == mode_normal)
-	{
+	// 	t_token_node->status->in_quote = QUOTE_DOUBLE;
+	// }
+	// else if (mode == mode_normal || mode == mode_redirect_in || mode == mode_redirect_out || mode == mode_redirect_append || mode == mode_redirect_heredoc || mode == mode_pipe || mode == mode_semicolon)
+	// {
 
-		t_token_node->status->in_quote = QUOTE_OUT;
-	}
-	else
-	{
-		perror("mk_t_token : mode is not valid");
-		exit(1);
-	}
+	// 	t_token_node->status->in_quote = QUOTE_OUT;
+	// }
+	// else
+	// {
+	// 	perror("mk_t_token : mode is not valid");
+	// 	exit(1);
+	// }
 
 	return (t_token_node);
 }
@@ -223,20 +223,14 @@ t_token **lexer_tokenize(char *input)
 	{
 		start_ptr = input;
 		after_space_exist = 0;
-		if (*input == '\'')
-			mode = mode_single_quote;
-		else if (*input == '"')
-			mode = mode_double_quote;
-		else
-			mode = mode_normal;
 
-		end_ptr = serach_end_ptr(input, mode);
+		end_ptr = serach_end_ptr(input);
 		if (end_ptr == NULL)
 		{
 			// NULLのとき、続けて読みとり
 			// free構造体all
 			print_teststr("detect : continue");
-			exit(1);
+			// exit(1);
 			return (NULL);
 		}
 		t_token_node_ptr = mk_t_token(start_ptr, end_ptr, mode);
