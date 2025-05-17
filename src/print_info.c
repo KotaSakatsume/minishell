@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:38:16 by kosakats          #+#    #+#             */
-/*   Updated: 2025/05/10 17:42:24 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:43:29 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void	print_command_info(t_command *cmd)
 	while (cmd)
 	{
 		printf("Command %d:\n", cmd_index++);
-		printf("  Command Name: %s\n",
-			cmd->command_name ? cmd->command_name : "NULL");
+		printf("  Command Name: %s\n", cmd->cmd_name ? cmd->cmd_name : "NULL");
 		printf("  Arguments:\n");
 		if (cmd->args)
 		{

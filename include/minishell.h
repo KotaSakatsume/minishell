@@ -6,13 +6,14 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:16:58 by kosakats          #+#    #+#             */
-/*   Updated: 2025/05/11 17:40:51 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:13:26 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
@@ -37,6 +38,7 @@ typedef enum token_type
 	TYPE_REDIRECT_HEREDOC, //  <<
 	TYPE_QUOTE_SINGLE,     //  ‘
 	TYPE_QUOTE_DOUBLE,     //  “
+	TYPE_SEMICOLON,        //  ;
 	TYPE_EOF               //
 }			t_token_type;
 
@@ -53,13 +55,14 @@ typedef struct s_token_stat
 	t_in_quote in_quote;     // 何のクオート内にいるかどうか
 	int need_expand;         // 変数展開の必要があるかどうか
 	int after_space_is;      // 後ろにスペースがあるかどうか
-	int marge_id;            // スペースの有無から、コマンド結合グループ作成
+
 }			t_token_stat;
 
 typedef struct s_token
 {
 	int id;               // 管理ID
 	char *value;          // トークンの値
+	int token_marge_id;   // スペースの有無から、コマンド結合グループ作成
 	t_token_stat *status; // 詳細項目
 	struct s_token *next; // 次のt_token(連結リスト)
 }			t_token;
@@ -74,8 +77,9 @@ typedef struct s_redirect
 
 typedef struct s_command
 {
-	char *command_name;     // コマンド名 (例: ls, grep)
+	char *cmd_name;         // コマンド名 (例: ls, grep)
 	char **args;            // 引数リスト (例: ["ls", "-l", NULL])
+	int cmd_marge_id;       // スペースの有無から、コマンド結合グループ作成
 	t_redirect *redirects;  // リダイレクト情報のリスト
 	struct s_command *next; // パイプライン用に次のコマンドへのポインタ
 }			t_command;
@@ -88,7 +92,8 @@ typedef struct s_shell_env
 }			t_shell_env;
 
 void		execution_minishell(t_token *head, t_shell_env *t_shell_env);
-t_command	*parse_tokens_to_commands(t_token *tokens);
+// t_command	*parse_tokens_to_commands(t_token *tokens);
 void		print_command_info(t_command *cmd);
+t_command	*parse_tokens_to_commands(t_token *tokens);
 
 #endif

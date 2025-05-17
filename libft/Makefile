@@ -6,7 +6,7 @@
 #    By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/01 22:40:07 by kosakats          #+#    #+#              #
-#    Updated: 2024/11/10 19:31:38 by kosakats         ###   ########.fr        #
+#    Updated: 2025/05/17 16:06:43 by kosakats         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS    =    ft_atoi.c    ft_bzero.c    ft_isalnum.c    ft_isalpha.c    \
 		ft_itoa.c   \
 		ft_putchar_fd.c	ft_putstr_fd.c	ft_putendl_fd.c	ft_putnbr_fd.c \
 		ft_substr.c ft_strtrim.c \
-		ft_striteri.c ft_strmapi.c \
+		ft_striteri.c ft_strmapi.c ft_strndup.c \
 
 # SRCSBONUS    =    ft_lstnew.c    ft_lstadd_front.c    ft_lstsize.c    ft_lstlast.c    \
 # 		ft_lstadd_back.c    ft_lstdelone.c    ft_lstclear.c    ft_lstiter.c    ft_lstmap.c

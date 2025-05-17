@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 14:01:03 by kosakats          #+#    #+#             */
-/*   Updated: 2025/05/11 17:54:15 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:46:55 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 // トークン作成の補助関数
 t_token	*create_token(int id, const char *value, t_token_type type,
-		t_in_quote quote, int need_expand, int after_space_is)
+		t_in_quote quote, int need_expand, int after_space_is,
+		int token_marge_id)
 {
 	t_token			*token;
 	t_token_stat	*status;
@@ -31,13 +32,13 @@ t_token	*create_token(int id, const char *value, t_token_type type,
 		exit(1);
 	}
 	token->id = id;
-	token->value = strdup(value); // 値のコピー
+	token->value = strdup(value);           // 値のコピー
+	token->token_marge_id = token_marge_id; // 初期値として 0 を設定
 	token->status = status;
 	status->token_type = type;
 	status->in_quote = quote;
 	status->need_expand = need_expand;
 	status->after_space_is = after_space_is;
-	status->marge_id = 0; // 初期値として 0 を設定
 	token->next = NULL;
 	return (token);
 }
@@ -113,6 +114,8 @@ const char	*get_token_type_name(t_token_type type)
 		return ("TYPE_QUOTE_SINGLE");
 	case TYPE_QUOTE_DOUBLE:
 		return ("TYPE_QUOTE_DOUBLE");
+	case TYPE_SEMICOLON:
+		return ("TYPE_SEMICOLON");
 	case TYPE_EOF:
 		return ("TYPE_EOF");
 	default:
@@ -149,6 +152,7 @@ void	visualize_tokens(t_token *head)
 		printf("Need Expand: %s\n", head->status->need_expand ? "Yes" : "No");
 		printf("After Space: %s\n",
 			head->status->after_space_is ? "Yes" : "No");
+		printf("Token Marge ID: %d\n", head->token_marge_id);
 		printf("-----------------\n");
 		head = head->next;
 	}
@@ -162,9 +166,10 @@ int	main(int ac, char **av, char **envp)
 	t_token		*token2;
 	t_token		*token3;
 	t_token		*token4;
+	t_token		*token5;
 
-	// t_token		*token5;
 	// t_token		*token6;
+	// t_token		*token7;
 	shell_env = malloc(sizeof(t_shell_env));
 	if (!shell_env)
 	{
@@ -176,18 +181,23 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	// トークンを作成
-	token1 = create_token(1, "ls", TYPE_WORD, QUOTE_OUT, 0, 1);
-	token2 = create_token(2, "|", TYPE_PIPE, QUOTE_OUT, 0, 1);
-	token3 = create_token(3, "grep", TYPE_WORD, QUOTE_OUT, 0, 0);
-	token4 = create_token(4, "|", TYPE_PIPE, QUOTE_OUT, 0, 1);
-	// token5 = create_token(5, ">", TYPE_REDIRECT_IN, QUOTE_OUT, 0, 1);
-	// token6 = create_token(6, "out", TYPE_WORD, QUOTE_OUT, 0, 1);
+	token1 = create_token(1, "ls", TYPE_WORD, QUOTE_OUT, 0, 1, 0);
+	token2 = create_token(2, "|", TYPE_PIPE, QUOTE_OUT, 0, 1, 1);
+	token3 = create_token(3, "grep", TYPE_WORD, QUOTE_OUT, 0, 0, 2);
+	token4 = create_token(4, "|", TYPE_PIPE, QUOTE_OUT, 0, 1, 3);
+	token5 = create_token(1, "ls", TYPE_WORD, QUOTE_OUT, 0, 1, 4);
+	// token6 = create_token(5, ">", TYPE_REDIRECT_IN, QUOTE_OUT, 0, 1, 5);
+	// token7 = create_token(6, "out", TYPE_WORD, QUOTE_OUT, 0, 1, 6);
+	// token2 = create_token(1, "\"hello\"", TYPE_WORD, QUOTE_OUT, 0, 1, 1);
+	// token3 = create_token(1, "\"world\"", TYPE_WORD, QUOTE_OUT, 0, 1, 2);
+	// token4 = create_token(1, "ls", TYPE_WORD, QUOTE_OUT, 0, 1, 2);
 	// トークンを連結
 	token1->next = token2;
 	token2->next = token3;
 	token3->next = token4;
-	// token4->next = token5;
+	token4->next = token5;
 	// token5->next = token6;
+	// token6->next = token7;
 	// 可視化
 	visualize_tokens(token1);
 	execution_minishell(token1, shell_env);

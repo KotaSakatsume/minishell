@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 23:21:34 by kosakats          #+#    #+#             */
-/*   Updated: 2024/11/13 21:47:44 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:09:18 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,5 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 void				ft_putchar(char c);
+char				*ft_strndup(const char *s, size_t n);
 #endif

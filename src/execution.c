@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:16:58 by kosakats          #+#    #+#             */
-/*   Updated: 2025/05/11 18:28:08 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:41:26 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ void	execution_minishell(t_token *head, t_shell_env *shell_env)
 {
 	t_command	*cmd_head;
 
+	// cmd_head = parse_tokens_to_commands(head);
 	cmd_head = parse_tokens_to_commands(head);
 	print_command_info(cmd_head); // 可視化用出力
-	
 	execute(head, shell_env);
 }
