@@ -26,6 +26,7 @@ SRC_FILES = readline.c\
 			lexer_set_token_vals.c\
 			lexer_tokenize.c\
 			serch_end_ptr.c\
+			marge_same_margeid_token.c\
 			utils.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))

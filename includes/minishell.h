@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/16 18:15:47 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/19 18:08:17 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,8 @@ int ft_strlen(char *str);
 
 // mk_shell_env.c
 t_shell_env *mk_shell_env(char **envp);
+
+// marge_same_margeid_token.c
+void marge_same_margeid_token(t_token **split_token);
 
 #endif

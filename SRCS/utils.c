@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 14:03:18 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/19 18:19:29 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ char *ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	str = (char *)malloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
 	if (!str)
-		return (NULL);
+	{
+		perror("ft_strjoin malloc error\n");
+		exit(1);
+	}
 	i = 0;
 	while (s1[i])
 	{
