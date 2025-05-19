@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 13:54:02 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:12:38 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int lexer(char *input, t_shell_env *shell_env_ptr)
 	print_token(split_token);
 	// print_shell_env(shell_env_ptr);
 	// TODO: split_tokenのメモリ解放を実装
+	
 	return (READLINE_EXIT);
 }
 

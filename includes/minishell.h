@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 14:29:55 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/16 18:15:47 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_token
 	t_token_stat *status; // 詳細項目
 	struct s_token *next; // 次のt_token(連結リスト)
 } t_token;
+
 
 // 環境変数と終了ステータス
 typedef struct s_shell_env

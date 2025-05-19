@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 15:57:35 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:59:33 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void set_token_remove_backslash(t_token *next_token_ptr, int count_backslash_to_
 
 	i = 0;
 	j = 0;
-	while(next_token_ptr->value[i+j] != '\0')
+	while (next_token_ptr->value[i + j] != '\0')
 	{
-		if(next_token_ptr->value[i+j] == '\\')
+		if (next_token_ptr->value[i + j] == '\\')
 		{
 			j++;
 		}
@@ -48,10 +48,10 @@ int check_token_remove_backslash(t_token *next_token_ptr)
 
 	i = 0;
 	count_backslash_to_remove = 0;
-	
-	while(next_token_ptr->value[i] != '\0')
+
+	while (next_token_ptr->value[i] != '\0')
 	{
-		if(next_token_ptr->value[i] == '\\')
+		if (next_token_ptr->value[i] == '\\')
 		{
 			count_backslash_to_remove++;
 			i++;
@@ -157,9 +157,9 @@ void set_stat_token_in_quote(t_token_stat *token_stat_ptr, char *token_str)
 	}
 	if (ft_strlen(token_str) > 1)
 	{
-		if(token_str[0] == '\"' && token_str[ft_strlen(token_str) - 1] == '\"')
+		if (token_str[0] == '\"' && token_str[ft_strlen(token_str) - 1] == '\"')
 			token_stat_ptr->in_quote = QUOTE_DOUBLE;
-		else if(token_str[0] == '\'' && token_str[ft_strlen(token_str) - 1] == '\'')
+		else if (token_str[0] == '\'' && token_str[ft_strlen(token_str) - 1] == '\'')
 			token_stat_ptr->in_quote = QUOTE_SINGLE;
 		else
 			token_stat_ptr->in_quote = QUOTE_OUT;
@@ -172,7 +172,19 @@ void set_token_stat_vals(t_token_stat *token_stat_ptr, char *token_str)
 {
 	set_stat_token_type(token_stat_ptr, token_str);
 	set_stat_token_in_quote(token_stat_ptr, token_str);
-	set_stat_token_need_expand(token_stat_ptr);	
+	set_stat_token_need_expand(token_stat_ptr);
+}
+
+int set_token_marge_id(t_token *current_token_ptr, int marge_id)
+{
+	current_token_ptr->marge_id = marge_id;
+	marge_id++;
+	if (current_token_ptr->status->token_type == TYPE_WORD && current_token_ptr->status->after_space_is == 0)
+	{
+		if (current_token_ptr->next != NULL && current_token_ptr->next->status->token_type == TYPE_WORD)
+			marge_id--;
+	}
+	return (marge_id);
 }
 
 void lexer_set_token_vals(t_token **head)
@@ -181,6 +193,7 @@ void lexer_set_token_vals(t_token **head)
 	int count_backslash_to_remove;
 	t_token *next_token_ptr;
 	next_token_ptr = *head;
+	int marge_id = 0;
 
 	set_id(head);
 
@@ -188,11 +201,18 @@ void lexer_set_token_vals(t_token **head)
 	{
 		token_str = next_token_ptr->value;
 		set_token_stat_vals(next_token_ptr->status, token_str);
-		if(next_token_ptr->status->in_quote == QUOTE_SINGLE || next_token_ptr->status->in_quote == QUOTE_DOUBLE)
+		if (next_token_ptr->status->in_quote == QUOTE_SINGLE || next_token_ptr->status->in_quote == QUOTE_DOUBLE)
 			set_token_remove_quote(next_token_ptr);
 		count_backslash_to_remove = check_token_remove_backslash(next_token_ptr);
-		if(count_backslash_to_remove != 0)
+		if (count_backslash_to_remove != 0)
 			set_token_remove_backslash(next_token_ptr, count_backslash_to_remove);
+		next_token_ptr = next_token_ptr->next;
+	}
+	
+	next_token_ptr = *head;
+	while(next_token_ptr != NULL)
+	{
+		marge_id = set_token_marge_id(next_token_ptr, marge_id);
 		next_token_ptr = next_token_ptr->next;
 	}
 }
