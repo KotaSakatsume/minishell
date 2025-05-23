@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/05/17 16:28:13 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:05:40 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ typedef struct s_export
 	char	*value;
 }			t_export;
 
-typedef struct s_env
-{
-	char *key;          // 環境変数のキー
-	char *value;        // 環境変数の値
-	struct s_env *next; // 次のノード
-}			t_env;
+// typedef struct s_env
+// {
+// 	char *key;          // 環境変数のキー
+// 	char *value;        // 環境変数の値
+// 	struct s_env *next; // 次のノード
+// }			t_env;
 
 void	split_key_value(char *str, t_export *export)
 {
@@ -155,8 +155,8 @@ void	builtin_export(char *str, char **env)
 int	main(int ac, char **av, char **envp)
 {
 	t_shell_env	*shell_env;
-	t_env		*env_list;
 
+	// t_env		*env_list;
 	shell_env = malloc(sizeof(t_shell_env));
 	if (!shell_env)
 	{
@@ -166,11 +166,11 @@ int	main(int ac, char **av, char **envp)
 	shell_env->envp = envp;
 	shell_env->exit_status = 0;
 	// 環境変数を連結リストに変換
-	env_list = env_to_list(envp);
+	// env_list = env_to_list(envp);
 	// 連結リストを出力
-	print_env_list(env_list);
-	// if (ac > 1)
-	// 	builtin_export(av[1], shell_env->envp);
-	// free(shell_env);
+	// print_env_list(env_list);
+	if (ac > 1)
+		builtin_export(av[1], shell_env->envp);
+	free(shell_env);
 	return (0);
 }
