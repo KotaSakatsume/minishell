@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/19 18:19:29 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/27 20:18:08 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,26 @@ int ft_strlen(char *str)
 	while(str[i] != '\0')
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(char *s)
+{
+	size_t	len;
+	size_t	i;
+	char	*dest;
+
+	if (s == NULL)
+		return (NULL);
+	len = ft_strlen(s);
+	i = 0;
+	dest = malloc((len + 1) * sizeof(char));
+	if (dest == NULL)
+		return (NULL);
+	while (i < len)
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[len] = '\0';
+	return (dest);
 }

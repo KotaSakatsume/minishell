@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 17:54:40 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/27 20:18:25 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void lexer_set_token_vals(t_token **head);
 void print_token(t_token **head);
 void print_teststr(char *str);
 void print_shell_env(t_shell_env *shell_env_ptr);
+void dump_jobs(t_job *job);
 
 // serch_end_ptr.c
 char *serach_end_ptr(char *input);
@@ -153,7 +154,12 @@ void marge_same_margeid_token(t_token **split_token);
 // paser_utils.c
 bool accept_token(t_token **token, t_token_type type);
 void advance_token(t_token **token);
+void expect_token(t_token **tok, t_token_type type);
 t_cmd *mk_t_cmd();
 t_job *mk_t_job();
+char	*ft_strdup(char *s);
+
+//parse.c
+t_job *parse_line(t_token **tokens_top);
 
 #endif

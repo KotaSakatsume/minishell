@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:07:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 17:54:24 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/27 20:05:19 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ bool accept_token(t_token **token, t_token_type type)
 	}
 	return (false);
 }
+
+void expect_token(t_token **tok, t_token_type type)
+{
+	if (!accept_token(tok, type)) {
+		fprintf(stderr, "parse error: expected %d\n", type);
+		exit(1);
+	}
+}
+
 
 t_cmd *mk_t_cmd()
 {
@@ -50,8 +59,3 @@ t_job *mk_t_job()
 	dest->next = NULL;
 	return (dest);
 }
-
-// void expect_token(t_token **token, t_token_type type)
-// {
-// 	if
-// }

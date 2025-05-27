@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 19:37:32 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/27 20:35:57 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_cmd *parse_cmd(t_token **tok)
 	while (*tok && (*tok)->status->token_type == TYPE_WORD) {
 		// argv を伸長
 		cmd->argv = realloc(cmd->argv, sizeof(char*)*(cmd->argc+2)); // tyuui
-		cmd->argv[cmd->argc++] = strdup((*tok)->value);	// tyuui
+		cmd->argv[cmd->argc++] = ft_strdup((*tok)->value);	// tyuui
 		cmd->argv[cmd->argc]= NULL;
 		advance_token(tok);
 	}
@@ -37,10 +37,15 @@ t_cmd *parse_cmd(t_token **tok)
 		{
 			t_redirect *r = calloc(1, sizeof(*r));
 			r->type = tt;
-			advance(tok);                       // '>' や '>>' を消費
-			expect(tok, TYPE_WORD);             // 次はファイル名
+			advance_token(tok);                       // '>' や '>>' を消費
+			// expect_token(tok, TYPE_WORD);             // 次はファイル名
+			if(*tok == NULL || (*tok)->status->token_type != TYPE_WORD)
+			{
+				perror("at adter redirect please word");
+				exit(-1);
+			}
 			r->filename = strdup((*tok)->value);
-			advance(tok);                       // ファイル名を消費
+			advance_token(tok);                       // ファイル名を消費
 
 			// リストに追加
 			if(head == NULL)
@@ -86,7 +91,7 @@ t_pipeline *parse_pipeline(t_token **tok)
 			tail->next = node;
 			tail = node;
 		}
-	} while (accept(tok, TYPE_PIPE));  // '|' が続く限りループ
+	} while (accept_token(tok, TYPE_PIPE));  // '|' が続く限りループ
 
 	return (head);
 }
@@ -99,7 +104,7 @@ t_job *parse_job(t_token **tok)
 	job->pipeline = parse_pipeline(tok);
 
 	// セパレータ設定
-	if(accept(tok, TYPE_SEMICOLON))
+	if(accept_token(tok, TYPE_SEMICOLON))
 		job->sep = SEP_SEQ;
 	else
 		job->sep = SEP_NONE;
