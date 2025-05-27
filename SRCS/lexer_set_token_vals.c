@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/19 17:59:33 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/27 19:50:59 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,11 +201,14 @@ void lexer_set_token_vals(t_token **head)
 	{
 		token_str = next_token_ptr->value;
 		set_token_stat_vals(next_token_ptr->status, token_str);
-		if (next_token_ptr->status->in_quote == QUOTE_SINGLE || next_token_ptr->status->in_quote == QUOTE_DOUBLE)
-			set_token_remove_quote(next_token_ptr);
-		count_backslash_to_remove = check_token_remove_backslash(next_token_ptr);
-		if (count_backslash_to_remove != 0)
-			set_token_remove_backslash(next_token_ptr, count_backslash_to_remove);
+
+		// ★Expander部分★
+		// if (next_token_ptr->status->in_quote == QUOTE_SINGLE || next_token_ptr->status->in_quote == QUOTE_DOUBLE)
+		// 	set_token_remove_quote(next_token_ptr);
+		// count_backslash_to_remove = check_token_remove_backslash(next_token_ptr);
+		// if (count_backslash_to_remove != 0)
+		// 	set_token_remove_backslash(next_token_ptr, count_backslash_to_remove);
+		
 		next_token_ptr = next_token_ptr->next;
 	}
 	

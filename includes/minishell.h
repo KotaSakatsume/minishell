@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 16:21:25 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/27 17:54:40 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 // for_error
 #define ERROR_ARGS 1
@@ -152,5 +153,7 @@ void marge_same_margeid_token(t_token **split_token);
 // paser_utils.c
 bool accept_token(t_token **token, t_token_type type);
 void advance_token(t_token **token);
+t_cmd *mk_t_cmd();
+t_job *mk_t_job();
 
 #endif
