@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/19 18:08:17 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:54:51 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,42 @@ typedef struct s_token
 	struct s_token *next; // 次のt_token(連結リスト)
 } t_token;
 
+// Paser struct
+
+typedef enum e_seq_type
+{
+	SEP_NONE, // 未設定初期値、使用しない
+	SEP_SEQ,  // “;” または 文末（これのみ使用予定）
+	SEP_AND,  // “&&”（使用なし、一応BONUS拡張できるように＆BASH構造理解のため形だけ）
+	SEP_OR	  // “||”（使用なし、一応BONUS拡張できるように＆BASH構造理解のため形だけ）
+} t_seq_type;
+
+typedef struct s_redirect
+{
+	t_token_type type;		 // 　４種類のenum（>,>>,<,<<）※lexerで使用したenumの再利用
+	char *filename;			 // 　リダイレクト先ファイル名
+	struct s_redirect *next; // 　次リダイレクト設定（NULL終端）
+} t_redirect;
+
+typedef struct s_cmd
+{
+	char **argv;	   // NULL 終端の文字列配列 argv[0] = cmd_name argv[1]以降はオプション
+	int argc;		   // argvの要素数
+	t_redirect *redir; // リダイレクトリスト
+} t_cmd;
+
+typedef struct s_pipeline
+{
+	t_cmd *cmd;				 // 先頭コマンド
+	struct s_pipeline *next; // パイプ接続された次のコマンド(あれば)
+} t_pipeline;
+
+typedef struct s_job
+{
+	t_pipeline *pipeline; // ひとまとまりのパイプライン
+	t_seq_type sep;		  // 次の job との区切り
+	struct s_job *next;	  // 次のシーケンス要素(あれば)
+} t_job;
 
 // 環境変数と終了ステータス
 typedef struct s_shell_env
