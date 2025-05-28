@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 20:18:25 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/28 19:57:42 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 #define mode_redirect_heredoc 8
 
 // def_struct
+
+// lexer struct
+
 typedef enum token_type
 {
 	TYPE_INITIAL,
@@ -98,9 +101,10 @@ typedef struct s_redirect
 
 typedef struct s_cmd
 {
-	char **argv;	   // NULL 終端の文字列配列 argv[0] = cmd_name argv[1]以降はオプション
-	int argc;		   // argvの要素数
-	t_redirect *redir; // リダイレクトリスト
+	char **argv;		   // NULL 終端の文字列配列 argv[0] = cmd_name argv[1]以降はオプション
+	int argc;			   // argvの要素数
+	t_token **token;	   // 試し
+	t_redirect *redir;	   // リダイレクトリスト
 } t_cmd;
 
 typedef struct s_pipeline

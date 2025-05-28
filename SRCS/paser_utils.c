@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:07:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 20:05:19 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/28 19:58:34 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_cmd *mk_t_cmd()
 	dest->argv = NULL;
 	dest->argc = 0;
 	dest->redir = NULL;
+	dest->token = NULL;
 	return (dest);
 }
 
