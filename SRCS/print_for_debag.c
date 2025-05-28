@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:38:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 19:56:11 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/29 00:10:31 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static void dump_cmd(t_cmd *c) {
     printf("    [cmd] argv[%d]:", c->argc);
     for (int i = 0; i < c->argc; i++) {
         printf(" \"%s\"", c->argv[i]);
+		printf("(id=%d)", c->token[i]->id);
     }
     printf("\n");
     dump_redirects(c->redir);
