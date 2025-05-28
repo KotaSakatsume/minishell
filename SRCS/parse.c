@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 20:35:57 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/28 21:20:43 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_cmd *parse_cmd(t_token **tok)
 	// コマンド名＋引数
 	while (*tok && (*tok)->status->token_type == TYPE_WORD) {
 		// argv を伸長
-		cmd->argv = realloc(cmd->argv, sizeof(char*)*(cmd->argc+2)); // tyuui
+		cmd->argv = realloc(cmd->argv, sizeof(char*)*((cmd->argc)+2)); // tyuui
+		cmd->token = realloc(cmd->token, sizeof(t_token*)*((cmd->argc)+2));
 		cmd->argv[cmd->argc++] = ft_strdup((*tok)->value);	// tyuui
 		cmd->argv[cmd->argc]= NULL;
 		advance_token(tok);
