@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/28 19:57:42 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/29 00:28:42 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void expect_token(t_token **tok, t_token_type type);
 t_cmd *mk_t_cmd();
 t_job *mk_t_job();
 char	*ft_strdup(char *s);
+bool check_token(t_token **token, t_token_type type);
 
 //parse.c
 t_job *parse_line(t_token **tokens_top);

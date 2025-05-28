@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/29 00:05:49 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/29 00:30:10 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,16 @@ t_cmd *parse_cmd(t_token **tok)
 			t_redirect *r = calloc(1, sizeof(*r));
 			r->type = tt;
 			advance_token(tok);                       // '>' や '>>' を消費
-			// expect_token(tok, TYPE_WORD);             // 次はファイル名
-			if(*tok == NULL || (*tok)->status->token_type != TYPE_WORD)
+			if(check_token(tok, TYPE_WORD) == false)             // 次はファイル名
 			{
-				perror("at adter redirect please word");
-				exit(-1);
+				printf("bunpo okasiiyo\n");
+				exit(1);
 			}
+			// if(*tok == NULL || (*tok)->status->token_type != TYPE_WORD)
+			// {
+			// 	perror("at adter redirect please word");
+			// 	exit(-1);
+			// }
 			r->filename = strdup((*tok)->value);
 			advance_token(tok);                       // ファイル名を消費
 
