@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/28 21:20:43 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/29 00:05:49 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,15 @@ t_cmd *parse_cmd(t_token **tok)
 		// argv を伸長
 		cmd->argv = realloc(cmd->argv, sizeof(char*)*((cmd->argc)+2)); // tyuui
 		cmd->token = realloc(cmd->token, sizeof(t_token*)*((cmd->argc)+2));
-		cmd->argv[cmd->argc++] = ft_strdup((*tok)->value);	// tyuui
+
+		cmd->argv[cmd->argc] = ft_strdup((*tok)->value);	// tyuui
+		cmd->token[cmd->argc] = *tok;
+
+		cmd->argc++;
+
 		cmd->argv[cmd->argc]= NULL;
+		cmd->token[cmd->argc]= NULL;
+
 		advance_token(tok);
 	}
 
