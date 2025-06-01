@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/29 00:28:42 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:24:17 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,8 @@ bool check_token(t_token **token, t_token_type type);
 
 //parse.c
 t_job *parse_line(t_token **tokens_top);
+
+// expander.c
+void	expander(t_job *job_head);
 
 #endif

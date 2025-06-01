@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/27 19:56:52 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:22:44 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int lexer(char *input, t_shell_env *shell_env_ptr)
 	
 	job_head = parse_line(split_token);
 	dump_jobs(job_head);
+	// jobに入らなかったtokenをfreeする必要あり
+	expander(job_head);
 	// print_shell_env(shell_env_ptr);
 	// TODO: split_tokenのメモリ解放を実装
 	

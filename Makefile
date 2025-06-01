@@ -29,7 +29,8 @@ SRC_FILES = readline.c\
 			marge_same_margeid_token.c\
 			paser_utils.c\
 			parse.c\
-			utils.c
+			utils.c\
+			expander.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

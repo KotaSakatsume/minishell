@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:07:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/29 00:28:11 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/29 01:05:31 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ void expect_token(t_token **tok, t_token_type type)
 		exit(1);
 	}
 }
+
+// t_token *retreat_token(t_token **now_token)
+// {
+// 	int now_token_id;
+// 	now_token_id = (*now_token)->id;
+	
+// }
+
 
 
 t_cmd *mk_t_cmd()

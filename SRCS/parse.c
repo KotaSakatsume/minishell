@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/29 00:30:10 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/05/29 01:11:01 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,50 @@ t_cmd *parse_cmd(t_token **tok)
 {
 	t_cmd *cmd;
 	cmd = mk_t_cmd();
+
+	t_redirect *head = NULL;
+	t_redirect *tail = NULL;
+
+	// リダイレクト
+	while (*tok)
+	{
+		t_token_type tt = (*tok)->status->token_type;
+		if (tt == TYPE_REDIRECT_IN || tt == TYPE_REDIRECT_OUT || tt == TYPE_REDIRECT_APPEND || tt == TYPE_REDIRECT_HEREDOC)
+		{
+			t_redirect *r = calloc(1, sizeof(*r));
+			r->type = tt;
+			advance_token(tok);                       // '>' や '>>' を消費
+			if(check_token(tok, TYPE_WORD) == false)             // 次はファイル名
+			{
+				printf("bunpo okasiiyo_1\n");
+				exit(1);
+			}
+			// if(*tok == NULL || (*tok)->status->token_type != TYPE_WORD)
+			// {
+			// 	perror("at adter redirect please word");
+			// 	exit(-1);
+			// }
+			r->filename = strdup((*tok)->value);
+			advance_token(tok);                       // ファイル名を消費
+
+			// リストに追加
+			if(head == NULL)
+			{
+			//	r->next = cmd->redir;
+				head = tail = r;
+				cmd->redir = r;
+			}
+			else
+			{
+				tail->next = r;
+				tail = r;
+			}
+		}
+		else
+			break;
+	}
+
+
 
 	// コマンド名＋引数
 	while (*tok && (*tok)->status->token_type == TYPE_WORD) {
@@ -34,9 +78,6 @@ t_cmd *parse_cmd(t_token **tok)
 		advance_token(tok);
 	}
 
-	t_redirect *head = NULL;
-	t_redirect *tail = NULL;
-	
 	// リダイレクト
 	while (*tok)
 	{
@@ -48,7 +89,7 @@ t_cmd *parse_cmd(t_token **tok)
 			advance_token(tok);                       // '>' や '>>' を消費
 			if(check_token(tok, TYPE_WORD) == false)             // 次はファイル名
 			{
-				printf("bunpo okasiiyo\n");
+				printf("bunpo okasiiyo_2\n");
 				exit(1);
 			}
 			// if(*tok == NULL || (*tok)->status->token_type != TYPE_WORD)
@@ -77,8 +118,10 @@ t_cmd *parse_cmd(t_token **tok)
 	}
 
 	// コマンド名がなければ構文エラー + 位置表示する
-	if (cmd->argc == 0) {
-		fprintf(stderr, "parse error: empty command\n");
+	if (cmd->argc == 0)
+	{
+		if(tok != NULL && *tok!= NULL)//毎回これになる
+			fprintf(stderr, "parse error: 予期しないトークン'%s'周辺に構文エラーがあります\n" , (*tok)->value);
 		exit(1);
 	}
 	return cmd;
