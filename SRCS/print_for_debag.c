@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:38:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/29 00:10:31 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/06 21:31:36 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void print_shell_env(t_shell_env *shell_env_ptr)
 }
 
 
-
 // 以下Paser
 // シーケンス区切りタイプを文字列化
 static const char *seq_type_str(t_seq_type s) {
@@ -109,7 +108,7 @@ static void dump_redirects(t_redirect *r) {
 static void dump_cmd(t_cmd *c) {
     printf("    [cmd] argv[%d]:", c->argc);
     for (int i = 0; i < c->argc; i++) {
-        printf(" \"%s\"", c->argv[i]);
+        printf(" %s", c->argv[i]);
 		printf("(id=%d)", c->token[i]->id);
     }
     printf("\n");
@@ -135,3 +134,4 @@ void dump_jobs(t_job *job) {
         job = job->next;
     }
 }
+
