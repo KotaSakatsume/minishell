@@ -51,7 +51,7 @@ void	sync_pwd_env(t_env **env_list)
 	*env_list = new_node;
 }
 
-void	print_pwd(t_env **env_list)
+void	builtin_pwd(t_env **env_list)
 {
 	t_env	*node;
 
@@ -69,27 +69,27 @@ void	print_pwd(t_env **env_list)
 	}
 }
 
-int	main(int ac, char **av, char **envp)
-{
-	t_env	*env_list;
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_env	*env_list;
 
-	// 環境変数を連結リストに変換
-	env_list = env_to_list(envp);
-	if (!env_list)
-	{
-		perror("Failed to initialize environment list");
-		return (1);
-	}
-	// 引数解析
-	if (ac == 2 && strcmp(av[1], "pwd") == 0)
-	{
-		print_pwd(&env_list);
-	}
-	else
-	{
-		fprintf(stderr, "Usage: %s pwd\n", av[0]);
-	}
-	// 環境変数リストを解放
-	free_env_list(env_list);
-	return (0);
-}
+// 	// 環境変数を連結リストに変換
+// 	env_list = env_to_list(envp);
+// 	if (!env_list)
+// 	{
+// 		perror("Failed to initialize environment list");
+// 		return (1);
+// 	}
+// 	// 引数解析
+// 	if (ac == 2 && strcmp(av[1], "pwd") == 0)
+// 	{
+// 		print_pwd(&env_list);
+// 	}
+// 	else
+// 	{
+// 		fprintf(stderr, "Usage: %s pwd\n", av[0]);
+// 	}
+// 	// 環境変数リストを解放
+// 	free_env_list(env_list);
+// 	return (0);
+// }

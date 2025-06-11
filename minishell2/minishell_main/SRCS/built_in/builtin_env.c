@@ -12,15 +12,19 @@
 
 #include "minishell.h"
 
-void	builtin_env(t_shell_env *head)
+void builtin_env(t_shell_env **head)
 {
-	while (head->env_list)
-	{
-		printf("KEY: %s, VALUE: %s\n", head->env_list->key,
-			head->env_list->value);
-		head->env_list = head->env_list->next;
-	}
+    if (head == NULL || *head == NULL)
+        return;
+    t_env *tmp = (*head)->env_list;
+    while (tmp)
+    {
+        printf("KEY: %s, VALUE: %s\n", tmp->key, tmp->value);
+        tmp = tmp->next;
+    }
 }
+
+
 
 // int	main(int ac, char **av, char **envp)
 // {

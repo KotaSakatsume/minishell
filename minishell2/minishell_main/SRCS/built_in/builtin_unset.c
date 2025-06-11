@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // 有効なキーを判定する関数
-int	is_valid_key(char *args)
+static int	is_valid_key(char *args)
 {
 	int	i;
 
@@ -100,47 +100,39 @@ void	unset_key(char *args, t_env **env_list)
 }
 
 // ビルトインのunsetコマンド
-void	builtin_unset(char **args, int ac, t_env **env_list)
+void	builtin_unset(char **args, t_env **env_list)
 {
 	int	i;
 
-	if (!args || !*args || !env_list || !*env_list)
-		return ;
-	if (ac == 2)
+	i = 1;
+	while (args[i])
 	{
-		unset_key(args[1], env_list);
+		unset_key(args[i], env_list);
+		i++;
 	}
-	else
-	{
-		i = 1;
-		while (args[i])
-		{
-			unset_key(args[i], env_list);
-			i++;
-		}
-	}
+	
 }
 
 // 環境変数ノードを解放する関数
-void	free_env_node(t_env *node)
-{
-	if (!node)
-		return ;
-	if (node->key)
-		free(node->key);
-	if (node->value)
-		free(node->value);
-	free(node);
-}
+// void	free_env_node(t_env *node)
+// {
+// 	if (!node)
+// 		return ;
+// 	if (node->key)
+// 		free(node->key);
+// 	if (node->value)
+// 		free(node->value);
+// 	free(node);
+// }
 
-// メイン関数
-int	main(int ac, char **av, char **envp)
-{
-	t_env	*env_list;
+// // メイン関数
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_env	*env_list;
 
-	env_list = env_to_list(envp);
-	builtin_unset(av, ac, &env_list);
-	print_env_list(env_list);
-	free_env_list(env_list);
-	return (0);
-}
+// 	env_list = env_to_list(envp);
+// 	builtin_unset(av, ac, &env_list);
+// 	print_env_list(env_list);
+// 	free_env_list(env_list);
+// 	return (0);
+// }
