@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/10 18:40:18 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:38:39 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,9 +194,9 @@ static char	*allocate_word(const char *s, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	int words;
-	char **ret;
-	int i;
+	int		words;
+	char	**ret;
+	int		i;
 
 	words = get_word_count(s, c);
 	ret = malloc(sizeof(char *) * (words + 1));
@@ -219,4 +219,32 @@ char	**ft_split(char const *s, char c)
 	}
 	ret[i] = NULL;
 	return (ret);
+}
+
+char	*ft_strnstr(const char *big, const char *little, size_t len)
+{
+	size_t i;
+	size_t j;
+
+	if (*little == '\0')
+		return ((char *)big);
+	if (len == 0)
+		return (0);
+	i = 0;
+	while (big[i] != '\0' && i < len)
+	{
+		if (big[i] == little[0])
+		{
+			j = 1;
+			while (little[j] != '\0' && big[i + j] == little[j] && (i
+					+ j) < len)
+			{
+				j++;
+			}
+			if (little[j] == '\0')
+				return ((char *)(big + i));
+		}
+		i++;
+	}
+	return (NULL);
 }

@@ -6,19 +6,23 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/10 20:20:34 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:39:06 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "minishell.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 // for_error
@@ -159,6 +163,7 @@ int			ft_strcmp(char *s1, char *s2);
 int			ft_strlen(char *str);
 char		*ft_strchr(const char *s, int c);
 char		**ft_split(char const *s, char c);
+char		*ft_strnstr(const char *big, const char *little, size_t len);
 
 // mk_shell_env.c
 t_shell_env	*mk_shell_env(char **envp);
@@ -189,9 +194,10 @@ void		print_env_list(t_env *head);
 // builtin
 void		builtin_cd(char **av, t_shell_env *shell_env);
 void		builtin_echo(char **args);
-void		builtin_env(t_shell_env *head);
+void		builtin_env(t_shell_env **head);
 void		builtin_exit(char **args);
 void		builtin_export(char **av, t_shell_env *shell_env);
+void		builtin_pwd(t_env **env_list);
+void		builtin_unset(char **args, t_env **env_list);
 t_env		*env_to_list(char **envp);
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/10 15:21:22 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:32:30 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	builtin_echo(char **args)
 	int	start_index;
 	int	newline_flag;
 
-	// printf("OK\n");
 	start_index = parse_option_n(args); // オプション解析
 	i = start_index;
 	newline_flag = (start_index == 1); // `-n` がなければ改行フラグをオン

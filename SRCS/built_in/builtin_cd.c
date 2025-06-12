@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/10 18:36:56 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:25:13 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ char	*get_target_directory(char **args)
 	{
 		tag = getenv("HOME");
 		if (!tag)
-		{
-			fprintf(stderr, "cd: HOME not set\n");
-			return (NULL);
-		}
+			return (fprintf(stderr, "cd: HOME not set\n"), NULL);
 		tag = strdup(tag);
 	}
 	else if (strcmp(args[1], "-") == 0)
@@ -40,9 +37,7 @@ char	*get_target_directory(char **args)
 		tag = strdup(tag);
 	}
 	else
-	{
 		tag = strdup(args[1]);
-	}
 	return (tag);
 }
 
@@ -79,7 +74,6 @@ void	change_directory(char *tag)
 		fprintf(stderr, "Error: Null target directory.\n");
 		return ;
 	}
-	// printf("Attempting to change to directory: %s\n", tag);
 	if (chdir(tag) != 0)
 	{
 		fprintf(stderr, "Failed to change directory to %s: ", tag);
@@ -87,7 +81,6 @@ void	change_directory(char *tag)
 		free(tag);
 		return ;
 	}
-	// printf("Directory changed successfully to: %s\n", tag);
 	free(tag);
 	update_env_variables();
 }
@@ -99,7 +92,6 @@ void	builtin_cd(char **av, t_shell_env *shell_env)
 	tag = get_target_directory(av);
 	if (tag)
 	{
-		// printf("Target Directory: %s\n", tag);
 		change_directory(tag);
 	}
 	else

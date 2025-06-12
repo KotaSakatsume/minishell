@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/10 19:10:52 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:26:52 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,9 @@ void	split_key_value(const char *str, t_env *new_env_list)
 	}
 	new_env_list->key = strdup(parts[0]);
 	if (parts[1])
-	{
 		new_env_list->value = strdup(parts[1]);
-	}
 	else
-	{
 		new_env_list->value = strdup("");
-	}
 	while (parts[i])
 	{
 		safe_free(parts[i]);
@@ -128,15 +124,11 @@ void	update_or_add_env(t_env *new_env_list, t_env **env_list)
 		new_node->next = NULL;
 		current = *env_list;
 		if (!current)
-		{
 			*env_list = new_node;
-		}
 		else
 		{
 			while (current->next)
-			{
 				current = current->next;
-			}
 			current->next = new_node;
 		}
 	}
@@ -176,7 +168,7 @@ void	builtin_export(char **av, t_shell_env *shell_env)
 {
 	if (!av[1])
 	{
-		fprintf(stderr, "Usage: export KEY=VALUE\n");
+		builtin_env(&shell_env);
 		return ;
 	}
 	main_export(av[1], &shell_env->env_list);

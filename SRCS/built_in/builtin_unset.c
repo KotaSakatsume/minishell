@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:00:28 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/10 11:43:43 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:33:31 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void	builtin_unset(char **args, t_env **env_list)
 		unset_key(args[i], env_list);
 		i++;
 	}
-	
 }
 
 // 環境変数ノードを解放する関数
