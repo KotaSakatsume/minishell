@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/12 18:38:53 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:17:30 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,142 @@ int	is_builtin(const char *cmd)
 	return (0);
 }
 
+void	error(void)
+{
+	perror("Error");
+	exit(EXIT_FAILURE);
+}
+
+static char	*join_path_and_cmd(char *path, char *cmd)
+{
+	char	*part_path;
+	char	*full_path;
+
+	part_path = ft_strjoin(path, "/");
+	if (!part_path)
+		error();
+	full_path = ft_strjoin(part_path, cmd);
+	free(part_path);
+	if (!full_path)
+		error();
+	return (full_path);
+}
+
+void	free_paths(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i])
+		free(paths[i++]);
+	free(paths);
+}
+
+char	*find_path(char *cmd, char **envp)
+{
+	char	**paths;
+	int		i;
+	char	*path;
+
+	i = 0;
+	if (!access(cmd, X_OK))
+		return (cmd);
+	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
+		i++;
+	if (envp[i] == NULL)
+		return (NULL);
+	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
+		error();
+	i = 0;
+	while (paths[i])
+	{
+		path = join_path_and_cmd(paths[i], cmd);
+		if (access(path, X_OK) == 0)
+			return (free_paths(paths), path);
+		free(path);
+		i++;
+	}
+	free_paths(paths);
+	return (NULL);
+}
+
+char	**env_list_to_envp(t_env *env_list)
+{
+	t_env	*current;
+	int		count;
+	char	**envp;
+	int		i;
+	size_t	key_len;
+	size_t	value_len;
+
+	current = env_list;
+	count = 0;
+	// リストのサイズを計算
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	// 配列を確保 (+1 は NULL 終端のため)
+	envp = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!envp)
+		return (NULL);
+	// リストを配列に変換
+	current = env_list;
+	i = 0;
+	while (current)
+	{
+		// "KEY=VALUE" の形式で文字列を作成
+		key_len = strlen(current->key);
+		value_len = strlen(current->value);
+		envp[i] = (char *)malloc(key_len + value_len + 2); // '=' + '\0'
+		if (!envp[i])
+		{
+			// メモリ解放
+			while (i > 0)
+				free(envp[--i]);
+			free(envp);
+			return (NULL);
+		}
+		sprintf(envp[i], "%s=%s", current->key, current->value);
+		i++;
+		current = current->next;
+	}
+	envp[i] = NULL; // 配列の終端を設定
+	return (envp);
+}
+
+void	execute(char **av, t_env *env_list)
+{
+	int		i;
+	char	*path;
+	char	**envp;
+
+	// char	**cmd;
+	i = 0;
+	// cmd = ft_split(av, ' ');
+	// if (cmd == NULL)
+	// 	error();
+	// t_env -> char **envp に変換
+	envp = env_list_to_envp(env_list);
+	if (!envp)
+		error();
+	path = find_path(av[0], envp);
+	if (!path)
+	{
+		while (av[i])
+		{
+			free(av[i]);
+			i++;
+		}
+		free(av);
+		error();
+	}
+	if (execve(path, av, envp) == -1)
+		error();
+}
+
 void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 {
 	t_job		*current_job;
@@ -189,8 +325,9 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 						close(pipe_fd[1]);
 					}
 					handle_redirects(current_pipeline->cmd->redir);
-					execvp(current_pipeline->cmd->argv[0],
-						current_pipeline->cmd->argv);
+					// execvp(current_pipeline->cmd->argv[0],
+					// 	current_pipeline->cmd->argv);
+					execute(current_pipeline->cmd->argv, shell_env->env_list);
 					perror("execvp");
 					exit(EXIT_FAILURE);
 				}

@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/10 20:20:53 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:37:02 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,24 @@ int	lexer(char *input, t_shell_env *shell_env_ptr)
 	return (READLINE_EXIT);
 }
 
+//シグナル追加
+void	handle_sigint(int signo)
+{
+	(void)signo;
+	// Ctrl-C の処理: プロンプトを再表示
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+// void	handle_sigquit(int signo)
+// {
+// 	(void)signo;
+// 	return ;
+// 	// Ctrl-\ の処理: 何もしない
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell_env	*shell_env_ptr;
@@ -48,6 +66,9 @@ int	main(int argc, char **argv, char **envp)
 	char		*tmp;
 	char		*concat;
 
+	// シグナルハンドラーを設定 kosakats追加
+	signal(SIGINT, handle_sigint); // Ctrl-C の処理
+	signal(SIGQUIT, SIG_IGN);
 	shell_env_ptr = mk_shell_env(envp);
 	shell_env_ptr->env_list = env_to_list(shell_env_ptr->envp);
 	if (shell_env_ptr == NULL)
@@ -59,8 +80,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input = readline("minishell > ");
 		if (!input)
-		{ // CtrlD(EOF)
-			printf("exit_Ctrl_D\n");
+		{ // Ctrl-D (EOF)
+			printf("exit\n");
 			break ;
 		}
 		if (*input != '\0')
@@ -72,13 +93,9 @@ int	main(int argc, char **argv, char **envp)
 				free(tmp);
 				free(input);
 				input = concat;
-				// KOUBUNKAISEKI
-				// continue ;
 			}
 			add_history(input);
 		}
-		// rl_redisplay();
-		// printf("check_input: %s\n", input);
 		free(input);
 	}
 	return (0);
