@@ -6,17 +6,25 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/13 16:17:30 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/14 16:20:24 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// 終了ステータスを更新
+void	update_exit_status(t_shell_env *shell_env, int status)
+{
+	if (!shell_env)
+		return ;
+	shell_env->exit_status = status;
+}
+
 // リダイレクト処理関数
 void	handle_redirects(t_redirect *redir)
 {
 	int		fd;
-	int		heredoc_fd;
+	int		pipe_fd[2];
 	char	*line;
 
 	while (redir)
@@ -29,11 +37,10 @@ void	handle_redirects(t_redirect *redir)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (redir->type == TYPE_REDIRECT_HEREDOC)
 		{
-			// HEREDOC処理の実装
-			fd = open("/tmp/heredoc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-			if (fd < 0)
+			// HEREDOCの処理
+			if (pipe(pipe_fd) < 0)
 			{
-				perror("open");
+				perror("pipe");
 				exit(EXIT_FAILURE);
 			}
 			printf("Here-doc (end with '%s'):\n", redir->filename);
@@ -45,26 +52,20 @@ void	handle_redirects(t_redirect *redir)
 					free(line);
 					break ;
 				}
-				dprintf(fd, "%s\n", line); // 内容を書き込む
+				write(pipe_fd[1], line, strlen(line));
+				write(pipe_fd[1], "\n", 1); // 改行を追加
 				free(line);
 			}
-			close(fd);
-			// 読み込み用に開き直す
-			heredoc_fd = open("/tmp/heredoc_tmp", O_RDONLY);
-			if (heredoc_fd < 0)
-			{
-				perror("open");
-				exit(EXIT_FAILURE);
-			}
-			dup2(heredoc_fd, STDIN_FILENO);
-			close(heredoc_fd);
+			close(pipe_fd[1]);              // 書き込み側を閉じる
+			dup2(pipe_fd[0], STDIN_FILENO); // パイプの読み取り側をSTDINにリダイレクト
+			close(pipe_fd[0]);              // 読み取り側も閉じる
 		}
 		else
 		{
 			fprintf(stderr, "Unknown redirect type\n");
 			exit(EXIT_FAILURE);
 		}
-		if (fd < 0)
+		if (fd < 0 && redir->type != TYPE_REDIRECT_HEREDOC)
 		{
 			perror("open");
 			exit(EXIT_FAILURE);
@@ -75,7 +76,8 @@ void	handle_redirects(t_redirect *redir)
 		else if (redir->type == TYPE_REDIRECT_OUT
 			|| redir->type == TYPE_REDIRECT_APPEND)
 			dup2(fd, STDOUT_FILENO);
-		close(fd);
+		if (redir->type != TYPE_REDIRECT_HEREDOC)
+			close(fd); // HEREDOC以外はファイルを閉じる
 		redir = redir->next;
 	}
 }
@@ -220,24 +222,21 @@ char	**env_list_to_envp(t_env *env_list)
 	return (envp);
 }
 
-void	execute(char **av, t_env *env_list)
+void	execute(char **av, t_shell_env *shell_env)
 {
 	int		i;
 	char	*path;
 	char	**envp;
 
-	// char	**cmd;
 	i = 0;
-	// cmd = ft_split(av, ' ');
-	// if (cmd == NULL)
-	// 	error();
-	// t_env -> char **envp に変換
-	envp = env_list_to_envp(env_list);
+	envp = env_list_to_envp(shell_env->env_list);
 	if (!envp)
 		error();
 	path = find_path(av[0], envp);
 	if (!path)
 	{
+		update_exit_status(shell_env, 127); // コマンドが見つからない
+		printf("exit_status: %d\n", shell_env->exit_status);
 		while (av[i])
 		{
 			free(av[i]);
@@ -247,7 +246,90 @@ void	execute(char **av, t_env *env_list)
 		error();
 	}
 	if (execve(path, av, envp) == -1)
+	{
+		update_exit_status(shell_env, 126); // 実行失敗
 		error();
+	}
+}
+
+void	handle_builtin(t_pipeline *pipeline, t_shell_env *shell_env,
+		int prev_pipe[2], int pipe_fd[2])
+{
+	int	saved_stdout;
+	int	saved_stdin;
+
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
+	// 前のパイプの読み取り側を標準入力にリダイレクト
+	if (prev_pipe[0] != -1)
+	{
+		dup2(prev_pipe[0], STDIN_FILENO);
+		close(prev_pipe[0]);
+		prev_pipe[0] = -1;
+	}
+	// 次のパイプがある場合、パイプを作成し標準出力にリダイレクト
+	if (pipeline->next)
+	{
+		if (pipe(pipe_fd) < 0)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+	}
+	// リダイレクト処理とビルトイン実行
+	handle_redirects(pipeline->cmd->redir);
+	execute_builtin(pipeline->cmd->argv, shell_env);
+	// 標準入出力を元に戻す
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdout);
+	close(saved_stdin);
+	if (pipeline->next)
+		prev_pipe[0] = pipe_fd[0];
+}
+
+void	handle_external(t_pipeline *pipeline, t_shell_env *shell_env,
+		int prev_pipe[2], int pipe_fd[2])
+{
+	pid_t	pid;
+
+	if (pipeline->next && pipe(pipe_fd) < 0)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		// 子プロセス：パイプ設定と外部コマンド実行
+		if (prev_pipe[0] != -1)
+		{
+			dup2(prev_pipe[0], STDIN_FILENO);
+			close(prev_pipe[0]);
+		}
+		if (pipeline->next)
+		{
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			close(pipe_fd[1]);
+		}
+		handle_redirects(pipeline->cmd->redir);
+		execute(pipeline->cmd->argv, shell_env);
+		perror("execute");
+		exit(EXIT_FAILURE);
+	}
+	// 親プロセス：パイプとプロセス管理
+	if (prev_pipe[0] != -1)
+		close(prev_pipe[0]);
+	if (pipeline->next)
+		close(pipe_fd[1]);
+	prev_pipe[0] = pipe_fd[0];
 }
 
 void	ft_exec(t_job *job_head, t_shell_env *shell_env)
@@ -257,8 +339,6 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 	int			pipe_fd[2];
 	pid_t		pid;
 	int			status;
-	int			saved_stdout;
-	int			saved_stdin;
 
 	int prev_pipe[2] = {-1, -1}; // 前のパイプ用
 	current_job = job_head;
@@ -270,73 +350,13 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 			if (is_builtin(current_pipeline->cmd->argv[0]))
 			{
 				// ビルトインコマンドの処理
-				saved_stdout = dup(STDOUT_FILENO);
-				saved_stdin = dup(STDIN_FILENO);
-				if (prev_pipe[0] != -1)
-				{
-					dup2(prev_pipe[0], STDIN_FILENO);
-					close(prev_pipe[0]);
-					prev_pipe[0] = -1;
-				}
-				if (current_pipeline->next)
-				{
-					if (pipe(pipe_fd) < 0)
-					{
-						perror("pipe");
-						exit(EXIT_FAILURE);
-					}
-					dup2(pipe_fd[1], STDOUT_FILENO);
-					close(pipe_fd[1]);
-				}
-				handle_redirects(current_pipeline->cmd->redir);
-				execute_builtin(current_pipeline->cmd->argv, shell_env);
-				// 標準入出力を元に戻す
-				dup2(saved_stdout, STDOUT_FILENO);
-				dup2(saved_stdin, STDIN_FILENO);
-				close(saved_stdout);
-				close(saved_stdin);
-				if (current_pipeline->next)
-					prev_pipe[0] = pipe_fd[0];
+				handle_builtin(current_pipeline, shell_env, prev_pipe, pipe_fd);
 			}
 			else
 			{
 				// 外部コマンドの処理
-				if (current_pipeline->next && pipe(pipe_fd) < 0)
-				{
-					perror("pipe");
-					exit(EXIT_FAILURE);
-				}
-				pid = fork();
-				if (pid < 0)
-				{
-					perror("fork");
-					exit(EXIT_FAILURE);
-				}
-				if (pid == 0) // 子プロセス
-				{
-					if (prev_pipe[0] != -1)
-					{
-						dup2(prev_pipe[0], STDIN_FILENO);
-						close(prev_pipe[0]);
-					}
-					if (current_pipeline->next)
-					{
-						dup2(pipe_fd[1], STDOUT_FILENO);
-						close(pipe_fd[1]);
-					}
-					handle_redirects(current_pipeline->cmd->redir);
-					// execvp(current_pipeline->cmd->argv[0],
-					// 	current_pipeline->cmd->argv);
-					execute(current_pipeline->cmd->argv, shell_env->env_list);
-					perror("execvp");
-					exit(EXIT_FAILURE);
-				}
-				// 親プロセス: パイプと子プロセスの管理
-				if (prev_pipe[0] != -1)
-					close(prev_pipe[0]);
-				if (current_pipeline->next)
-					close(pipe_fd[1]);
-				prev_pipe[0] = pipe_fd[0];
+				handle_external(current_pipeline, shell_env, prev_pipe,
+					pipe_fd);
 			}
 			current_pipeline = current_pipeline->next;
 		}

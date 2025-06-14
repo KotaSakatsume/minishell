@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/13 17:37:02 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/14 11:59:24 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	handle_sigint(int signo)
 	(void)signo;
 	// Ctrl-C の処理: プロンプトを再表示
 	write(STDOUT_FILENO, "\n", 1);
+	// update_exit_status(shell_env, 130); // 実行失敗
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -94,6 +95,7 @@ int	main(int argc, char **argv, char **envp)
 				free(input);
 				input = concat;
 			}
+			// printf("exit_status: %d\n", shell_env_ptr->exit_status);
 			add_history(input);
 		}
 		free(input);
