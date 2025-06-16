@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/01 23:24:17 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/17 01:11:57 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct s_shell_env
 
 // lexer_tokenize.c
 t_token **lexer_tokenize(char *input);
+void initialize_t_token(t_token *t_token_node);
 
 // lexer_set_token_vals.c
 void lexer_set_token_vals(t_token **head);
