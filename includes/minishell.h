@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 01:11:57 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/17 07:59:41 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ typedef struct s_redirect
 
 typedef struct s_cmd
 {
-	char **argv;		   // NULL 終端の文字列配列 argv[0] = cmd_name argv[1]以降はオプション
-	int argc;			   // argvの要素数
-	t_token **token;	   // 試し
-	t_redirect *redir;	   // リダイレクトリスト
+	char **argv;	   // NULL 終端の文字列配列 argv[0] = cmd_name argv[1]以降はオプション
+	int argc;		   // argvの要素数
+	t_token **token;   // 試し
+	t_redirect *redir; // リダイレクトリスト
 } t_cmd;
 
 typedef struct s_pipeline
@@ -162,13 +162,29 @@ void advance_token(t_token **token);
 void expect_token(t_token **tok, t_token_type type);
 t_cmd *mk_t_cmd();
 t_job *mk_t_job();
-char	*ft_strdup(char *s);
+char *ft_strdup(char *s);
 bool check_token(t_token **token, t_token_type type);
 
-//parse.c
+// parse.c
 t_job *parse_line(t_token **tokens_top);
 
 // expander.c
-void	expander(t_job *job_head);
+void expander(t_job *job_head);
+
+// expander_utils.c
+void fx_extend_to_all_pipeline(t_job *job_head, void (*extend)(t_pipeline *));
+t_token *mk_empty_token();
+
+// expander_quote_and_backslash.c
+void delete_quote_cmd(t_pipeline *pipeline_ptr);
+void set_token_remove_quote(t_token *next_token_ptr);
+void set_token_remove_backslash(t_token *next_token_ptr, int count_backslash_to_remove);
+int check_token_remove_backslash(t_token *next_token_ptr);
+
+// expander_nospace.c
+void combine_main(t_pipeline *pipeline_ptr);
+int count_resized_token_len(t_token **token);
+void pad_dest(t_token **dest, int len, t_token **token);
+void free_olddest(t_token **token_head);
 
 #endif

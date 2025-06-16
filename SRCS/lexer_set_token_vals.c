@@ -6,85 +6,11 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/06 19:30:52 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/17 07:37:57 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void set_token_remove_backslash(t_token *next_token_ptr, int count_backslash_to_remove)
-{
-	int i;
-	int j;
-	char *dest;
-
-	dest = malloc(ft_strlen(next_token_ptr->value) - count_backslash_to_remove + 1);
-	if (dest == NULL)
-	{
-		perror("set_token_remove_backslash : dest is NULL");
-		exit(1);
-	}
-
-	i = 0;
-	j = 0;
-	while (next_token_ptr->value[i + j] != '\0')
-	{
-		if (next_token_ptr->value[i + j] == '\\')
-		{
-			j++;
-		}
-		dest[i] = next_token_ptr->value[i + j];
-		i++;
-	}
-	dest[i] = '\0';
-	free(next_token_ptr->value);
-	next_token_ptr->value = dest;
-}
-
-int check_token_remove_backslash(t_token *next_token_ptr)
-{
-	int count_backslash_to_remove;
-	int i;
-
-	i = 0;
-	count_backslash_to_remove = 0;
-
-	while (next_token_ptr->value[i] != '\0')
-	{
-		if (next_token_ptr->value[i] == '\\')
-		{
-			count_backslash_to_remove++;
-			i++;
-		}
-		i++;
-	}
-	// printf("count_backslash_to_remove : %d\n", count_backslash_to_remove);
-	return (count_backslash_to_remove);
-}
-
-void set_token_remove_quote(t_token *next_token_ptr)
-{
-	char *dest;
-	int len;
-	int i;
-
-	i = 0;
-	len = ft_strlen(next_token_ptr->value);
-	dest = malloc(len + 1 - 2);
-	if (dest == NULL)
-	{
-		perror("set_token_remove_quote : dest is NULL");
-		exit(1);
-	}
-	while (i < len - 2)
-	{
-		dest[i] = next_token_ptr->value[i + 1];
-		i++;
-	}
-	dest[i] = '\0';
-	free(next_token_ptr->value);
-	next_token_ptr->value = dest;
-}
 
 void set_stat_token_need_expand(t_token_stat *token_stat_ptr)
 {

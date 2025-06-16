@@ -31,7 +31,9 @@ SRC_FILES = readline.c\
 			parse.c\
 			utils.c\
 			expander.c\
-			expander_utils.c
+			expander_utils.c\
+			expander_quote_and_backslash.c\
+			expander_nospace.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

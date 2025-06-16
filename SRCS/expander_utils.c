@@ -6,13 +6,13 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 06:46:11 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 06:58:51 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/17 07:58:37 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void fx_extend_to_all_pipeline(t_job *job_head , void *extend(t_pipeline*))
+void fx_extend_to_all_pipeline(t_job *job_head, void (*extend)(t_pipeline *))
 {
 	t_job *job_ptr;
 	job_ptr = job_head;
@@ -29,4 +29,17 @@ void fx_extend_to_all_pipeline(t_job *job_head , void *extend(t_pipeline*))
 		}
 		job_ptr = job_ptr->next;
 	}
+}
+
+t_token *mk_empty_token()
+{
+	t_token *t_token_node;
+	t_token_node = malloc(sizeof(t_token));
+	if (t_token_node == NULL)
+	{
+		perror("mk_t_token : malloc");
+		return (NULL);
+	}
+	initialize_t_token(t_token_node);
+	return (t_token_node);
 }

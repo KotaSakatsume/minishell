@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/06 21:33:51 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/17 08:03:09 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int lexer(char *input, t_shell_env *shell_env_ptr)
 	job_head = parse_line(split_token);
 
 	//　以下パーサーの結果表示部分
-	// dump_jobs(job_head);
+	dump_jobs(job_head);
 
 	// jobに入らなかったtokenをfreeする必要あり
 	// 作成中のEXPANDER
