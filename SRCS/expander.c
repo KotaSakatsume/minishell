@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 03:28:54 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/17 06:47:18 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,10 @@ t_token *mk_empty_token();
 
 void expander(t_job *job_head)
 {
-	// printf("expander: job_head = %p\n", (void *)job_head);
-	// if (job_head == NULL)
-	// {
-	// 	printf("expander: job_head is NULL\n");
-	// 	return;
-	// }
-	// printf("expander: job_head->pipeline = %p\n", (void *)job_head->pipeline);
-	// if (job_head->pipeline == NULL)
-	// {
-	// 	printf("expander: job_head->pipeline is NULL\n");
-	// 	return;
-	// }
-	// printf("expander: job_head->pipeline->cmd = %p\n", (void *)job_head->pipeline->cmd);
-	// if (job_head->pipeline->cmd == NULL)
-	// {
-	// 	printf("expander: job_head->pipeline->cmd is NULL\n");
-	// 	return;
-	// }
-	// printf("expander: job_head->pipeline->cmd->token = %p\n", (void *)job_head->pipeline->cmd->token);
-	// if (job_head->pipeline->cmd->token == NULL)
-	// {
-	// 	printf("expander: job_head->pipeline->cmd->token is NULL\n");
-	// 	return;
-	// }
 
 	delete_quote(job_head);
 	combine_nospace_token(job_head);
-	printf("test++\n");
 	exchange_token_to_char(job_head);
-	printf("test++sss\n");
 	// printf("ok\n");
 }
 
