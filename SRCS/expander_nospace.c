@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 08:25:04 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/18 07:51:49 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,27 @@
 
 void combine_main(t_pipeline *pipeline_ptr)
 {
-	printf("★into combine_main★\n");
-	fflush(stdout);
-	
 	int len;
 	int i;
 	t_cmd *cmd_ptr;
 	t_token **dest;
 	
-	// while (pipeline_ptr != NULL)
-	// {
-		cmd_ptr = pipeline_ptr->cmd;
+	cmd_ptr = pipeline_ptr->cmd;
+	len = count_resized_token_len(cmd_ptr->token);
 
-		len = count_resized_token_len(cmd_ptr->token);
+	cmd_ptr->argc = len;
+	dest = malloc(sizeof(t_token *) * (len + 1));
+	i = 0;
+	while(i < len)
+	{
+		dest[i] = mk_empty_token();
+		i++;
+	}
+	dest[i] = NULL;
 
-		//
-		printf("len = %d\n",len);
-		printf("cmd_ptr->argc = %d\n",cmd_ptr->argc);
-		cmd_ptr->argc = len;
-
-		dest = malloc(sizeof(t_token *) * (len + 1));
-		i = 0;
-		while(i < len)
-		{
-			dest[i] = mk_empty_token();
-			i++;
-		}
-		dest[i] = NULL;
-
-		pad_dest(dest, len, cmd_ptr->token);
-		free_olddest(cmd_ptr->token);
-		cmd_ptr->token = dest;
-		// pipeline_ptr = pipeline_ptr->next;
-
-		// printf("end_while\n");
-		// fflush(stdout);
-	// }
+	pad_dest(dest, len, cmd_ptr->token);
+	free_olddest(cmd_ptr->token);
+	cmd_ptr->token = dest;
 }
 
 int count_resized_token_len(t_token **token)

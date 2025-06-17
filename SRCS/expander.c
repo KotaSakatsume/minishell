@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 08:15:52 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/18 07:50:41 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@ static void token_to_char_cmd(t_pipeline *pipeline_ptr);
 void expander(t_job *job_head)
 {
 	fx_extend_to_all_pipeline(job_head,delete_quote_cmd);
-	printf("\n ok_quote \n");
 	fx_extend_to_all_pipeline(job_head,combine_main);
-	printf("\n ok_nospace \n");
-	fflush(stdout);
 	exchange_token_to_char(job_head);
-	printf("\n ok_expander\n");
 }
 
 void exchange_token_to_char(t_job *job_head)
