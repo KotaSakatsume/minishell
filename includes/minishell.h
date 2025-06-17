@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 07:59:41 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/18 08:23:47 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,12 @@ char *ft_strjoin(char const *s1, char const *s2);
 int ft_strncmp(char *s1, char *s2, int n);
 int ft_strcmp(char *s1, char *s2);
 int ft_strlen(char *str);
+char *ft_strdup(char *s);
+
+// paser_utils.c
+t_cmd *mk_t_cmd();
+t_job *mk_t_job();
+t_pipeline *mk_t_pipeline();
 
 // mk_shell_env.c
 t_shell_env *mk_shell_env(char **envp);
@@ -160,9 +166,6 @@ void marge_same_margeid_token(t_token **split_token);
 bool accept_token(t_token **token, t_token_type type);
 void advance_token(t_token **token);
 void expect_token(t_token **tok, t_token_type type);
-t_cmd *mk_t_cmd();
-t_job *mk_t_job();
-char *ft_strdup(char *s);
 bool check_token(t_token **token, t_token_type type);
 
 // parse.c
@@ -186,5 +189,10 @@ void combine_main(t_pipeline *pipeline_ptr);
 int count_resized_token_len(t_token **token);
 void pad_dest(t_token **dest, int len, t_token **token);
 void free_olddest(t_token **token_head);
+
+// expander_token_to_cmd
+void exchange_token_to_char(t_job *job_head);
+void token_to_char_pipeline(t_job *job_ptr);
+void token_to_char_cmd(t_pipeline *pipeline_ptr);
 
 #endif

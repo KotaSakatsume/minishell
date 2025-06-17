@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 07:37:57 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/18 07:57:47 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,6 @@ void lexer_set_token_vals(t_token **head)
 	{
 		token_str = next_token_ptr->value;
 		set_token_stat_vals(next_token_ptr->status, token_str);
-
-		// ★Expander部分★
-		// if (next_token_ptr->status->in_quote == QUOTE_SINGLE || next_token_ptr->status->in_quote == QUOTE_DOUBLE)
-		// 	set_token_remove_quote(next_token_ptr);
-		// count_backslash_to_remove = check_token_remove_backslash(next_token_ptr);
-		// if (count_backslash_to_remove != 0)
-		// 	set_token_remove_backslash(next_token_ptr, count_backslash_to_remove);
-		
 		next_token_ptr = next_token_ptr->next;
 	}
 	

@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/29 01:11:01 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/18 08:18:02 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,13 @@ t_pipeline *parse_pipeline(t_token **tok)
 {
 	t_pipeline *head;
 	t_pipeline *tail;
+	t_pipeline *node;
 
 	head = NULL;
 	tail = NULL;
 	do {
-		t_pipeline *node = calloc(1, sizeof(*node));
-		node->cmd  = parse_cmd(tok);
-		node->next = NULL;
+		node = mk_t_pipeline();
+		node->cmd = parse_cmd(tok);
 
 		if (!head)
 			head = tail = node;
@@ -146,7 +146,7 @@ t_pipeline *parse_pipeline(t_token **tok)
 			tail->next = node;
 			tail = node;
 		}
-	} while (accept_token(tok, TYPE_PIPE));  // '|' が続く限りループ
+	} while (accept_token(tok, TYPE_PIPE));	// '|' が続く限りループ
 
 	return (head);
 }
@@ -158,8 +158,7 @@ t_job *parse_job(t_token **tok)
 	job = mk_t_job();
 	job->pipeline = parse_pipeline(tok);
 
-	// セパレータ設定
-	if(accept_token(tok, TYPE_SEMICOLON))
+	if(accept_token(tok, TYPE_SEMICOLON) ||  (tok != NULL && *tok == NULL))
 		job->sep = SEP_SEQ;
 	else
 		job->sep = SEP_NONE;

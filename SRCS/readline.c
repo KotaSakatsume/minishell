@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/17 08:03:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/18 07:58:43 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ int lexer(char *input, t_shell_env *shell_env_ptr)
 	{
 		return (READLINE_CONTINUE);
 	}
-	lexer_set_token_vals(split_token); //一部expanderの内容も実装してしまった
-	// marge_same_margeid_token(split_token); //これはexpanderで実装
+	lexer_set_token_vals(split_token);
 	print_token(split_token);
 	// 以下パーサー実行部分
 	t_job *job_head;
 	job_head = parse_line(split_token);
 
 	//　以下パーサーの結果表示部分
-	dump_jobs(job_head);
+	// dump_jobs(job_head);
 
 	// jobに入らなかったtokenをfreeする必要あり
 	// 作成中のEXPANDER
