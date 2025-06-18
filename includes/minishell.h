@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/18 08:23:47 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/19 08:22:01 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ char *ft_strdup(char *s);
 t_cmd *mk_t_cmd();
 t_job *mk_t_job();
 t_pipeline *mk_t_pipeline();
+t_redirect *mk_t_redirect();
 
 // mk_shell_env.c
 t_shell_env *mk_shell_env(char **envp);
@@ -170,6 +171,10 @@ bool check_token(t_token **token, t_token_type type);
 
 // parse.c
 t_job *parse_line(t_token **tokens_top);
+
+// parse_advance
+int advance_redirect(t_token **tok , t_redirect **head , t_redirect **tail, t_cmd **cmd);
+int advance_cmd(t_token **tok , t_cmd **cmd);
 
 // expander.c
 void expander(t_job *job_head);

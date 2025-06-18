@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:20:35 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/18 08:22:05 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/18 08:45:43 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,17 @@ t_pipeline *mk_t_pipeline()
 		exit(1);
 	dest->cmd  = NULL;
 	dest->next = NULL;
+	return (dest);
+}
+
+t_redirect *mk_t_redirect()
+{
+	t_redirect *dest;
+	dest = malloc(1*sizeof(t_redirect));
+	if(dest == NULL)
+		exit(1);
+	dest->type=TYPE_INITIAL;
+	dest->filename=NULL;
+	dest->next=NULL;
 	return (dest);
 }

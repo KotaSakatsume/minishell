@@ -29,6 +29,7 @@ SRC_FILES = readline.c\
 			marge_same_margeid_token.c\
 			paser_utils.c\
 			parse.c\
+			parse_advance.c\
 			utils.c\
 			utils_mk_struct.c\
 			expander.c\
