@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/10 15:41:12 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/19 17:07:45 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	builtin_exit(char **args)
 	if (validation_result == 1) // 引数が多すぎる
 		return ;
 	if (validation_result == 2) // 数値でない引数
-		execute_exit(MAX_EXIT_STATUS);
+		execute_exit(2);
 	// 引数が数値の場合、終了ステータスを計算
 	if (args[1])
 	{

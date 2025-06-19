@@ -6,13 +6,13 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/14 11:59:24 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:40:53 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
 
 int	lexer(char *input, t_shell_env *shell_env_ptr)
 {
@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 				free(input);
 				input = concat;
 			}
-			// printf("exit_status: %d\n", shell_env_ptr->exit_status);
+			printf("exit_status: %d\n", shell_env_ptr->exit_status);
 			add_history(input);
 		}
 		free(input);

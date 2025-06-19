@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:00:28 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/12 15:33:31 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:43:09 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,15 @@ static int	is_valid_key(char *args)
 	return (0);
 }
 
-// 環境変数ノードを削除する関数
+static void	free_env_node(t_env *node)
+{
+	if (!node)
+		return ;
+	free(node->key);
+	free(node->value);
+	free(node);
+}
+
 void	delete_env_node(char *args, t_env **env_list)
 {
 	t_env	*temp;
@@ -47,17 +55,12 @@ void	delete_env_node(char *args, t_env **env_list)
 
 	if (!env_list || !*env_list)
 		return ;
-	// リストの先頭が削除対象の場合
 	if (strcmp((*env_list)->key, args) == 0)
 	{
 		temp = *env_list;
 		*env_list = (*env_list)->next;
-		free(temp->key);
-		free(temp->value);
-		free(temp);
-		return ;
+		return (free_env_node(temp));
 	}
-	// リスト内のノードを探して削除
 	prev = *env_list;
 	current = (*env_list)->next;
 	while (current)
@@ -65,17 +68,13 @@ void	delete_env_node(char *args, t_env **env_list)
 		if (strcmp(current->key, args) == 0)
 		{
 			prev->next = current->next;
-			free(current->key);
-			free(current->value);
-			free(current);
-			return ;
+			return (free_env_node(current));
 		}
 		prev = current;
 		current = current->next;
 	}
 }
 
-// 環境変数ノードを見つけて削除する関数
 void	find_env_node(char *args, t_env **env_list)
 {
 	if (!env_list || !*env_list || !args)
@@ -91,25 +90,31 @@ void	find_env_node(char *args, t_env **env_list)
 	}
 }
 
-// 環境変数を削除する関数
-void	unset_key(char *args, t_env **env_list)
+int	unset_key(char *args, t_env **env_list)
 {
 	if (is_valid_key(args) == 1)
-		return ;
+	{
+		fprintf(stderr, "unset: '%s': not a valid identifier\n", args);
+		return (1);
+	}
 	find_env_node(args, env_list);
+	return (0);
 }
 
-// ビルトインのunsetコマンド
-void	builtin_unset(char **args, t_env **env_list)
+void	builtin_unset(char **args, t_env **env_list, t_shell_env *shell_env)
 {
 	int	i;
+	int	error_status;
 
 	i = 1;
+	error_status = 0;
 	while (args[i])
 	{
-		unset_key(args[i], env_list);
+		if (unset_key(args[i], env_list) != 0)
+			error_status = 1;
 		i++;
 	}
+	update_exit_status(shell_env, error_status);
 }
 
 // 環境変数ノードを解放する関数

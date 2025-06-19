@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/12 19:25:13 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:33:57 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_target_directory(char **args)
 	{
 		tag = getenv("HOME");
 		if (!tag)
-			return (fprintf(stderr, "cd: HOME not set\n"), NULL);
+			return (write(2, "cd: HOME not set\n", 17), NULL);
 		tag = strdup(tag);
 	}
 	else if (strcmp(args[1], "-") == 0)
@@ -31,7 +31,7 @@ char	*get_target_directory(char **args)
 		tag = getenv("OLDPWD");
 		if (!tag)
 		{
-			fprintf(stderr, "cd: OLDPWD not set\n");
+			write(2, "cd: OLDPWD not set\n", 19);
 			return (NULL);
 		}
 		tag = strdup(tag);
@@ -67,36 +67,40 @@ void	update_env_variables(void)
 	}
 }
 
-void	change_directory(char *tag)
+int	change_directory(char *tag)
 {
 	if (!tag)
 	{
-		fprintf(stderr, "Error: Null target directory.\n");
-		return ;
+		write(2, "Error: Null target directory.\n", 30);
+		return (1);
 	}
 	if (chdir(tag) != 0)
 	{
 		fprintf(stderr, "Failed to change directory to %s: ", tag);
 		perror("");
 		free(tag);
-		return ;
+		return (1);
 	}
 	free(tag);
 	update_env_variables();
+	return (0);
 }
 
 void	builtin_cd(char **av, t_shell_env *shell_env)
 {
 	char	*tag;
+	int		status;
 
 	tag = get_target_directory(av);
 	if (tag)
 	{
-		change_directory(tag);
+		status = change_directory(tag);
+		update_exit_status(shell_env, status);
 	}
 	else
 	{
-		fprintf(stderr, "Error: Failed to resolve target directory.\n");
+		write(2, "Error: Failed to resolve target directory.\n", 43);
+		update_exit_status(shell_env, 1);
 	}
 	return ;
 }

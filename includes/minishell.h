@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/13 17:29:23 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:41:14 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ typedef enum e_seq_type
 
 typedef struct s_redirect
 {
-	t_token_type type;       // 　４種類のenum（>,>>,<,<<）※lexerで使用したenumの再利用
-	char *filename;
-	//int heredoc_fd;          // 　リダイレクト先ファイル名
+	t_token_type type; // 　４種類のenum（>,>>,<,<<）※lexerで使用したenumの再利用
+	char	*filename;
+	// int heredoc_fd;          // 　リダイレクト先ファイル名
 	struct s_redirect *next; // 　次リダイレクト設定（NULL終端）
 }			t_redirect;
 
@@ -192,14 +192,17 @@ void		expander(t_job *job_head);
 void		ft_exec(t_job *job_head, t_shell_env *shell_envp);
 void		free_env_list(t_env *head);
 void		print_env_list(t_env *head);
+void		update_exit_status(t_shell_env *shell_env, int status);
 
 // builtin
 void		builtin_cd(char **av, t_shell_env *shell_env);
 void		builtin_echo(char **args);
-void		builtin_env(t_shell_env **head);
+void		builtin_env(char **argv, t_shell_env **head,
+				t_shell_env *shell_env);
 void		builtin_exit(char **args);
 void		builtin_export(char **av, t_shell_env *shell_env);
-void		builtin_pwd(t_env **env_list);
-void		builtin_unset(char **args, t_env **env_list);
+void	builtin_pwd(t_env **env_list, t_shell_env *shell_env);
+void		builtin_unset(char **args, t_env **env_list,
+				t_shell_env *shell_env);
 t_env		*env_to_list(char **envp);
 #endif

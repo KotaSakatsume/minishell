@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/12 19:26:52 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:43:20 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,6 @@ void	safe_free(void *ptr)
 		free(ptr);
 	}
 }
-
-// メモリ解放
-// void	free_env_list(t_env *env_list)
-// {
-// 	t_env	*tmp;
-
-// 	while (env_list)
-// 	{
-// 		tmp = env_list->next;
-// 		safe_free(env_list->key);
-// 		safe_free(env_list->value);
-// 		safe_free(env_list);
-// 		env_list = tmp;
-// 	}
-// }
 
 // 文字列をキーと値に分割
 void	split_key_value(const char *str, t_env *new_env_list)
@@ -98,12 +83,37 @@ t_env	*get_env_by_key(const char *key, t_env *env_list)
 	return (NULL);
 }
 
-// リストを更新または追加
-void	update_or_add_env(t_env *new_env_list, t_env **env_list)
+void	add_env(t_env *new_env_list, t_env **env_list, t_shell_env *shell_env)
 {
-	t_env	*existing_node;
 	t_env	*new_node;
 	t_env	*current;
+
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+	{
+		perror("malloc failed");
+		update_exit_status(shell_env, 1);
+		exit(EXIT_FAILURE);
+	}
+	new_node->key = strdup(new_env_list->key);
+	new_node->value = strdup(new_env_list->value);
+	new_node->next = NULL;
+	current = *env_list;
+	if (!current)
+		*env_list = new_node;
+	else
+	{
+		while (current->next)
+			current = current->next;
+		current->next = new_node;
+	}
+}
+
+// リストを更新または追加
+void	update_or_add_env(t_env *new_env_list, t_env **env_list,
+		t_shell_env *shell_env)
+{
+	t_env	*existing_node;
 
 	existing_node = get_env_by_key(new_env_list->key, *env_list);
 	if (existing_node)
@@ -113,29 +123,21 @@ void	update_or_add_env(t_env *new_env_list, t_env **env_list)
 	}
 	else
 	{
-		new_node = malloc(sizeof(t_env));
-		if (!new_node)
-		{
-			perror("malloc failed");
-			exit(EXIT_FAILURE);
-		}
-		new_node->key = strdup(new_env_list->key);
-		new_node->value = strdup(new_env_list->value);
-		new_node->next = NULL;
-		current = *env_list;
-		if (!current)
-			*env_list = new_node;
-		else
-		{
-			while (current->next)
-				current = current->next;
-			current->next = new_node;
-		}
+		add_env(new_env_list, env_list, shell_env);
 	}
+}
+//メモリ開放
+static void	free_env_node(t_env *node)
+{
+	if (!node)
+		return ;
+	safe_free(node->key);
+	safe_free(node->value);
+	safe_free(node);
 }
 
 // メインエクスポート処理
-void	main_export(const char *str, t_env **env_list)
+void	main_export(const char *str, t_env **env_list, t_shell_env *shell_env)
 {
 	t_env	*new_env_list;
 
@@ -143,6 +145,7 @@ void	main_export(const char *str, t_env **env_list)
 	if (!new_env_list)
 	{
 		perror("malloc failed");
+		update_exit_status(shell_env, 1);
 		exit(EXIT_FAILURE);
 	}
 	new_env_list->key = NULL;
@@ -152,15 +155,13 @@ void	main_export(const char *str, t_env **env_list)
 	if (!is_valid_key(new_env_list->key))
 	{
 		fprintf(stderr, "Error: Invalid key '%s'\n", new_env_list->key);
-		safe_free(new_env_list->key);
-		safe_free(new_env_list->value);
-		safe_free(new_env_list);
+		free_env_node(new_env_list);
+		update_exit_status(shell_env, 1);
 		return ;
 	}
-	update_or_add_env(new_env_list, env_list);
-	safe_free(new_env_list->key);
-	safe_free(new_env_list->value);
-	safe_free(new_env_list);
+	update_or_add_env(new_env_list, env_list, shell_env);
+	free_env_node(new_env_list);
+	update_exit_status(shell_env, 0);
 }
 
 // ビルトインエクスポート
@@ -168,8 +169,9 @@ void	builtin_export(char **av, t_shell_env *shell_env)
 {
 	if (!av[1])
 	{
-		builtin_env(&shell_env);
+		builtin_env(av, &shell_env, shell_env);
+		update_exit_status(shell_env, 0);
 		return ;
 	}
-	main_export(av[1], &shell_env->env_list);
+	main_export(av[1], &shell_env->env_list, shell_env);
 }
