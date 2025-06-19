@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/18 07:58:43 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/19 17:22:41 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int main(int argc, char **argv, char **envp)
 				free(tmp);
 				free(input);
 				input = concat;
-				//KOUBUNKAISEKI
-				//continue;
 			}
 			add_history(input);
 		}

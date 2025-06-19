@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 08:22:01 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/19 18:52:37 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,12 +150,22 @@ int ft_strncmp(char *s1, char *s2, int n);
 int ft_strcmp(char *s1, char *s2);
 int ft_strlen(char *str);
 char *ft_strdup(char *s);
+char *ft_strndup(char *str, int n);
 
-// paser_utils.c
+// utils_mk_struct.c
 t_cmd *mk_t_cmd();
 t_job *mk_t_job();
 t_pipeline *mk_t_pipeline();
 t_redirect *mk_t_redirect();
+t_token *mk_t_token(char *start_ptr, char *end_ptr);
+
+// utilis_free_struct.c
+void free_all_token (t_token **dest);
+void free_token(t_token* free_dest);
+
+// utils_initialize_struct.c
+void initialize_t_token(t_token *t_token_node);
+void initialize_t_token_stat(t_token_stat *t_token_stat_node);
 
 // mk_shell_env.c
 t_shell_env *mk_shell_env(char **envp);

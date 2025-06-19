@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:20:35 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/18 08:45:43 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/19 17:56:28 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,32 @@ t_redirect *mk_t_redirect()
 	dest->filename=NULL;
 	dest->next=NULL;
 	return (dest);
+}
+
+t_token *mk_t_token(char *start_ptr, char *end_ptr)
+{
+	t_token *t_token_node;
+	t_token_node = malloc(sizeof(t_token));
+	if (t_token_node == NULL)
+	{
+		perror("mk_t_token : malloc");
+		return (NULL);
+	}
+	initialize_t_token(t_token_node);
+	t_token_node->value = ft_strndup(start_ptr, end_ptr - start_ptr);
+	if (t_token_node->value == NULL)
+	{
+		free(t_token_node);
+		return (NULL);
+	}
+	t_token_node->status = malloc(sizeof(t_token_stat));
+	if (t_token_node->status == NULL)
+	{
+		perror("mk_t_token : malloc");
+		free(t_token_node->value);
+		free(t_token_node);
+		return (NULL);
+	}
+	initialize_t_token_stat(t_token_node->status);
+	return (t_token_node);
 }
