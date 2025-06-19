@@ -101,7 +101,8 @@ typedef enum e_seq_type
 typedef struct s_redirect
 {
 	t_token_type type;       // 　４種類のenum（>,>>,<,<<）※lexerで使用したenumの再利用
-	char *filename;          // 　リダイレクト先ファイル名
+	char *filename;
+	//int heredoc_fd;          // 　リダイレクト先ファイル名
 	struct s_redirect *next; // 　次リダイレクト設定（NULL終端）
 }			t_redirect;
 

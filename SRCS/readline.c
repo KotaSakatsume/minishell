@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int	lexer(char *input, t_shell_env *shell_env_ptr)
 {
@@ -33,6 +35,7 @@ int	lexer(char *input, t_shell_env *shell_env_ptr)
 	// 作成中のEXPANDER
 	// expander(job_head);
 	// dump_jobs(job_head);
+	//実行部分
 	ft_exec(job_head, shell_env_ptr);
 	// ★ここでテスト可能★
 	// print_shell_evn(shell_env_ptr);

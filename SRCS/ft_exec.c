@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-// 終了ステータスを更新
 void	update_exit_status(t_shell_env *shell_env, int status)
 {
 	if (!shell_env)
@@ -20,64 +19,144 @@ void	update_exit_status(t_shell_env *shell_env, int status)
 	shell_env->exit_status = status;
 }
 
+// HEREDOCを事前処理する関数
+void	process_heredocs(t_pipeline *pipeline)
+{
+	t_pipeline	*current;
+	t_redirect	*redir;
+	int			tmp_fd;
+	char		*line;
+	char		tmp_filename[256];
+	static int	heredoc_count = 0;
+
+	current = pipeline;
+	while (current)
+	{
+		redir = current->cmd->redir;
+		while (redir)
+		{
+			if (redir->type == TYPE_REDIRECT_HEREDOC)
+			{
+				// HEREDOCの区切り文字チェック
+				if (!redir->filename || strlen(redir->filename) == 0)
+				{
+					fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+					exit(EXIT_FAILURE);
+				}
+				
+				// 一時ファイル名を生成
+				snprintf(tmp_filename, sizeof(tmp_filename), "/tmp/minishell_heredoc_%d_%d", 
+						getpid(), heredoc_count++);
+				
+				// 一時ファイルを作成
+				tmp_fd = open(tmp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+				if (tmp_fd < 0)
+				{
+					perror("open tmp file");
+					exit(EXIT_FAILURE);
+				}
+				
+				printf("Here-doc (end with '%s'):\n", redir->filename);
+				while (1)
+				{
+					line = readline("> ");
+					if (!line || strcmp(line, redir->filename) == 0)
+					{
+						if (line)
+							free(line);
+						break ;
+					}
+					write(tmp_fd, line, strlen(line));
+					write(tmp_fd, "\n", 1); // 改行を追加
+					free(line);
+				}
+				close(tmp_fd);
+				
+				// 元のfilenameを保存してから一時ファイル名に置き換え
+				free(redir->filename);
+				redir->filename = strdup(tmp_filename);
+				if (!redir->filename)
+				{
+					perror("strdup");
+					exit(EXIT_FAILURE);
+				}
+				
+				// typeを通常のファイル入力に変更
+				redir->type = TYPE_REDIRECT_IN;
+			}
+			redir = redir->next;
+		}
+		current = current->next;
+	}
+}
+
+// 一時ファイルをクリーンアップする関数
+void	cleanup_heredoc_files(t_pipeline *pipeline)
+{
+	t_pipeline	*current;
+	t_redirect	*redir;
+
+	current = pipeline;
+	while (current)
+	{
+		redir = current->cmd->redir;
+		while (redir)
+		{
+			if (redir->filename && strstr(redir->filename, "/tmp/minishell_heredoc_"))
+			{
+				unlink(redir->filename); // 一時ファイルを削除
+			}
+			redir = redir->next;
+		}
+		current = current->next;
+	}
+}
+
 // リダイレクト処理関数
 void	handle_redirects(t_redirect *redir)
 {
 	int		fd;
-	int		pipe_fd[2];
-	char	*line;
 
 	while (redir)
 	{
 		if (redir->type == TYPE_REDIRECT_IN)
-			fd = open(redir->filename, O_RDONLY);
-		else if (redir->type == TYPE_REDIRECT_OUT)
-			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (redir->type == TYPE_REDIRECT_APPEND)
-			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (redir->type == TYPE_REDIRECT_HEREDOC)
 		{
-			// HEREDOCの処理
-			if (pipe(pipe_fd) < 0)
+			fd = open(redir->filename, O_RDONLY);
+			if (fd < 0)
 			{
-				perror("pipe");
+				perror("open");
 				exit(EXIT_FAILURE);
 			}
-			printf("Here-doc (end with '%s'):\n", redir->filename);
-			while (1)
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		else if (redir->type == TYPE_REDIRECT_OUT)
+		{
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
 			{
-				line = readline("> ");
-				if (!line || strcmp(line, redir->filename) == 0)
-				{
-					free(line);
-					break ;
-				}
-				write(pipe_fd[1], line, strlen(line));
-				write(pipe_fd[1], "\n", 1); // 改行を追加
-				free(line);
+				perror("open");
+				exit(EXIT_FAILURE);
 			}
-			close(pipe_fd[1]);              // 書き込み側を閉じる
-			dup2(pipe_fd[0], STDIN_FILENO); // パイプの読み取り側をSTDINにリダイレクト
-			close(pipe_fd[0]);              // 読み取り側も閉じる
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (redir->type == TYPE_REDIRECT_APPEND)
+		{
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd < 0)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
 		}
 		else
 		{
 			fprintf(stderr, "Unknown redirect type\n");
 			exit(EXIT_FAILURE);
 		}
-		if (fd < 0 && redir->type != TYPE_REDIRECT_HEREDOC)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		// 標準入出力をリダイレクト
-		if (redir->type == TYPE_REDIRECT_IN)
-			dup2(fd, STDIN_FILENO);
-		else if (redir->type == TYPE_REDIRECT_OUT
-			|| redir->type == TYPE_REDIRECT_APPEND)
-			dup2(fd, STDOUT_FILENO);
-		if (redir->type != TYPE_REDIRECT_HEREDOC)
-			close(fd); // HEREDOC以外はファイルを閉じる
 		redir = redir->next;
 	}
 }
@@ -103,11 +182,11 @@ void	execute_builtin(char **argv, t_shell_env *shell_env)
 
 int	is_builtin(const char *cmd)
 {
-	const char	*builtins[] = {"cd", "echo", "exit", "env", "export", "unset"};
+	const char	*builtins[] = {"cd", "echo", "exit", "env", "export", "pwd", "unset"};
 	int			i;
 
 	i = 0;
-	while (i < 6)
+	while (i < 7)  // 配列サイズを7に修正（pwdが抜けていた）
 	{
 		if (strcmp(cmd, builtins[i]) == 0)
 			return (1);
@@ -222,6 +301,21 @@ char	**env_list_to_envp(t_env *env_list)
 	return (envp);
 }
 
+void	free_envp(char **envp)
+{
+	int	i;
+
+	if (!envp)
+		return;
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
+
 void	execute(char **av, t_shell_env *shell_env)
 {
 	int		i;
@@ -243,11 +337,13 @@ void	execute(char **av, t_shell_env *shell_env)
 			i++;
 		}
 		free(av);
+		free_envp(envp);
 		error();
 	}
 	if (execve(path, av, envp) == -1)
 	{
 		update_exit_status(shell_env, 126); // 実行失敗
+		free_envp(envp);
 		error();
 	}
 }
@@ -260,6 +356,7 @@ void	handle_builtin(t_pipeline *pipeline, t_shell_env *shell_env,
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
+	
 	// 前のパイプの読み取り側を標準入力にリダイレクト
 	if (prev_pipe[0] != -1)
 	{
@@ -267,6 +364,7 @@ void	handle_builtin(t_pipeline *pipeline, t_shell_env *shell_env,
 		close(prev_pipe[0]);
 		prev_pipe[0] = -1;
 	}
+	
 	// 次のパイプがある場合、パイプを作成し標準出力にリダイレクト
 	if (pipeline->next)
 	{
@@ -278,14 +376,18 @@ void	handle_builtin(t_pipeline *pipeline, t_shell_env *shell_env,
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
+	
 	// リダイレクト処理とビルトイン実行
 	handle_redirects(pipeline->cmd->redir);
 	execute_builtin(pipeline->cmd->argv, shell_env);
+	
 	// 標準入出力を元に戻す
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
 	close(saved_stdin);
+	
+	// 次のパイプラインのために読み取り側を保存
 	if (pipeline->next)
 		prev_pipe[0] = pipe_fd[0];
 }
@@ -295,17 +397,20 @@ void	handle_external(t_pipeline *pipeline, t_shell_env *shell_env,
 {
 	pid_t	pid;
 
+	// 次のコマンドがある場合のみパイプを作成
 	if (pipeline->next && pipe(pipe_fd) < 0)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
+	
 	pid = fork();
 	if (pid < 0)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
+	
 	if (pid == 0)
 	{
 		// 子プロセス：パイプ設定と外部コマンド実行
@@ -318,18 +423,24 @@ void	handle_external(t_pipeline *pipeline, t_shell_env *shell_env,
 		{
 			dup2(pipe_fd[1], STDOUT_FILENO);
 			close(pipe_fd[1]);
+			close(pipe_fd[0]); // 子プロセスでは読み取り側は不要
 		}
+		
+		// リダイレクト処理（heredocを含む）
 		handle_redirects(pipeline->cmd->redir);
 		execute(pipeline->cmd->argv, shell_env);
 		perror("execute");
 		exit(EXIT_FAILURE);
 	}
+	
 	// 親プロセス：パイプとプロセス管理
 	if (prev_pipe[0] != -1)
 		close(prev_pipe[0]);
 	if (pipeline->next)
-		close(pipe_fd[1]);
-	prev_pipe[0] = pipe_fd[0];
+	{
+		close(pipe_fd[1]); // 親プロセスでは書き込み側は不要
+		prev_pipe[0] = pipe_fd[0];
+	}
 }
 
 void	ft_exec(t_job *job_head, t_shell_env *shell_env)
@@ -339,12 +450,18 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 	int			pipe_fd[2];
 	pid_t		pid;
 	int			status;
+	int			prev_pipe[2] = {-1, -1}; // 前のパイプ用
 
-	int prev_pipe[2] = {-1, -1}; // 前のパイプ用
 	current_job = job_head;
 	while (current_job)
 	{
 		current_pipeline = current_job->pipeline;
+		prev_pipe[0] = -1; // 各ジョブの開始時にリセット
+		prev_pipe[1] = -1;
+		
+		// パイプライン実行前にすべてのheredocを事前処理
+		process_heredocs(current_pipeline);
+		
 		while (current_pipeline)
 		{
 			if (is_builtin(current_pipeline->cmd->argv[0]))
@@ -355,14 +472,22 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 			else
 			{
 				// 外部コマンドの処理
-				handle_external(current_pipeline, shell_env, prev_pipe,
-					pipe_fd);
+				handle_external(current_pipeline, shell_env, prev_pipe, pipe_fd);
 			}
 			current_pipeline = current_pipeline->next;
 		}
+		
+		// 最後に残ったパイプをクリーンアップ
+		if (prev_pipe[0] != -1)
+			close(prev_pipe[0]);
+		
 		// パイプライン内のすべてのプロセスが終了するまで待機
 		while (wait(&status) > 0)
 			;
+		
+		// 一時ファイルをクリーンアップ
+		cleanup_heredoc_files(current_job->pipeline);
+		
 		current_job = current_job->next;
 	}
 }
