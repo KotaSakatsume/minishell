@@ -6,11 +6,36 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:55:53 by mkuida            #+#    #+#             */
-/*   Updated: 2025/05/15 14:20:05 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/20 04:24:19 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int set_mode(char *input)
+{
+	int mode;
+
+	if (ft_strncmp(input, "\'", 1) == 0)
+		mode = mode_single_quote;
+	else if (ft_strncmp(input, "\"", 1) == 0)
+		mode = mode_double_quote;
+	else if (ft_strncmp(input, ";", 1) == 0)
+		mode = mode_semicolon;
+	else if (ft_strncmp(input, "|", 1) == 0)
+		mode = mode_pipe;
+	else if (ft_strncmp(input, ">>", 2) == 0)
+		mode = mode_redirect_append;
+	else if (ft_strncmp(input, "<<", 2) == 0)
+		mode = mode_redirect_heredoc;
+	else if (ft_strncmp(input, ">", 1) == 0)
+		mode = mode_redirect_out;
+	else if (ft_strncmp(input, "<", 1) == 0)
+		mode = mode_redirect_in;
+	else
+		mode = mode_normal;
+	return (mode);
+}
 
 char *serach_end_ptr_quote(char *input, char end_word)
 {
@@ -60,26 +85,28 @@ char *serach_end_ptr(char *input)
 {
 	int mode;
 
-	if (ft_strncmp(input, "\'", 1) == 0)
-		mode = mode_single_quote;
-	else if (ft_strncmp(input, "\"", 1) == 0)
-		mode = mode_double_quote;
-	else if (ft_strncmp(input, ";", 1) == 0)
-		mode = mode_semicolon;
-	else if (ft_strncmp(input, "|", 1) == 0)
-		mode = mode_pipe;
-	else if (ft_strncmp(input, ">>", 2) == 0)
-		mode = mode_redirect_append;
-	else if (ft_strncmp(input, "<<", 2) == 0)
-		mode = mode_redirect_heredoc;
-	else if (ft_strncmp(input, ">", 1) == 0)
-		mode = mode_redirect_out;
-	else if (ft_strncmp(input, "<", 1) == 0)
-		mode = mode_redirect_in;
-	else
-		mode = mode_normal;
+	mode = set_mode(input);
 
-	char end_word;
+	// if (ft_strncmp(input, "\'", 1) == 0)
+	// 	mode = mode_single_quote;
+	// else if (ft_strncmp(input, "\"", 1) == 0)
+	// 	mode = mode_double_quote;
+	// else if (ft_strncmp(input, ";", 1) == 0)
+	// 	mode = mode_semicolon;
+	// else if (ft_strncmp(input, "|", 1) == 0)
+	// 	mode = mode_pipe;
+	// else if (ft_strncmp(input, ">>", 2) == 0)
+	// 	mode = mode_redirect_append;
+	// else if (ft_strncmp(input, "<<", 2) == 0)
+	// 	mode = mode_redirect_heredoc;
+	// else if (ft_strncmp(input, ">", 1) == 0)
+	// 	mode = mode_redirect_out;
+	// else if (ft_strncmp(input, "<", 1) == 0)
+	// 	mode = mode_redirect_in;
+	// else
+	// 	mode = mode_normal;
+
+
 	if (mode == mode_single_quote)
 		return (serach_end_ptr_quote(input, '\''));
 	else if (mode == mode_double_quote)

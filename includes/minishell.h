@@ -6,12 +6,14 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 19:31:37 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/20 00:06:03 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
+#define _POSIX_C_SOURCE 200809L
 
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -19,6 +21,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <signal.h>
+#include <unistd.h>
 
 // for_error
 #define ERROR_ARGS 1
@@ -126,6 +130,21 @@ typedef struct s_shell_env
 	char **envp;	 // 環境変数を格納する配列
 	int exit_status; // 終了ステータス
 } t_shell_env;
+
+// global struct
+typedef struct s_global_state
+{
+	// シグナルハンドラからメインに通知するフラグ
+	volatile sig_atomic_t sigint_received;
+	// 必要なら子プロセスPID もここに入れておく
+	volatile sig_atomic_t child_pid;
+	// SIGINT 用の sigaction 構造体
+	struct sigaction sa_int;
+	// （将来 BONUS で SIGQUIT 用も必要なら同様に追加）
+} t_global_state;
+// これが「唯一許される」グローバル変数
+extern t_global_state g_state;
+
 
 // lexer_tokenize.c
 t_token **lexer_tokenize(char *input);
