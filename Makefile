@@ -31,6 +31,7 @@ SRC_FILES = readline.c\
 			parse.c\
 			parse_advance.c\
 			utils.c\
+			utils_struct.c\
 			utils_mk_struct.c\
 			utils_initialize_struct.c\
 			utils_free_struct.c\

@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 18:52:37 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/19 19:31:37 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,9 @@ int ft_strcmp(char *s1, char *s2);
 int ft_strlen(char *str);
 char *ft_strdup(char *s);
 char *ft_strndup(char *str, int n);
+
+// utils_struct.c
+int check_token_cont(t_token **dest);
 
 // utils_mk_struct.c
 t_cmd *mk_t_cmd();
