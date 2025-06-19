@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 00:06:03 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/20 04:56:14 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,12 @@ typedef struct s_global_state
 // これが「唯一許される」グローバル変数
 extern t_global_state g_state;
 
+
+// readline_seq.c
+char *readline_seq();
+
+// lexer.c
+t_token **lexer(char *line);
 
 // lexer_tokenize.c
 t_token **lexer_tokenize(char *input);

@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 03:41:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 04:30:03 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/20 05:27:47 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int check_readline_continue(char *input)
 	return (0);
 }
 
-char *leadline_seq()
+char *readline_seq()
 {
 	char *input;
 	char *temp;
@@ -45,13 +45,18 @@ char *leadline_seq()
 	if(!input)
 	{
 		printf ("exit\n");
-		exit (1);
+		exit (0);
 	}
-	if(input != '\0')
+	if(*input != '\0')
 	{
 		while(check_readline_continue(input) == 1)
 		{
 			temp = readline(" > ");
+			if(!temp)
+			{
+				printf ("予期しないファイル終了 (EOF) です\n");
+				exit (-1);
+			}
 			concat = ft_strjoin(input,temp);
 			free(input);
 			free(temp);

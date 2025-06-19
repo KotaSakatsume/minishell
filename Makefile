@@ -20,9 +20,11 @@ OBJ_DIR = ./OBJS
 INCLUDES = -I includes
 LDFLAGS = -lreadline
 
-SRC_FILES = readline.c\
+SRC_FILES = main.c\
+			readline_seq.c\
 			mk_shell_env.c\
 			print_for_debag.c\
+			lexer.c\
 			lexer_set_token_vals.c\
 			lexer_tokenize.c\
 			serch_end_ptr.c\
