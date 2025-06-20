@@ -31,7 +31,12 @@ SRCS_MAIN = readline.c \
             parse.c \
             utils.c \
             ft_exec.c \
-            env_list.c
+            env_list.c \
+            ft_execute.c \
+            ft_handle_external.c \
+            ft_handle_builtin.c \
+            ft_redirects.c \
+            ft_heredoc.c
 
 SRCS_BUILT_IN = builtin_echo.c\
                 builtin_cd.c\

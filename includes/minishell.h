@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 20:41:14 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:18:44 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,19 +189,26 @@ t_job		*parse_line(t_token **tokens_top);
 void		expander(t_job *job_head);
 
 // exec
-void		ft_exec(t_job *job_head, t_shell_env *shell_envp);
+void		ft_exec(t_job *job_head, t_shell_env *shell_envp, int status);
 void		free_env_list(t_env *head);
 void		print_env_list(t_env *head);
 void		update_exit_status(t_shell_env *shell_env, int status);
+void		execute(char **av, t_shell_env *shell_env);
+void		handle_redirects(t_redirect *redir, t_shell_env *shell_env);
+void		handle_external(t_pipeline *pipeline, t_shell_env *shell_env,
+				int prev_pipe[2], int pipe_fd[2]);
+void		process_heredocs(t_pipeline *pipeline, t_shell_env *shell_env);
 
 // builtin
+void		handle_builtin(t_pipeline *pipeline, t_shell_env *shell_env,
+				int prev_pipe[2], int pipe_fd[2]);
 void		builtin_cd(char **av, t_shell_env *shell_env);
 void		builtin_echo(char **args);
 void		builtin_env(char **argv, t_shell_env **head,
 				t_shell_env *shell_env);
 void		builtin_exit(char **args);
 void		builtin_export(char **av, t_shell_env *shell_env);
-void	builtin_pwd(t_env **env_list, t_shell_env *shell_env);
+void		builtin_pwd(t_env **env_list, t_shell_env *shell_env);
 void		builtin_unset(char **args, t_env **env_list,
 				t_shell_env *shell_env);
 t_env		*env_to_list(char **envp);

@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:23 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 15:40:53 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:02:22 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	lexer(char *input, t_shell_env *shell_env_ptr)
 	t_token	**split_token;
 	t_job	*job_head;
 
+	int status; // kosakats_add
 	split_token = lexer_tokenize(input);
+	status = 0; // kosakats_add
 	if (split_token == NULL)
 	{
 		return (READLINE_CONTINUE);
@@ -36,7 +38,7 @@ int	lexer(char *input, t_shell_env *shell_env_ptr)
 	// expander(job_head);
 	// dump_jobs(job_head);
 	//実行部分
-	ft_exec(job_head, shell_env_ptr);
+	ft_exec(job_head, shell_env_ptr, status);
 	// ★ここでテスト可能★
 	// print_shell_evn(shell_env_ptr);
 	// TODO: split_tokenのメモリ解放を実装
