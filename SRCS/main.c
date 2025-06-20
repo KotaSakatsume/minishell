@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 05:19:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/20 05:33:18 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,9 @@ int main()
 		input = readline_seq();
 		add_history(input);
 		split_token = lexer(input);
+		free(input);
 		if(split_token != NULL)
 		{
-			//free(input)
-
-			// 以下パーサー実行部分
 			job_head = parse_line(split_token);
 			//free(split token)
 
