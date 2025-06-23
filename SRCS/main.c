@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 05:33:18 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/23 13:49:34 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int main()
 		if(split_token != NULL)
 		{
 			job_head = parse_line(split_token);
-			//free(split token)
+			//free(split token) 
 
 			// 作成中のEXPANDER
 			expander(job_head);
