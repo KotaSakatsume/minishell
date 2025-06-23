@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/23 13:49:34 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:22:21 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 t_global_state g_state;
 
-// SIGINT (+Ctrl-C) ハンドラ
 static void handle_sigint(int signo)
 {
 	(void)signo;
 	g_state.sigint_received = 1;
-	// プロンプト行を改行して出し直す
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("",0);
 	rl_on_new_line();
@@ -40,14 +38,26 @@ static void init_gstate()
 	}
 }
 
-
-int main()
+int main(int argc, char **argv, char **envp)
 {
 	char *input;
 	t_token **split_token;
 	t_job *job_head;
+	t_shell_env *t_shellenv_ptr;
 
 	init_gstate();
+	t_shellenv_ptr = mk_shell_env(envp);
+	if (t_shellenv_ptr == NULL)
+	{
+		perror("main: mk_shell_env failed");
+		exit(1);
+	}
+	t_shellenv_ptr->env_list = env_to_list(t_shellenv_ptr->envp);
+	if (t_shellenv_ptr == NULL)
+	{
+		perror("main: mk_shell_env failed");
+		exit(1);
+	}
 	while(1)
 	{
 		input = readline_seq();

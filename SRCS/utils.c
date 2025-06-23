@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 17:31:59 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/23 14:32:13 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,4 +141,18 @@ char *ft_strndup(char *str, int n)
 	}
 	dest[i] = '\0';
 	return (dest);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	// 文字が '\0' の場合は文字列終端も検索対象
+	if (c == '\0')
+		return ((char *)s);
+	return (NULL);
 }

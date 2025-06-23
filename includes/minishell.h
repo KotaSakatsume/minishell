@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 04:56:14 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/23 14:32:26 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,13 +124,6 @@ typedef struct s_job
 	struct s_job *next;	  // 次のシーケンス要素(あれば)
 } t_job;
 
-// 環境変数と終了ステータス
-typedef struct s_shell_env
-{
-	char **envp;	 // 環境変数を格納する配列
-	int exit_status; // 終了ステータス
-} t_shell_env;
-
 // global struct
 typedef struct s_global_state
 {
@@ -142,9 +135,30 @@ typedef struct s_global_state
 	struct sigaction sa_int;
 	// （将来 BONUS で SIGQUIT 用も必要なら同様に追加）
 } t_global_state;
-// これが「唯一許される」グローバル変数
+
+// 環境変数と終了ステータス
+typedef struct s_env
+{
+	char *key;          // 環境変数のキー
+	char *value;        // 環境変数の値
+	struct s_env *next; // 次のノード
+}			t_env;
+
+typedef struct s_shell_env
+{
+	t_env *env_list; // 環境変数を格納する配列
+	char	**envp;
+	int exit_status; // 終了ステータス
+}			t_shell_env;
+
+// 唯一のグローバル変数
 extern t_global_state g_state;
 
+// mk_shell_env.c
+t_shell_env	*mk_shell_env(char **envp);
+
+//env list
+t_env		*env_to_list(char **envp);
 
 // readline_seq.c
 char *readline_seq();
@@ -176,6 +190,7 @@ int ft_strcmp(char *s1, char *s2);
 int ft_strlen(char *str);
 char *ft_strdup(char *s);
 char *ft_strndup(char *str, int n);
+char	*ft_strchr(const char *s, int c);
 
 // utils_struct.c
 int check_token_cont(t_token **dest);

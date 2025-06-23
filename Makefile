@@ -41,7 +41,8 @@ SRC_FILES = main.c\
 			expander_utils.c\
 			expander_quote_and_backslash.c\
 			expander_nospace.c\
-			expander_token_to_cmd.c
+			expander_token_to_cmd.c\
+			env_list.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
