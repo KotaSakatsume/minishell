@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/25 11:04:45 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/25 13:19:39 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ void expect_token(t_token **tok, t_token_type type);
 bool check_token(t_token **token, t_token_type type);
 
 // parse.c
-t_job *parse_line(t_token **tokens_top);
+t_job *parse_line(t_token **tokens_top,t_shell_env *t_shellenv_ptr);
 
 // parse_advance
 int advance_redirect(t_token **tok , t_redirect **head , t_redirect **tail, t_cmd **cmd);

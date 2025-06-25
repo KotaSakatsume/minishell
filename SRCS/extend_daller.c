@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 01:33:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/25 11:19:11 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 07:35:05 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void extend_daller(t_pipeline *pipeline_ptr , t_shell_env *t_shellenv_ptr)
 		if (token_ptr->status->in_quote == QUOTE_DOUBLE || token_ptr->status->in_quote == QUOTE_OUT)
 		{
 			check_and_expand(token_ptr,t_shellenv_ptr);
-			printf("check_expand_daller : %s\n",token_ptr->value);			
+			// printf("check_expand_daller : %s\n",token_ptr->value);		//kakunin	
 		}
 		i++;
 		token_ptr = cmd_ptr->token[i];

@@ -6,13 +6,13 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 08:23:24 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 07:26:58 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-t_cmd *parse_cmd(t_token **tok)
+static t_cmd *parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
 	t_cmd *cmd;
 	cmd = mk_t_cmd();
@@ -20,21 +20,26 @@ t_cmd *parse_cmd(t_token **tok)
 	t_redirect *head = NULL;
 	t_redirect *tail = NULL;
 
-	advance_redirect(tok,&head,&tail,&cmd);
+	if(advance_redirect(tok,&head,&tail,&cmd) != 0)
+	{
+		t_shellenv_ptr->exit_status = 2;
+		//free(cmd);
+		return (NULL);
+	}
 	advance_cmd(tok,&cmd);
 	advance_redirect(tok,&head,&tail,&cmd);
 
-	// コマンド名がなければ構文エラー + 位置表示する
+	// コマンド名がなければ構文エラー + 位置表示する(リダイレクトだけでコマンドに送ってもいい？)
 	if (cmd->argc == 0)
 	{
 		if(tok != NULL && *tok!= NULL)//毎回これになる
-			fprintf(stderr, "parse error: 予期しないトークン'%s'周辺に構文エラーがあります\n" , (*tok)->value);
-		exit(1);
+			printf("parse error: 構文エラーがあります (cmd)\n");
+		return (NULL);
 	}
-	return cmd;
+	return (cmd);
 }
 
-t_pipeline *parse_pipeline(t_token **tok)
+static t_pipeline *parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
 	t_pipeline *head;
 	t_pipeline *tail;
@@ -44,7 +49,12 @@ t_pipeline *parse_pipeline(t_token **tok)
 	tail = NULL;
 	do {
 		node = mk_t_pipeline();
-		node->cmd = parse_cmd(tok);
+		node->cmd = parse_cmd(tok,t_shellenv_ptr);
+		if(node->cmd == NULL)
+		{
+			//free(node);
+			return (NULL);
+		}
 
 		if (!head)
 			head = tail = node;
@@ -58,12 +68,16 @@ t_pipeline *parse_pipeline(t_token **tok)
 	return (head);
 }
 
-t_job *parse_job(t_token **tok)
+static t_job *parse_job(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
 	t_job *job;
 
 	job = mk_t_job();
-	job->pipeline = parse_pipeline(tok);
+	job->pipeline = parse_pipeline(tok, t_shellenv_ptr);
+	if(job->pipeline == NULL)
+	{
+		return (NULL);
+	}
 
 	if(accept_token(tok, TYPE_SEMICOLON) ||  (tok != NULL && *tok == NULL))
 		job->sep = SEP_SEQ;
@@ -74,7 +88,7 @@ t_job *parse_job(t_token **tok)
 	return (job);
 }
 
-t_job *parse_line(t_token **tokens_top)
+t_job *parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 {
 	t_job	*head = NULL;
 	t_job	*tail = NULL;
@@ -83,7 +97,12 @@ t_job *parse_line(t_token **tokens_top)
 
 	while (cur && *cur) // && (*cur)->status->token_type != TYPE_EOF
 	{
-		job_ptr = parse_job(cur);
+		job_ptr = parse_job(cur, t_shellenv_ptr);
+		if (job_ptr == NULL)
+		{
+			//free();
+			return (NULL);
+		}
 		if (head == NULL)
 			head = tail = job_ptr;
 		else

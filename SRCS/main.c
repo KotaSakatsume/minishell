@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/25 11:11:01 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 07:31:57 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,13 @@ int main(int argc, char **argv, char **envp)
 		free(input);
 		if(split_token != NULL)
 		{
-			job_head = parse_line(split_token);
-			printf("end_parse\n");
-			//free(split token) 
+			job_head = parse_line(split_token,t_shellenv_ptr);
+			// printf("job_head : %p\n",job_head);
+			if(job_head == NULL)
+			{
+				//free(split_token)
+				continue;
+			} 
 
 			// 作成中のEXPANDER
 			expander(job_head,t_shellenv_ptr);

@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:10:32 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/23 23:23:44 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 07:28:16 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ t_env	*env_to_list(char **envp)
 		}
 		i++;
 	}
-	printf("\n");			// kakunin
-	print_env_list(head);	// kakunin
-	printf("\n");			// kakunin
+	// printf("\n");			// kakunin
+	// print_env_list(head);	// kakunin
+	// printf("\n");			// kakunin
 	
 	return (head);
 }

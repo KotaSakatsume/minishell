@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 08:22:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/25 23:57:02 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int advance_redirect(t_token **tok , t_redirect **head , t_redirect **tail, t_cm
 			advance_token(tok);                       // redirectを消費
 			if(check_token(tok, TYPE_WORD) == false)             // 次はファイル名
 			{
-				printf("bunpo okasiiyo_1\n");
-				exit(1);
+				printf("構文エラーがあります(redirect)\n");
+				free(tr);
+				return (1);
 			}
 			// if(*tok == NULL || (*tok)->status->token_type != TYPE_WORD)
 			// {
