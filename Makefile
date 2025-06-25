@@ -31,6 +31,7 @@ SRC_FILES = main.c\
 			marge_same_margeid_token.c\
 			paser_utils.c\
 			parse.c\
+			parse_free_utils.c\
 			parse_advance.c\
 			utils.c\
 			ft_itoa.c\

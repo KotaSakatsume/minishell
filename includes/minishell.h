@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/25 13:19:39 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 08:31:52 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,12 @@ bool check_token(t_token **token, t_token_type type);
 
 // parse.c
 t_job *parse_line(t_token **tokens_top,t_shell_env *t_shellenv_ptr);
+
+// parse_free_utils
+void free_all_job(t_job *job_node);
+void free_all_pipeline(t_pipeline *pipeline_node);
+void free_all_cmd(t_cmd *cmd_node);
+
 
 // parse_advance
 int advance_redirect(t_token **tok , t_redirect **head , t_redirect **tail, t_cmd **cmd);

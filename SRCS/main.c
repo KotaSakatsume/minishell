@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 07:31:57 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 08:34:11 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ int main(int argc, char **argv, char **envp)
 		{
 			job_head = parse_line(split_token,t_shellenv_ptr);
 			// printf("job_head : %p\n",job_head);
-			if(job_head == NULL)
+			if(t_shellenv_ptr->exit_status != 0)
 			{
+				free_all_job(job_head);
 				//free(split_token)
 				continue;
 			} 
