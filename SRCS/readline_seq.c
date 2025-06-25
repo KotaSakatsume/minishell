@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 03:41:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/23 14:06:00 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 07:46:15 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,10 @@ char *readline_seq()
 			temp = readline(" > ");
 			if(!temp)
 			{
-				printf ("予期しないファイル終了 (EOF) です\n");
+				printf ("予期しないファイル終了 (EOF) です\nexit\n");
 				exit (-1);
 			}
-			concat = ft_strjoin(input,temp);
-			free(input);
-			free(temp);
-			input = concat;
+			input = combine_str_and_free_oldstr(input,temp);
 		}
 	}
 	return (input);
