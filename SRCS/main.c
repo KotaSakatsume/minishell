@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/23 22:22:21 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/25 11:11:01 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ static void init_gstate()
 	}
 }
 
+static t_shell_env *init_tshellenv(char **envp)
+{
+	t_shell_env *t_shellenv_ptr;
+	
+	t_shellenv_ptr = mk_shell_env(envp);
+	if (t_shellenv_ptr == NULL)
+	{
+		perror("main: mk_shell_env failed");
+		exit(1);
+	}
+	t_shellenv_ptr->env_list = env_to_list(t_shellenv_ptr->envp);
+	return (t_shellenv_ptr);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char *input;
@@ -46,18 +60,7 @@ int main(int argc, char **argv, char **envp)
 	t_shell_env *t_shellenv_ptr;
 
 	init_gstate();
-	t_shellenv_ptr = mk_shell_env(envp);
-	if (t_shellenv_ptr == NULL)
-	{
-		perror("main: mk_shell_env failed");
-		exit(1);
-	}
-	t_shellenv_ptr->env_list = env_to_list(t_shellenv_ptr->envp);
-	if (t_shellenv_ptr == NULL)
-	{
-		perror("main: mk_shell_env failed");
-		exit(1);
-	}
+	t_shellenv_ptr = init_tshellenv(envp);
 	while(1)
 	{
 		input = readline_seq();
@@ -67,10 +70,11 @@ int main(int argc, char **argv, char **envp)
 		if(split_token != NULL)
 		{
 			job_head = parse_line(split_token);
+			printf("end_parse\n");
 			//free(split token) 
 
 			// 作成中のEXPANDER
-			expander(job_head);
+			expander(job_head,t_shellenv_ptr);
 			dump_jobs(job_head);
 			// ★ここでテスト可能★
 			// print_shell_evn(shell_env_ptr);

@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/23 14:32:26 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/25 11:04:45 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <limits.h>
 
 // for_error
 #define ERROR_ARGS 1
@@ -191,6 +192,11 @@ int ft_strlen(char *str);
 char *ft_strdup(char *s);
 char *ft_strndup(char *str, int n);
 char	*ft_strchr(const char *s, int c);
+char	*combine_str_and_free_oldstr(char* str1 , char*str2);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+
+// ft_itoa.c
+char	*ft_itoa(int n);
 
 // utils_struct.c
 int check_token_cont(t_token **dest);
@@ -230,10 +236,14 @@ int advance_redirect(t_token **tok , t_redirect **head , t_redirect **tail, t_cm
 int advance_cmd(t_token **tok , t_cmd **cmd);
 
 // expander.c
-void expander(t_job *job_head);
+void expander(t_job *job_head,t_shell_env *t_shellenv_ptr);
+
+// extend_daller.c
+void extend_daller(t_pipeline *pipeline_ptr,t_shell_env *t_shellenv_ptr);
 
 // expander_utils.c
 void fx_extend_to_all_pipeline(t_job *job_head, void (*extend)(t_pipeline *));
+void fx_extend_to_all_pipeline_with_env(t_job *job_head, t_shell_env * t_shellenv_ptr,void (*extend)(t_pipeline *,t_shell_env *));
 t_token *mk_empty_token();
 
 // expander_quote_and_backslash.c

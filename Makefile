@@ -33,11 +33,13 @@ SRC_FILES = main.c\
 			parse.c\
 			parse_advance.c\
 			utils.c\
+			ft_itoa.c\
 			utils_struct.c\
 			utils_mk_struct.c\
 			utils_initialize_struct.c\
 			utils_free_struct.c\
 			expander.c\
+			extend_daller.c\
 			expander_utils.c\
 			expander_quote_and_backslash.c\
 			expander_nospace.c\
