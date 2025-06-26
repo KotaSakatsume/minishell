@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:51:11 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 16:09:08 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 05:56:09 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	free_all_cmd(t_cmd *cmd_node)
 	}
 	free(cmd_node->argv);
 	free(cmd_node->token);
+	free(cmd_node);
 }
 
 void	free_all_pipeline(t_pipeline *pipeline_node)
