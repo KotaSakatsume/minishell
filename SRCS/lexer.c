@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 04:05:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:54:45 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:23:29 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_token	**lexer(char *line)
 	dest = lexer_tokenize(line);
 	if (dest == NULL)
 	{
-		printf("malloc error\n");
 		return (NULL);
 	}
 	if (check_token_cont(dest) > 100)
