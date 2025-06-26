@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 18:32:31 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 20:29:52 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	validate_heredoc_delimiter(const char *delimiter,
-		t_shell_env *shell_env)
+void	validate_heredoc_delimiter(char *delimiter, t_shell_env *shell_env)
 {
-	if (!delimiter || strlen(delimiter) == 0)
+	if (!delimiter || ft_strlen(delimiter) == 0)
 	{
 		write(STDERR_FILENO,
 			"minishell: syntax error near unexpected token `newline'\n", 56);
@@ -60,11 +59,11 @@ void	process_heredoc_input(int tmp_fd, const char *delimiter,
 	close(tmp_fd);
 }
 
-void	replace_heredoc_with_tempfile(t_redirect *redir,
-		const char *tmp_filename, t_shell_env *shell_env)
+void	replace_heredoc_with_tempfile(t_redirect *redir, char *tmp_filename,
+		t_shell_env *shell_env)
 {
 	free(redir->filename);
-	redir->filename = strdup(tmp_filename);
+	redir->filename = ft_strdup(tmp_filename);
 	if (!redir->filename)
 	{
 		write(STDERR_FILENO, "minishell: strdup: Out of memory\n", 33);

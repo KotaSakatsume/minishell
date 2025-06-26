@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:41:47 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:29:30 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,14 @@ char	**allocate_envp_array(int count)
 	return (envp);
 }
 
-char	*create_env_entry(const char *key, const char *value)
+char	*create_env_entry(char *key, char *value)
 {
 	size_t	key_len;
 	size_t	value_len;
 	char	*env_entry;
 
-	key_len = strlen(key);
-	value_len = strlen(value);
+	key_len = ft_strlen(key);
+	value_len = ft_strlen(value);
 	env_entry = (char *)malloc(key_len + value_len + 2); // '=' + '\0'
 	if (env_entry)
 		sprintf(env_entry, "%s=%s", key, value);

@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:26:09 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:26:39 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,4 +308,25 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		i++;
 	}
 	return (NULL);
+}
+
+char	*ft_strstr(const char *haystack, const char *needle)
+{
+	const char	*h = haystack;
+	const char	*n = needle;
+
+	if (!*needle) // needle が空文字列の場合
+		return ((char *)haystack);
+	while (*haystack)
+	{
+		while (*h && *n && *h == *n)
+		{
+			h++;
+			n++;
+		}
+		if (!*n) // needle の最後まで一致した場合
+			return ((char *)haystack);
+		haystack++;
+	}
+	return (NULL); // 見つからなかった場合
 }

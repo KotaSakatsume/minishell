@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:23:29 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:27:37 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	cleanup_heredoc_files(t_pipeline *pipeline)
 		redir = current->cmd->redir;
 		while (redir)
 		{
-			if (redir->filename && strstr(redir->filename,
+			if (redir->filename && ft_strstr(redir->filename,
 					"/tmp/minishell_heredoc_"))
 			{
 				unlink(redir->filename); // 一時ファイルを削除
@@ -42,16 +42,16 @@ void	cleanup_heredoc_files(t_pipeline *pipeline)
 	}
 }
 
-int	is_builtin(const char *cmd)
+int	is_builtin(char *cmd)
 {
-	const char	*builtins[] = {"cd", "echo", "exit", "env", "export", "pwd",
+	char	*builtins[] = {"cd", "echo", "exit", "env", "export", "pwd",
 			"unset"};
-	int			i;
+	int		i;
 
 	i = 0;
 	while (i < 7) // 配列サイズを7に修正（pwdが抜けていた）
 	{
-		if (strcmp(cmd, builtins[i]) == 0)
+		if (ft_strcmp(cmd, builtins[i]) == 0)
 			return (1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:27:19 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:27:06 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,8 @@ size_t						ft_strlcpy(char *dst, char *src, size_t dstsize);
 char						**ft_split(char const *s, char c);
 char						*ft_strnstr(const char *big, const char *little,
 								size_t len);
+char						*ft_strstr(const char *haystack,
+								const char *needle);
 
 // ft_itoa.c
 char						*ft_itoa(int n);
