@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 18:01:11 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:43:13 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	t_shellenv_ptr = init_tshellenv(envp);
-	signal(SIGINT, handle_sigint); // Ctrl-C の処理
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
@@ -75,7 +74,6 @@ int	main(int argc, char **argv, char **envp)
 		if (split_token != NULL)
 		{
 			job_head = parse_line(split_token, t_shellenv_ptr);
-			// printf("job_head : %p\n",job_head);
 			if (t_shellenv_ptr->exit_status != 0)
 			{
 				free_all_job(job_head);
