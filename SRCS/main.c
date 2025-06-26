@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 18:43:13 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 18:48:43 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ int	main(int argc, char **argv, char **envp)
 			expander(job_head, t_shellenv_ptr);
 			// dump_jobs(job_head);
 			ft_exec(job_head, t_shellenv_ptr);
-			// TODO: split_tokenのメモリ解放を実装
+			// 後処理
+			free_all_job(job_head);
+			free_all_token(split_token);
 		}
 	}
 }
