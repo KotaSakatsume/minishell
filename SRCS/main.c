@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 18:48:43 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 19:41:17 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,20 @@ static t_shell_env	*init_tshellenv(char **envp)
 	return (t_shellenv_ptr);
 }
 
+static void free_all_shellenv(t_shell_env *t_shellenv_ptr)
+{
+	int i;
+
+	i = 0;
+	free_env_list(t_shellenv_ptr->env_list);
+	while(t_shellenv_ptr->envp[i] != NULL)
+	{
+		free(t_shellenv_ptr->envp[i]);
+		i++;
+	}
+	free(t_shellenv_ptr->envp);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
@@ -78,6 +92,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free_all_job(job_head);
 				free_all_token(split_token);
+				free_all_shellenv(t_shellenv_ptr);
 				continue ;
 			}
 			expander(job_head, t_shellenv_ptr);
