@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int check_token_cont(t_token **dest)
+int	check_token_cont(t_token **dest)
 {
-	t_token *next;
-	int i;
+	t_token	*next;
+	int		i;
+
 	next = *dest;
 	i = 0;
-	
-	while(next != NULL)
+	while (next != NULL)
 	{
 		i++;
 		next = next->next;

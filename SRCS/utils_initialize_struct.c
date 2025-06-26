@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_initialize_struct.c                           :+:      :+:    :+:   */
+/*   utils_initialize_struct.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:34:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 17:34:56 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 08:56:13 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void initialize_t_token(t_token *t_token_node)
+void	initialize_t_token(t_token *t_token_node)
 {
 	t_token_node->id = -1;
 	t_token_node->marge_id = -1;
@@ -21,7 +21,7 @@ void initialize_t_token(t_token *t_token_node)
 	t_token_node->next = NULL;
 }
 
-void initialize_t_token_stat(t_token_stat *t_token_stat_node)
+void	initialize_t_token_stat(t_token_stat *t_token_stat_node)
 {
 	t_token_stat_node->token_type = TYPE_INITIAL;
 	t_token_stat_node->in_quote = QUOTE_INITIAL;

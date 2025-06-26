@@ -6,17 +6,18 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:20:35 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 15:09:31 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 08:55:28 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-t_cmd *mk_t_cmd()
+t_cmd	*mk_t_cmd(void)
 {
-	t_cmd* dest;
-	dest = malloc(1*sizeof(t_cmd));
-	if(dest == NULL)
+	t_cmd	*dest;
+
+	dest = malloc(1 * sizeof(t_cmd));
+	if (dest == NULL)
 		exit(1);
 	dest->argv = NULL;
 	dest->argc = 0;
@@ -25,11 +26,12 @@ t_cmd *mk_t_cmd()
 	return (dest);
 }
 
-t_job *mk_t_job()
+t_job	*mk_t_job(void)
 {
-	t_job* dest;
-	dest = malloc(1*sizeof(t_job));
-	if(dest == NULL)
+	t_job	*dest;
+
+	dest = malloc(1 * sizeof(t_job));
+	if (dest == NULL)
 		exit(1);
 	dest->pipeline = NULL;
 	dest->sep = SEP_NONE;
@@ -37,50 +39,50 @@ t_job *mk_t_job()
 	return (dest);
 }
 
-t_pipeline *mk_t_pipeline()
+t_pipeline	*mk_t_pipeline(void)
 {
-	t_pipeline *dest;
-	dest = malloc(1*sizeof(t_pipeline));
-	if(dest == NULL)
+	t_pipeline	*dest;
+
+	dest = malloc(1 * sizeof(t_pipeline));
+	if (dest == NULL)
 		exit(1);
-	dest->cmd  = NULL;
+	dest->cmd = NULL;
 	dest->next = NULL;
 	return (dest);
 }
 
-t_redirect *mk_t_redirect()
+t_redirect	*mk_t_redirect(void)
 {
-	t_redirect *dest;
-	dest = malloc(1*sizeof(t_redirect));
-	if(dest == NULL)
+	t_redirect	*dest;
+
+	dest = malloc(1 * sizeof(t_redirect));
+	if (dest == NULL)
 		exit(1);
-	dest->type=TYPE_INITIAL;
-	dest->filename=NULL;
-	dest->next=NULL;
+	dest->type = TYPE_INITIAL;
+	dest->filename = NULL;
+	dest->next = NULL;
 	return (dest);
 }
 
-t_token *mk_t_token(char *start_ptr, char *end_ptr)
+t_token	*mk_t_token(char *start_ptr, char *end_ptr)
 {
-	t_token *t_token_node;
+	t_token	*t_token_node;
+
 	t_token_node = malloc(sizeof(t_token));
 	if (t_token_node == NULL)
 	{
-		perror("mk_t_token : malloc");
 		return (NULL);
 	}
 	initialize_t_token(t_token_node);
 	t_token_node->value = ft_strndup(start_ptr, end_ptr - start_ptr);
 	if (t_token_node->value == NULL)
 	{
-		perror("mk_t_token : malloc");
 		free(t_token_node);
 		return (NULL);
 	}
 	t_token_node->status = malloc(sizeof(t_token_stat));
 	if (t_token_node->status == NULL)
 	{
-		perror("mk_t_token : malloc");
 		free(t_token_node->value);
 		free(t_token_node);
 		return (NULL);

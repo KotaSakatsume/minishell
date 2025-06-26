@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 20:26:39 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 08:51:38 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	str = (char *)malloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
 	if (!str)
-	{
-		perror("ft_strjoin malloc error\n");
 		exit(1);
-	}
 	i = 0;
 	while (s1[i])
 	{
@@ -162,12 +159,9 @@ char	*combine_str_and_free_oldstr(char *str1, char *str2)
 {
 	char	*dest;
 
-	// char	*temp;
 	dest = ft_strjoin(str1, str2);
 	if (dest == NULL)
-	{
 		exit(1);
-	}
 	free(str1);
 	free(str2);
 	return (dest);
@@ -193,7 +187,6 @@ size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 	return (src_size);
 }
 
-// split
 static void	free_all(char **ret)
 {
 	int	i;
