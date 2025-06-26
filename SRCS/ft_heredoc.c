@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 15:25:17 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:32:31 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	validate_heredoc_delimiter(const char *delimiter,
 	if (!delimiter || strlen(delimiter) == 0)
 	{
 		write(STDERR_FILENO,
-			"minishell: syntax error near unexpected token `newline'\n", 59);
+			"minishell: syntax error near unexpected token `newline'\n", 56);
 		update_exit_status(shell_env, 2); // シンタックスエラー
 		exit(2);                          // 即時終了
 	}

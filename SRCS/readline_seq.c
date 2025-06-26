@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_seq.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 03:41:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:26:23 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:27:04 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,16 @@
 
 static int	check_readline_continue(char *input)
 {
-	char	*start_ptr;
 	char	*end_ptr;
-	int		after_space_exist;
 
 	while (*input != '\0')
 	{
-		start_ptr = input;
-		after_space_exist = 0;
 		end_ptr = serach_end_ptr(input);
 		if (end_ptr == NULL) // read_continue
 			return (1);
 		input = end_ptr;
 		while (is_space(*input))
-		{
-			after_space_exist = 1;
 			input++;
-		}
 	}
 	return (0);
 }

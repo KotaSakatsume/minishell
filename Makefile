@@ -12,7 +12,7 @@
 
 NAME = minishell
 CC = cc
-CFLAGS ?= -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 SRC_DIR = ./SRCS
 BUILT_IN_DIR = ./SRCS/built_in
 OBJ_DIR = ./OBJS
