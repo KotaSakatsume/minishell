@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:10:32 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/23 23:23:44 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 17:27:13 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	free_env_list(t_env *head)
 
 	while (head)
 	{
-		temp = head->next; // 次のノードを保持
-		free(head->key);   // 現在のノードのキーを解放
-		free(head->value); // 現在のノードの値を解放
-		free(head);        // 現在のノード自体を解放
-		head = temp;       // 次のノードに進む
+		temp = head->next;
+		free(head->key);
+		free(head->value);
+		free(head);
+		head = temp;
 	}
 }
 
@@ -44,7 +44,6 @@ t_env	*create_node(char *env_str)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	// "KEY=VALUE"を分割
 	delimiter = ft_strchr(env_str, '=');
 	if (!delimiter)
 	{
@@ -52,8 +51,8 @@ t_env	*create_node(char *env_str)
 		return (NULL);
 	}
 	key_len = delimiter - env_str;
-	node->key = ft_strndup(env_str, key_len); // KEY部分をコピー
-	node->value = ft_strdup(delimiter + 1);   // VALUE部分をコピー
+	node->key = ft_strndup(env_str, key_len);
+	node->value = ft_strdup(delimiter + 1);
 	node->next = NULL;
 	return (node);
 }
@@ -86,9 +85,5 @@ t_env	*env_to_list(char **envp)
 		}
 		i++;
 	}
-	// printf("\n");			// kakunin
-	// print_env_list(head);	// kakunin
-	// printf("\n");			// kakunin
-	
 	return (head);
 }

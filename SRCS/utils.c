@@ -3,27 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/23 14:32:13 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 17:26:09 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_space(char c)
+int	is_space(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
 		return (1);
 	return (0);
 }
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char *str;
-	size_t i;
-	size_t j;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -49,9 +50,9 @@ char *ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-int ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] && s2[i])
@@ -65,9 +66,9 @@ int ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-int ft_strncmp(char *s1, char *s2, int n)
+int	ft_strncmp(char *s1, char *s2, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n)
@@ -81,14 +82,14 @@ int ft_strncmp(char *s1, char *s2, int n)
 	return (0);
 }
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
-	i = 0;
+	int	i;
 
-	if(str == NULL)
+	i = 0;
+	if (str == NULL)
 		return (0);
-	while(str[i] != '\0')
+	while (str[i] != '\0')
 		i++;
 	return (i);
 }
@@ -115,10 +116,10 @@ char	*ft_strdup(char *s)
 	return (dest);
 }
 
-char *ft_strndup(char *str, int n)
+char	*ft_strndup(char *str, int n)
 {
-	int i;
-	char *dest;
+	int		i;
+	char	*dest;
 
 	i = 0;
 	if (str == NULL)
@@ -155,6 +156,41 @@ char	*ft_strchr(const char *s, int c)
 	if (c == '\0')
 		return ((char *)s);
 	return (NULL);
+}
+
+char	*combine_str_and_free_oldstr(char *str1, char *str2)
+{
+	char	*dest;
+
+	// char	*temp;
+	dest = ft_strjoin(str1, str2);
+	if (dest == NULL)
+	{
+		exit(1);
+	}
+	free(str1);
+	free(str2);
+	return (dest);
+}
+
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
+{
+	size_t	i;
+	size_t	src_size;
+
+	if (dst == NULL || src == NULL)
+		return ((size_t)(-1));
+	i = 0;
+	src_size = ft_strlen(src);
+	if (dstsize == 0)
+		return (src_size);
+	while (i < src_size && i < dstsize - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (src_size);
 }
 
 // split
@@ -248,8 +284,8 @@ char	**ft_split(char const *s, char c)
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	if (*little == '\0')
 		return ((char *)big);

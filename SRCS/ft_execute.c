@@ -6,13 +6,13 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 15:33:38 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:41:47 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error(void)
+static void	ft_error(void)
 {
 	perror("Error");
 	exit(EXIT_FAILURE);
@@ -50,11 +50,11 @@ static char	*join_path_and_cmd(char *path, char *cmd)
 
 	part_path = ft_strjoin(path, "/");
 	if (!part_path)
-		error();
+		ft_error();
 	full_path = ft_strjoin(part_path, cmd);
 	free(part_path);
 	if (!full_path)
-		error();
+		ft_error();
 	return (full_path);
 }
 
@@ -73,7 +73,7 @@ char	*find_path(char *cmd, char **envp)
 		return (NULL);
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
-		error();
+		ft_error();
 	i = 0;
 	while (paths[i])
 	{
@@ -178,7 +178,7 @@ char	*prepare_execution(char **av, t_shell_env *shell_env, char ***envp)
 	if (!(*envp))
 	{
 		update_exit_status(shell_env, 1); // メモリ不足の可能性
-		error();
+		ft_error();
 	}
 	path = find_path(av[0], *envp);
 	if (!path)

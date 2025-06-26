@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:20:35 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 17:56:28 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 15:09:31 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_token *mk_t_token(char *start_ptr, char *end_ptr)
 	t_token_node->value = ft_strndup(start_ptr, end_ptr - start_ptr);
 	if (t_token_node->value == NULL)
 	{
+		perror("mk_t_token : malloc");
 		free(t_token_node);
 		return (NULL);
 	}

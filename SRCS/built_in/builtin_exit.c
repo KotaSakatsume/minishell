@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/19 17:07:45 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:40:55 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #define MAX_EXIT_STATUS 255
 
 // 引数の検証
-void	print_error(const char *msg)
+static void	ft_print_error(const char *msg)
 {
 	while (*msg)
 		write(2, msg++, 1);
@@ -34,9 +34,9 @@ int	validate_exit_arguments(char **args)
 	{
 		if (!((args[1][i] >= '0' && args[1][i] <= '9') || (args[1][0] == '-')))
 		{
-			print_error("exit: ");
-			print_error(args[1]);
-			print_error(": numeric argument required\n");
+			ft_print_error("exit: ");
+			ft_print_error(args[1]);
+			ft_print_error(": numeric argument required\n");
 			return (2);
 		}
 		i++;
@@ -44,7 +44,7 @@ int	validate_exit_arguments(char **args)
 	// 引数が多すぎる場合
 	if (args[2] != NULL)
 	{
-		print_error("exit: too many arguments\n");
+		ft_print_error("exit: too many arguments\n");
 		return (1);
 	}
 	return (0);

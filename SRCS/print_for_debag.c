@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:38:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/06 21:31:36 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 07:32:15 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static const char *redir_type_str(t_token_type t) {
 // リダイレクトリストをダンプ
 static void dump_redirects(t_redirect *r) {
     while (r) {
-        printf("      [redir] %s  \"%s\"\n",
+        printf("|      [redir] %s  \"%s\"\n",
                redir_type_str(r->type),
                r->filename);
         r = r->next;
@@ -106,7 +106,7 @@ static void dump_redirects(t_redirect *r) {
 
 // コマンド（argv + redir）をダンプ
 static void dump_cmd(t_cmd *c) {
-    printf("    [cmd] argv[%d]:", c->argc);
+    printf("|    [cmd] argv[%d]:", c->argc);
     for (int i = 0; i < c->argc; i++) {
         printf(" %s", c->argv[i]);
 		printf("(id=%d)", c->token[i]->id);
@@ -119,7 +119,7 @@ static void dump_cmd(t_cmd *c) {
 static void dump_pipeline(t_pipeline *p) {
     int idx = 0;
     while (p) {
-        printf("  [pipe %d]\n", idx++);
+        printf("|  [pipe %d]\n", idx++);
         dump_cmd(p->cmd);
         p = p->next;
     }
@@ -128,10 +128,12 @@ static void dump_pipeline(t_pipeline *p) {
 // ジョブ（シーケンス要素）をダンプ
 void dump_jobs(t_job *job) {
     int jid = 0;
+	printf("\n<-- start____dump_job -->\n\n");
     while (job) {
-        printf("[job %d] sep=%s\n", jid++, seq_type_str(job->sep));
+        printf("| [job %d] sep=%s\n", jid++, seq_type_str(job->sep));
         dump_pipeline(job->pipeline);
         job = job->next;
     }
+	printf("\n<-- end____dump_job -->\n\n");
 }
 
