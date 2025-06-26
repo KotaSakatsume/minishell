@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:51:11 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 05:56:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 06:20:14 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void	free_all_cmd(t_cmd *cmd_node)
 	while (cmd_node->argv[i] != NULL)
 	{
 		free(cmd_node->argv[i]);
+		i++;
+	}
+	i = 0;
+	while (cmd_node->token && cmd_node->token[i] != NULL)
+	{
+		if (cmd_node->token[i]->value != NULL)
+			free(cmd_node->token[i]->value);
+		if (cmd_node->token[i]->status != NULL)
+			free(cmd_node->token[i]->status);
+		free(cmd_node->token[i]);
 		i++;
 	}
 	free(cmd_node->argv);

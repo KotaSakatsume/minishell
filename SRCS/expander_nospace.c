@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_nospace.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:27:04 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 06:13:58 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	free_olddest(t_token **token_head)
 	i = 0;
 	while (token_head[i] != NULL)
 	{
+		if (token_head[i]->value != NULL)
+			free(token_head[i]->value);
 		free(token_head[i]->status);
 		free(token_head[i]);
 		i++;
