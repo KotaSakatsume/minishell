@@ -6,11 +6,37 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 15:34:41 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 16:04:31 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	set_redirect_list(t_redirect **head, t_redirect **tail,
+		t_redirect *tr, t_cmd **cmd)
+{
+	if (*head == NULL)
+	{
+		*head = *tail;
+		*tail = tr;
+		(*cmd)->redir = tr;
+	}
+	else
+	{
+		(*tail)->next = tr;
+		*tail = tr;
+	}
+	return ;
+}
+
+static bool	check_type_redirect(t_token_type tt)
+{
+	if (tt == TYPE_REDIRECT_IN || tt == TYPE_REDIRECT_OUT
+		|| tt == TYPE_REDIRECT_APPEND || tt == TYPE_REDIRECT_HEREDOC)
+		retrun(true);
+	else
+		return (false);
+}
 
 int	advance_redirect(t_token **tok, t_redirect **head, t_redirect **tail,
 		t_cmd **cmd)
@@ -21,13 +47,12 @@ int	advance_redirect(t_token **tok, t_redirect **head, t_redirect **tail,
 	while (*tok)
 	{
 		tt = (*tok)->status->token_type;
-		if (tt == TYPE_REDIRECT_IN || tt == TYPE_REDIRECT_OUT
-			|| tt == TYPE_REDIRECT_APPEND || tt == TYPE_REDIRECT_HEREDOC)
+		if (check_type_redirect(tt) == true)
 		{
 			tr = mk_t_redirect();
 			tr->type = tt;
-			advance_token(tok);                       // redirectを消費
-			if (check_token(tok, TYPE_WORD) == false) // 次はファイル名
+			advance_token(tok);
+			if (check_token(tok, TYPE_WORD) == false)
 			{
 				printf("構文エラーがあります(redirect)\n");
 				free(tr);
@@ -35,16 +60,7 @@ int	advance_redirect(t_token **tok, t_redirect **head, t_redirect **tail,
 			}
 			tr->filename = strdup((*tok)->value);
 			advance_token(tok);
-			if (*head == NULL)
-			{
-				*head = *tail = tr;
-				(*cmd)->redir = tr;
-			}
-			else
-			{
-				(*tail)->next = tr;
-				*tail = tr;
-			}
+			set_redirect_list(head, tail, tr, cmd);
 		}
 		else
 			break ;

@@ -6,26 +6,28 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 14:04:36 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 16:10:54 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-static t_cmd *parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr)
+static t_cmd	*parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
-	t_cmd *cmd;
+	t_cmd		*cmd;
+	t_redirect	*head;
+	t_redirect	*tail;
 
 	cmd = mk_t_cmd();
-	t_redirect *head = NULL;
-	t_redirect *tail = NULL;
-	if(advance_redirect(tok,&head,&tail,&cmd) != 0)
+	head = NULL;
+	tail = NULL;
+	if (advance_redirect(tok, &head, &tail, &cmd) != 0)
 	{
 		t_shellenv_ptr->exit_status = 2;
 		return (NULL);
 	}
-	advance_cmd(tok,&cmd);
-	advance_redirect(tok,&head,&tail,&cmd);
+	advance_cmd(tok, &cmd);
+	advance_redirect(tok, &head, &tail, &cmd);
 	if (cmd->argc == 0)
 	{
 		printf("parse error: 構文エラーがあります (cmd)\n");
@@ -34,18 +36,19 @@ static t_cmd *parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr)
 	return (cmd);
 }
 
-static t_pipeline *parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
+static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
-	t_pipeline *head;
-	t_pipeline *tail;
-	t_pipeline *node;
+	t_pipeline	*head;
+	t_pipeline	*tail;
+	t_pipeline	*node;
 
 	head = NULL;
 	tail = NULL;
-	do {
+	do
+	{
 		node = mk_t_pipeline();
-		node->cmd = parse_cmd(tok,t_shellenv_ptr);
-		if(node->cmd == NULL)
+		node->cmd = parse_cmd(tok, t_shellenv_ptr);
+		if (node->cmd == NULL)
 			return (NULL);
 		if (!head)
 			head = tail = node;
@@ -58,32 +61,30 @@ static t_pipeline *parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 	return (head);
 }
 
-static t_job *parse_job(t_token **tok, t_shell_env *t_shellenv_ptr)
+static t_job	*parse_job(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
-	t_job *job;
+	t_job	*job;
 
 	job = mk_t_job();
 	job->pipeline = parse_pipeline(tok, t_shellenv_ptr);
-	if(job->pipeline == NULL)
+	if (job->pipeline == NULL)
 	{
 		return (NULL);
 	}
-
-	if(accept_token(tok, TYPE_SEMICOLON) ||  (tok != NULL && *tok == NULL))
+	if (accept_token(tok, TYPE_SEMICOLON) || (tok != NULL && *tok == NULL))
 		job->sep = SEP_SEQ;
 	else
 		job->sep = SEP_NONE;
-
 	job->next = NULL;
 	return (job);
 }
 
-t_job *parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
+t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 {
 	t_job	*head;
 	t_job	*tail;
 	t_job	*job_ptr;
-	t_token **cur;
+	t_token	**cur;
 
 	head = NULL;
 	tail = NULL;
