@@ -6,27 +6,29 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 04:05:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/20 05:12:54 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 15:24:30 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-t_token **lexer(char *line)
+t_token	**lexer(char *line)
 {
-	t_token **dest;
+	t_token	**dest;
 
 	dest = lexer_tokenize(line);
-	if(dest == NULL)
+	if (dest == NULL)
+	{
+		printf("malloc error\n");
 		return (NULL);
-	//split token NUKK notoki kakunin
-
-	// if(check_token_cont(split_token) > 100)
-	// {
-	// 	printf("too many token : this shell can use up to 100 token");
-	// 	exit(1);
-	// }
-
+	}
+	if (check_token_cont(dest) > 100)
+	{
+		printf("too many token : this shell can use up to 100 token\n");
+		fflush(stdout);
+		free_all_token(dest);
+		return (NULL);
+	}
 	lexer_set_token_vals(dest);
 	print_token(dest);
 	return (dest);

@@ -6,15 +6,16 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:08:24 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 19:08:17 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 15:15:02 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void into_list(t_token **head, t_token *t_token_node_ptr)
+void	into_list(t_token **head, t_token *t_token_node_ptr)
 {
-	t_token *ptr;
+	t_token	*ptr;
+
 	if (*head == NULL)
 		*head = t_token_node_ptr;
 	else
@@ -28,49 +29,68 @@ void into_list(t_token **head, t_token *t_token_node_ptr)
 	}
 }
 
-void set_after_space(t_token *t_token_node, int after_space_exist)
+void	set_after_space(t_token *t_token_node, int after_space_exist)
 {
 	t_token_node->status->after_space_is = after_space_exist;
 }
 
-t_token **pad_t_token_dptr(t_token **dest, char *input)
+static t_token	*make_token_and_check(char *start_ptr, char **input,
+		t_token ***dest)
 {
-	char *start_ptr;
-	char *end_ptr;
-	t_token *t_token_node_ptr;
-	int after_space_exist;
+	char	*end_ptr;
+	t_token	*token;
+
+	end_ptr = serach_end_ptr(start_ptr);
+	if (end_ptr == NULL)
+	{
+		free_all_token(*dest);
+		return (NULL);
+	}
+	token = mk_t_token(start_ptr, end_ptr);
+	if (token == NULL)
+	{
+		free_all_token(*dest);
+		return (NULL);
+	}
+	*input = end_ptr;
+	return (token);
+}
+
+static int	skip_space(char **input)
+{
+	int	after_space;
+
+	after_space = 0;
+	while (is_space(**input))
+	{
+		after_space = 1;
+		(*input)++;
+	}
+	return (after_space);
+}
+
+t_token	**pad_t_token_dptr(t_token **dest, char *input)
+{
+	char	*start_ptr;
+	t_token	*t_token_node_ptr;
+	int		after_space_exist;
 
 	while (*input != '\0')
 	{
 		start_ptr = input;
-		after_space_exist = 0;
-		end_ptr = serach_end_ptr(input);
-		if (end_ptr == NULL) // read_continue
-		{
-			free_all_token(dest);
-			return (NULL);
-		}
-		t_token_node_ptr = mk_t_token(start_ptr, end_ptr);
+		t_token_node_ptr = make_token_and_check(start_ptr, &input, &dest);
 		if (t_token_node_ptr == NULL)
-		{
-			free_all_token(dest);
 			return (NULL);
-		}
-		input = end_ptr;
-		while (is_space(*input))
-		{
-			after_space_exist = 1;
-			input++;
-		}
+		after_space_exist = skip_space(&input);
 		set_after_space(t_token_node_ptr, after_space_exist);
 		into_list(dest, t_token_node_ptr);
 	}
 	return (dest);
 }
 
-void all_free(char **dest, int num)
+void	all_free(char **dest, int num)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < num)
@@ -80,13 +100,12 @@ void all_free(char **dest, int num)
 	}
 }
 
-void rep_malloc(char **dest, char *input)
+void	rep_malloc(char **dest, char *input)
 {
-	int i;
-	int str_len;
+	int	i;
+	int	str_len;
 
 	i = 0;
-
 	while (*input != '\0')
 	{
 		while (is_space(*input))
@@ -100,18 +119,18 @@ void rep_malloc(char **dest, char *input)
 			if (dest[i] == NULL)
 			{
 				all_free(dest, i);
-				return;
+				return ;
 			}
 			input = input + str_len;
 			i++;
 		}
 	}
-	return;
+	return ;
 }
 
-int word_count(char *input)
+int	word_count(char *input)
 {
-	int ans;
+	int	ans;
 
 	ans = 0;
 	while (is_space(*input))
@@ -127,9 +146,9 @@ int word_count(char *input)
 	return (ans);
 }
 
-t_token **lexer_tokenize(char *input)
+t_token	**lexer_tokenize(char *input)
 {
-	t_token **dest;
+	t_token	**dest;
 
 	while (is_space(*input))
 		input++;
@@ -142,7 +161,6 @@ t_token **lexer_tokenize(char *input)
 		return (NULL);
 	}
 	*dest = NULL;
-
 	if (pad_t_token_dptr(dest, input) == NULL)
 		return (NULL);
 	return (dest);

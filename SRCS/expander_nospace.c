@@ -12,47 +12,46 @@
 
 #include "minishell.h"
 
-void combine_main(t_pipeline *pipeline_ptr)
+void	combine_main(t_pipeline *pipeline_ptr)
 {
-	int len;
-	int i;
-	t_cmd *cmd_ptr;
-	t_token **dest;
-	
+	int		len;
+	int		i;
+	t_cmd	*cmd_ptr;
+	t_token	**dest;
+
 	cmd_ptr = pipeline_ptr->cmd;
 	len = count_resized_token_len(cmd_ptr->token);
-
 	cmd_ptr->argc = len;
 	dest = malloc(sizeof(t_token *) * (len + 1));
 	i = 0;
-	while(i < len)
+	while (i < len)
 	{
 		dest[i] = mk_empty_token();
 		i++;
 	}
 	dest[i] = NULL;
-
 	pad_dest(dest, len, cmd_ptr->token);
 	free_olddest(cmd_ptr->token);
 	cmd_ptr->token = dest;
 }
 
-int count_resized_token_len(t_token **token)
+int	count_resized_token_len(t_token **token)
 {
-	int ans;
-	ans = 0;
-	int i;
-	i = 0;
-	int before_after_space_is;
-	int before_token_id;
-	int marge_id;
-	marge_id = 0;
+	int	ans;
+	int	i;
+	int	before_after_space_is;
+	int	before_token_id;
+	int	marge_id;
 
+	ans = 0;
+	i = 0;
+	marge_id = 0;
 	while (token[i] != NULL)
 	{
 		if (i == 0)
 			ans++;
-		else if (!(before_after_space_is == 0 && (before_token_id + 1 == token[i]->id)))
+		else if (!(before_after_space_is == 0 && (before_token_id
+					+ 1 == token[i]->id)))
 		{
 			ans++;
 			marge_id++;
@@ -65,12 +64,12 @@ int count_resized_token_len(t_token **token)
 	return (ans);
 }
 
-void pad_dest(t_token **dest, int len, t_token **token)
+void	pad_dest(t_token **dest, int len, t_token **token)
 {
-	int i;
-	int marge_id;
-	char *temp;
-	t_token *token_ptr;
+	int		i;
+	int		marge_id;
+	char	*temp;
+	t_token	*token_ptr;
 
 	i = 0;
 	token_ptr = token[i];
@@ -80,19 +79,21 @@ void pad_dest(t_token **dest, int len, t_token **token)
 			dest[token_ptr->marge_id]->value = ft_strdup(token_ptr->value);
 		else
 		{
-			temp = ft_strjoin(dest[token_ptr->marge_id]->value, (token_ptr->value));
+			temp = ft_strjoin(dest[token_ptr->marge_id]->value,
+					(token_ptr->value));
 			free(dest[token_ptr->marge_id]->value);
 			dest[token_ptr->marge_id]->value = temp;
 		}
 		i++;
 		token_ptr = token[i];
 	}
-	return;
+	return ;
 }
 
-void free_olddest(t_token **token_head)
+void	free_olddest(t_token **token_head)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (token_head[i] != NULL)
 	{

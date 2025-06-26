@@ -12,34 +12,38 @@
 
 #include "minishell.h"
 
-void delete_quote_cmd(t_pipeline *pipeline_ptr)
+void	delete_quote_cmd(t_pipeline *pipeline_ptr)
 {
-	int i;
+	int		i;
+	t_cmd	*cmd_ptr;
+	t_token	*token_ptr;
+	int		count_backslash_to_remove_check;
+
 	i = 0;
-	t_cmd *cmd_ptr;
 	cmd_ptr = pipeline_ptr->cmd;
-	t_token *token_ptr = cmd_ptr->token[i];
-	int count_backslash_to_remove_check;
+	token_ptr = cmd_ptr->token[i];
 	while (token_ptr != NULL)
 	{
 		token_ptr = cmd_ptr->token[i];
 		if (token_ptr != NULL)
 		{
-			if (token_ptr->status->in_quote == QUOTE_SINGLE || token_ptr->status->in_quote == QUOTE_DOUBLE)
+			if (token_ptr->status->in_quote == QUOTE_SINGLE
+				|| token_ptr->status->in_quote == QUOTE_DOUBLE)
 				set_token_remove_quote(token_ptr);
 			count_backslash_to_remove_check = check_token_remove_backslash(token_ptr);
 			if (count_backslash_to_remove_check != 0)
-				set_token_remove_backslash(token_ptr, count_backslash_to_remove_check);
+				set_token_remove_backslash(token_ptr,
+					count_backslash_to_remove_check);
 			i++;
 		}
 	}
 }
 
-void set_token_remove_quote(t_token *next_token_ptr)
+void	set_token_remove_quote(t_token *next_token_ptr)
 {
-	char *dest;
-	int len;
-	int i;
+	char	*dest;
+	int		len;
+	int		i;
 
 	i = 0;
 	len = ft_strlen(next_token_ptr->value);
@@ -59,14 +63,13 @@ void set_token_remove_quote(t_token *next_token_ptr)
 	next_token_ptr->value = dest;
 }
 
-int check_token_remove_backslash(t_token *next_token_ptr)
+int	check_token_remove_backslash(t_token *next_token_ptr)
 {
-	int count_backslash_to_remove;
-	int i;
+	int	count_backslash_to_remove;
+	int	i;
 
 	i = 0;
 	count_backslash_to_remove = 0;
-
 	while (next_token_ptr->value[i] != '\0')
 	{
 		if (next_token_ptr->value[i] == '\\')
@@ -79,19 +82,20 @@ int check_token_remove_backslash(t_token *next_token_ptr)
 	return (count_backslash_to_remove);
 }
 
-void set_token_remove_backslash(t_token *next_token_ptr, int count_backslash_to_remove)
+void	set_token_remove_backslash(t_token *next_token_ptr,
+		int count_backslash_to_remove)
 {
-	int i;
-	int j;
-	char *dest;
+	int		i;
+	int		j;
+	char	*dest;
 
-	dest = malloc(ft_strlen(next_token_ptr->value) - count_backslash_to_remove + 1);
+	dest = malloc(ft_strlen(next_token_ptr->value) - count_backslash_to_remove
+			+ 1);
 	if (dest == NULL)
 	{
 		perror("set_token_remove_backslash : dest is NULL");
 		exit(1);
 	}
-
 	i = 0;
 	j = 0;
 	while (next_token_ptr->value[i + j] != '\0')
