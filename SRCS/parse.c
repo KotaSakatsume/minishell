@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 07:26:58 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 11:53:52 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ t_job *parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 			tail = job_ptr;
 		}
 	}
+	t_shellenv_ptr->exit_status = 0;
 	return (head);
 }
