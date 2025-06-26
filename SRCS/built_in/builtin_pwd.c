@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/19 20:40:14 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:23:32 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	get_current_directory(char *cwd, size_t size)
 }
 
 // PWD環境変数を更新または追加
-void	update_or_add_pwd(t_env **env_list, t_shell_env *shell_env, const char *cwd)
+void	update_or_add_pwd(t_env **env_list, t_shell_env *shell_env, char *cwd)
 {
 	t_env	*node;
 	t_env	*new_node;
@@ -34,9 +34,9 @@ void	update_or_add_pwd(t_env **env_list, t_shell_env *shell_env, const char *cwd
 	node = *env_list;
 	while (node)
 	{
-		if (strcmp(node->key, "PWD") == 0)
+		if (ft_strcmp(node->key, "PWD") == 0)
 		{
-			return (free(node->value), node->value = strdup(cwd),
+			return (free(node->value), node->value = ft_strdup(cwd),
 				update_exit_status(shell_env, 0));
 		}
 		node = node->next;
@@ -47,8 +47,8 @@ void	update_or_add_pwd(t_env **env_list, t_shell_env *shell_env, const char *cwd
 		perror("Memory allocation failed");
 		return (update_exit_status(shell_env, 1));
 	}
-	new_node->key = strdup("PWD");
-	new_node->value = strdup(cwd);
+	new_node->key = ft_strdup("PWD");
+	new_node->value = ft_strdup(cwd);
 	new_node->next = *env_list;
 	*env_list = new_node;
 	update_exit_status(shell_env, 0);
@@ -78,7 +78,7 @@ void	builtin_pwd(t_env **env_list, t_shell_env *shell_env)
 	node = *env_list;
 	while (node)
 	{
-		if (strcmp(node->key, "PWD") == 0)
+		if (ft_strcmp(node->key, "PWD") == 0)
 		{
 			printf("%s\n", node->value);
 			update_exit_status(shell_env, 0);

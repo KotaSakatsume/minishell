@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:00:28 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/19 20:43:09 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:23:54 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	delete_env_node(char *args, t_env **env_list)
 
 	if (!env_list || !*env_list)
 		return ;
-	if (strcmp((*env_list)->key, args) == 0)
+	if (ft_strcmp((*env_list)->key, args) == 0)
 	{
 		temp = *env_list;
 		*env_list = (*env_list)->next;
@@ -65,7 +65,7 @@ void	delete_env_node(char *args, t_env **env_list)
 	current = (*env_list)->next;
 	while (current)
 	{
-		if (strcmp(current->key, args) == 0)
+		if (ft_strcmp(current->key, args) == 0)
 		{
 			prev->next = current->next;
 			return (free_env_node(current));
@@ -81,7 +81,7 @@ void	find_env_node(char *args, t_env **env_list)
 		return ;
 	while (*env_list)
 	{
-		if (strcmp((*env_list)->key, args) == 0)
+		if (ft_strcmp((*env_list)->key, args) == 0)
 		{
 			delete_env_node(args, env_list);
 			return ;

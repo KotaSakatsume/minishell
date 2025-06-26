@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/19 20:43:20 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:22:53 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	split_key_value(const char *str, t_env *new_env_list)
 		perror("ft_split failed");
 		exit(EXIT_FAILURE);
 	}
-	new_env_list->key = strdup(parts[0]);
+	new_env_list->key = ft_strdup(parts[0]);
 	if (parts[1])
-		new_env_list->value = strdup(parts[1]);
+		new_env_list->value = ft_strdup(parts[1]);
 	else
-		new_env_list->value = strdup("");
+		new_env_list->value = ft_strdup("");
 	while (parts[i])
 	{
 		safe_free(parts[i]);
@@ -95,8 +95,8 @@ void	add_env(t_env *new_env_list, t_env **env_list, t_shell_env *shell_env)
 		update_exit_status(shell_env, 1);
 		exit(EXIT_FAILURE);
 	}
-	new_node->key = strdup(new_env_list->key);
-	new_node->value = strdup(new_env_list->value);
+	new_node->key = ft_strdup(new_env_list->key);
+	new_node->value = ft_strdup(new_env_list->value);
 	new_node->next = NULL;
 	current = *env_list;
 	if (!current)
@@ -119,7 +119,7 @@ void	update_or_add_env(t_env *new_env_list, t_env **env_list,
 	if (existing_node)
 	{
 		safe_free(existing_node->value);
-		existing_node->value = strdup(new_env_list->value);
+		existing_node->value = ft_strdup(new_env_list->value);
 	}
 	else
 	{

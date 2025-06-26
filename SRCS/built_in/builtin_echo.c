@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/19 19:59:48 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:22:09 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	builtin_echo(char **args)
 	newline_flag = (start_index == 1); // `-n` がなければ改行フラグをオン
 	while (args[i])
 	{
-		write(1, args[i], strlen(args[i]));
+		write(1, args[i], ft_strlen(args[i]));
 		if (args[i + 1])
 			write(1, " ", 1);
 		i++;

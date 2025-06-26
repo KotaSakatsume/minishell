@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/19 20:33:57 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:21:48 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ char	*get_target_directory(char **args)
 		tag = getenv("HOME");
 		if (!tag)
 			return (write(2, "cd: HOME not set\n", 17), NULL);
-		tag = strdup(tag);
+		tag = ft_strdup(tag);
 	}
-	else if (strcmp(args[1], "-") == 0)
+	else if (ft_strcmp(args[1], "-") == 0)
 	{
 		tag = getenv("OLDPWD");
 		if (!tag)
@@ -34,10 +34,10 @@ char	*get_target_directory(char **args)
 			write(2, "cd: OLDPWD not set\n", 19);
 			return (NULL);
 		}
-		tag = strdup(tag);
+		tag = ft_strdup(tag);
 	}
 	else
-		tag = strdup(args[1]);
+		tag = ft_strdup(args[1]);
 	return (tag);
 }
 
