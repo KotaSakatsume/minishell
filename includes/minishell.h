@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 20:27:06 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 05:25:59 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ t_shell_env					*mk_shell_env(char **envp);
 t_env						*env_to_list(char **envp);
 
 // readline_seq.c
-char						*readline_seq(void);
+char						*readline_seq(t_shell_env	*t_shellenv_ptr);
 
 // lexer.c
 t_token						**lexer(char *line);

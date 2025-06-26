@@ -13,6 +13,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+#CFLAGS += -fsanitize=address -g -O1
 SRC_DIR = ./SRCS
 BUILT_IN_DIR = ./SRCS/built_in
 OBJ_DIR = ./OBJS

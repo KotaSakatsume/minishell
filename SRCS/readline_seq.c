@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 03:41:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 18:27:04 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 05:28:32 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,23 @@ static int	check_readline_continue(char *input)
 	return (0);
 }
 
-char	*readline_seq(void)
+static void free_all_shellenv(t_shell_env *t_shellenv_ptr)
+{
+	int i;
+
+	i = 0;
+	free_env_list(t_shellenv_ptr->env_list);
+	while(t_shellenv_ptr->envp[i] != NULL)
+	{
+		free(t_shellenv_ptr->envp[i]);
+		i++;
+	}
+	free(t_shellenv_ptr->envp[i]);
+	free(t_shellenv_ptr->envp);
+	free(t_shellenv_ptr);
+}
+
+char	*readline_seq(t_shell_env	*t_shellenv_ptr)
 {
 	char	*input;
 	char	*temp;
@@ -37,6 +53,7 @@ char	*readline_seq(void)
 	input = readline("minishell > ");
 	if (!input)
 	{
+		free_all_shellenv(t_shellenv_ptr);
 		printf("exit\n");
 		exit(0);
 	}
