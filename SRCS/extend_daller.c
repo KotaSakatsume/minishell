@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 01:33:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 14:56:55 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/26 17:04:43 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ static void	check_and_expand(t_token *token_ptr, t_shell_env *t_shellenv_ptr)
 	while (serach_start_daller_ptr(token_ptr->value) != NULL)
 	{
 		daller_str_ptr = serach_start_daller_ptr(token_ptr->value);
-		if ((*(daller_str_ptr + 1) == '\0'))
+		if (*(daller_str_ptr + 1) == '\0')
 			return ;
-		if ((*(daller_str_ptr + 1) == '?'))
+		if (*(daller_str_ptr + 1) == '?')
 		{
 			check_and_expand_question_mode(daller_str_ptr, token_ptr,
 				t_shellenv_ptr);
