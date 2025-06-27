@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 17:18:05 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:33:24 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,40 @@
 
 #define PATH_MAX 4096
 
-char	*get_target_directory(char **args)
+char	*get_target_directory(char **args, t_env *env_list)
 {
 	char	*tag;
+	t_env	*tmp_list;
 
 	tag = NULL;
+	tmp_list = env_list;
 	if (!args[1])
 	{
-		tag = getenv("HOME");
+		while (tmp_list)
+		{
+			if (strcmp(tmp_list->key, "HOME") == 0)
+			{
+				tag = getenv("HOME");
+				tag = ft_strdup(tag);
+			}
+			tmp_list = tmp_list->next;
+		}
 		if (!tag)
 			return (write(2, "cd: HOME not set\n", 17), NULL);
-		tag = ft_strdup(tag);
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
-		tag = getenv("OLDPWD");
-		if (!tag)
+		while (tmp_list)
 		{
-			write(2, "cd: OLDPWD not set\n", 19);
-			return (NULL);
+			if (strcmp(tmp_list->key, "OLDPWD") == 0)
+			{
+				tag = getenv("OLDPWD");
+				tag = ft_strdup(tag);
+			}
+			tmp_list = tmp_list->next;
 		}
-		tag = ft_strdup(tag);
+		if (!tag)
+			return (write(2, "cd: OLDPWD not set\n", 19), NULL);
 	}
 	else
 		tag = ft_strdup(args[1]);
@@ -93,7 +106,7 @@ void	builtin_cd(char **av, t_shell_env *shell_env)
 
 	if (av[2] == NULL)
 	{
-		tag = get_target_directory(av);
+		tag = get_target_directory(av, shell_env->env_list);
 		if (tag)
 		{
 			status = change_directory(tag);
