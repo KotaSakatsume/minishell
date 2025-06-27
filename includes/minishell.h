@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 05:25:59 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 15:58:56 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ t_token						*mk_t_token(char *start_ptr, char *end_ptr);
 // utilis_free_struct.c
 void						free_all_token(t_token **dest);
 void						free_token(t_token *free_dest);
+void						free_conjunc_token(t_token **dest);
 
 // utils_initialize_struct.c
 void						initialize_t_token(t_token *t_token_node);

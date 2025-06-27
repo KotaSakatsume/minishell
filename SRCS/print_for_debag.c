@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:38:58 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 07:32:15 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 16:37:46 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void print_token(t_token **head)
 	"TYPE_REDIRECT_HEREDOC",
 	"TYPE_QUOTE_SINGLE",
 	"TYPE_QUOTE_DOUBLE",
+	"TYPE_SEMICOLON",
  	"TYPE_EOF"
 	};
 
