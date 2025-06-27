@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extend_daller.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 01:33:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:26:42 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:29:47 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*serch_indaller_str(char *daller_str_ptr, char *daller_end_ptr)
 	char	*dest;
 	int		i;
 
-	// int		j;
 	i = 0;
 	daller_str_ptr++;
 	while ((daller_str_ptr) + i != (daller_end_ptr))
@@ -53,7 +52,6 @@ char	*serch_indaller_str(char *daller_str_ptr, char *daller_end_ptr)
 char	*serch_and_expand_env(char *target, t_shell_env *t_shellenv_ptr)
 {
 	t_env	*env;
-	// char	*serch_str;
 	char	*dest;
 
 	env = t_shellenv_ptr->env_list;
@@ -137,7 +135,6 @@ void	extend_daller(t_pipeline *pipeline_ptr, t_shell_env *t_shellenv_ptr)
 	int		i;
 	t_cmd	*cmd_ptr;
 	t_token	*token_ptr;
-	// int		count_backslash_to_remove_check;
 
 	i = 0;
 	cmd_ptr = pipeline_ptr->cmd;

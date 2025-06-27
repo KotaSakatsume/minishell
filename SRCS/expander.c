@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void expander(t_job *job_head, t_shell_env *t_shellenv_ptr)
+void	expander(t_job *job_head, t_shell_env *t_shellenv_ptr)
 {
-	fx_extend_to_all_pipeline(job_head , delete_quote_cmd);
-	fx_extend_to_all_pipeline_with_env(job_head , t_shellenv_ptr , extend_daller);
-	fx_extend_to_all_pipeline(job_head , combine_main);
+	fx_extend_to_all_pipeline(job_head, delete_quote_cmd);
+	fx_extend_to_all_pipeline_with_env(job_head, t_shellenv_ptr, extend_daller);
+	fx_extend_to_all_pipeline(job_head, combine_main);
 	exchange_token_to_char(job_head);
 }
