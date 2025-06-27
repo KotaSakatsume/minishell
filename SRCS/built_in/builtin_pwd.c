@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 18:45:25 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:48:13 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ void	sync_pwd_env(t_env **env_list, t_shell_env *shell_env)
 	update_or_add_pwd(env_list, shell_env, cwd);
 }
 
-void	builtin_pwd(t_env *env_list, t_shell_env *shell_env)
+void	builtin_pwd(t_env **env_list, t_shell_env *shell_env)
 {
 	t_env	*node;
 
-	sync_pwd_env(&env_list, shell_env);
+	sync_pwd_env(env_list, shell_env);
 	// 環境変数リストからPWDを取得して出力
-	node = env_list;
+	node = *env_list;
 	while (node)
 	{
 		if (ft_strcmp(node->key, "PWD") == 0)

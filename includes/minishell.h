@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 18:43:07 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:48:20 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,7 +312,7 @@ void						builtin_env(char **argv, t_shell_env **head,
 								t_shell_env *shell_env);
 void						builtin_exit(char **args);
 void						builtin_export(char **av, t_shell_env *shell_env);
-void						builtin_pwd(t_env *env_list,
+void						builtin_pwd(t_env **env_list,
 								t_shell_env *shell_env);
 void						builtin_unset(char **args, t_env **env_list,
 								t_shell_env *shell_env);
