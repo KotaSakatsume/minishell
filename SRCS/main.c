@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 05:27:42 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:29:41 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			if (t_shellenv_ptr->exit_status != 0)
 			{
 				free_all_job(job_head);
-				free_all_token(split_token);
+				// free_all_token(split_token);
 				continue ;
 			}
 			expander(job_head, t_shellenv_ptr);
@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_exec(job_head, t_shellenv_ptr);
 			// 後処理
 			free_all_job(job_head);
-			free_all_token(split_token);
+			// free_all_token(split_token);
 		}
 	}
 }
