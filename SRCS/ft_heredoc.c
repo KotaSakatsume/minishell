@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 20:29:52 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:13:54 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	create_temporary_file(char *tmp_filename, size_t size, int heredoc_count)
 	return (open(tmp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0600));
 }
 
-void	process_heredoc_input(int tmp_fd, const char *delimiter,
+void	process_heredoc_input(int tmp_fd, char *delimiter,
 		t_shell_env *shell_env)
 {
 	char	*line;
@@ -47,12 +47,12 @@ void	process_heredoc_input(int tmp_fd, const char *delimiter,
 			close(tmp_fd);
 			exit(130); // 即時終了
 		}
-		if (strcmp(line, delimiter) == 0) // 終了文字列
+		if (ft_strcmp(line, delimiter) == 0) // 終了文字列
 		{
 			free(line);
 			break ;
 		}
-		write(tmp_fd, line, strlen(line));
+		write(tmp_fd, line, ft_strlen(line));
 		write(tmp_fd, "\n", 1); // 改行を追加
 		free(line);
 	}

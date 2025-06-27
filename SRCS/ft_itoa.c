@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:57:49 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/25 10:58:08 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 12:44:04 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static char	*itoa_corners(int n)
 		if (dest == NULL)
 			return (NULL);
 		ft_strlcpy(dest, "0", 2);
+		// free(dest);
 		return (dest);
 	}
 	if (n == INT_MIN)
@@ -86,6 +87,7 @@ static char	*itoa_corners(int n)
 		if (dest == NULL)
 			return (NULL);
 		ft_strlcpy(dest, "-2147483648", 12);
+		// free(dest);
 		return (dest);
 	}
 	return (NULL);

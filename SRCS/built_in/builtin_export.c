@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/26 20:22:53 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:54:03 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,38 @@ void	safe_free(void *ptr)
 // 文字列をキーと値に分割
 void	split_key_value(const char *str, t_env *new_env_list)
 {
-	char	**parts;
-	int		i;
+	char		**parts;
+	int			i;
+	const char	*tmp;
 
 	parts = NULL;
 	i = 0;
-	parts = ft_split(str, '=');
-	if (!parts)
+	tmp = str;
+	while (*tmp)
 	{
-		perror("ft_split failed");
-		exit(EXIT_FAILURE);
+		if (*tmp == '=' && tmp[0] != '=')
+		{
+			parts = ft_split(str, '=');
+			if (!parts)
+			{
+				perror("ft_split failed");
+				exit(EXIT_FAILURE);
+			}
+			new_env_list->key = ft_strdup(parts[0]);
+			if (parts[1])
+				new_env_list->value = ft_strdup(parts[1]);
+			else
+				new_env_list->value = ft_strdup("");
+			while (parts[i])
+			{
+				safe_free(parts[i]);
+				i++;
+			}
+			safe_free(parts);
+		}
+		tmp++;
 	}
-	new_env_list->key = ft_strdup(parts[0]);
-	if (parts[1])
-		new_env_list->value = ft_strdup(parts[1]);
-	else
-		new_env_list->value = ft_strdup("");
-	while (parts[i])
-	{
-		safe_free(parts[i]);
-		i++;
-	}
-	safe_free(parts);
+	return ;
 }
 
 // 環境変数のキーが有効かどうか確認
@@ -70,11 +80,11 @@ int	is_valid_key(const char *key)
 }
 
 // リスト内でキーを検索
-t_env	*get_env_by_key(const char *key, t_env *env_list)
+t_env	*get_env_by_key(char *key, t_env *env_list)
 {
 	while (env_list)
 	{
-		if (strcmp(env_list->key, key) == 0)
+		if (ft_strcmp(env_list->key, key) == 0)
 		{
 			return (env_list);
 		}

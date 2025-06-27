@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/26 20:21:48 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:59:49 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,21 @@ void	builtin_cd(char **av, t_shell_env *shell_env)
 	char	*tag;
 	int		status;
 
-	tag = get_target_directory(av);
-	if (tag)
+	if (av[2] == NULL)
 	{
-		status = change_directory(tag);
-		update_exit_status(shell_env, status);
+		tag = get_target_directory(av);
+		if (tag)
+		{
+			status = change_directory(tag);
+			update_exit_status(shell_env, status);
+		}
+		else
+		{
+			write(2, "Error: Failed to resolve target directory.\n", 43);
+			update_exit_status(shell_env, 1);
+		}
 	}
 	else
-	{
-		write(2, "Error: Failed to resolve target directory.\n", 43);
-		update_exit_status(shell_env, 1);
-	}
+		write(2, "bash: cd: too many arguments\n", 29);
 	return ;
 }

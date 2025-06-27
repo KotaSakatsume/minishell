@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 05:25:59 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 12:59:14 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -165,7 +166,7 @@ t_shell_env					*mk_shell_env(char **envp);
 t_env						*env_to_list(char **envp);
 
 // readline_seq.c
-char						*readline_seq(t_shell_env	*t_shellenv_ptr);
+char						*readline_seq(t_shell_env *t_shellenv_ptr);
 
 // lexer.c
 t_token						**lexer(char *line);

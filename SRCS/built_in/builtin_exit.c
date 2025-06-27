@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/26 17:40:55 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:59:00 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,31 @@ int	validate_exit_arguments(char **args)
 }
 
 // 数値引数の変換
+
+
 int	convert_exit_status(char *arg)
 {
 	long	status;
+	int		sign;
+	size_t	i;
 
-	status = strtol(arg, NULL, 10);
-	// 負数や範囲外の値を調整
+	status = 0;
+	sign = 1;
+	i = 0;
+	if (arg[i] == '-' || arg[i] == '+')
+	{
+		if (arg[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (arg[i] >= '0' && arg[i] <= '9')
+	{
+		status = status * 10 + (arg[i] - '0');
+		if (status > LONG_MAX)
+			break ;
+		i++;
+	}
+	status *= sign;
 	if (status < 0)
 		return (256 + (status % 256));
 	return (status % 256);
