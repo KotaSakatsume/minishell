@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 18:17:47 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 03:00:38 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	check_and_expand_question_mode(char *daller_str_ptr,
 				- (token_ptr->value)));
 	behind_str = ft_strndup(daller_end_ptr, ft_strlen(daller_end_ptr));
 	temp_str = combine_str_and_free_oldstr(ahead_str,
-			ft_strdup(ft_itoa(t_shellenv_ptr->exit_status)));
+			ft_itoa(t_shellenv_ptr->exit_status));
 	temp_str = combine_str_and_free_oldstr(temp_str, behind_str);
 	free(token_ptr->value);
 	token_ptr->value = temp_str;
