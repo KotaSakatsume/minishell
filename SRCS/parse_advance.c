@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 09:41:13 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 15:52:06 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	set_redirect_list(t_redirect **head, t_redirect **tail,
 {
 	if (*head == NULL)
 	{
-		*head = *tail;
+		*head = tr; // tail?
 		*tail = tr;
 		(*cmd)->redir = tr;
 	}
