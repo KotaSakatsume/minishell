@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 15:52:06 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 08:51:26 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,49 @@ int	advance_redirect(t_token **tok, t_redirect **head, t_redirect **tail,
 	return (0);
 }
 
+static void *ft_realloc(void *ptr , size_t old_size ,size_t new_size)
+{
+	void *new_ptr;
+	size_t	copy_size;
+	size_t	i;
+	char	*src;
+	char	*dst;
+
+	if (new_size == 0)
+	{
+		if (ptr != NULL)
+			free(ptr);
+		return (NULL);
+	}
+	if (ptr == NULL)
+		return (malloc(new_size));
+	new_ptr = malloc(new_size);
+	if(new_ptr == NULL)
+		exit (1);
+	src = (char *)ptr;
+	dst = (char *)new_ptr;
+	if (old_size < new_size)
+		copy_size = old_size;
+	else
+		copy_size = new_size;
+	i = 0;
+	while (i < copy_size)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	free(ptr);
+	return (new_ptr);
+}
+
 int	advance_cmd(t_token **tok, t_cmd **cmd)
 {
 	while (*tok && (*tok)->status->token_type == TYPE_WORD)
 	{
-		(*cmd)->argv = realloc((*cmd)->argv, sizeof(char *) * (((*cmd)->argc)
-					+ 2));
-		(*cmd)->token = realloc((*cmd)->token, sizeof(t_token *)
-				* (((*cmd)->argc) + 2));
+		(*cmd)->argv = ft_realloc((*cmd)->argv, sizeof(char *) * (((*cmd)->argc)+ 1),
+					sizeof(char *) * (((*cmd)->argc)+ 2));
+		(*cmd)->token = ft_realloc((*cmd)->token, sizeof(t_token *)*(((*cmd)->argc) + 1) ,
+					sizeof(t_token *) * (((*cmd)->argc) + 2));
 		(*cmd)->argv[(*cmd)->argc] = ft_strdup((*tok)->value);
 		(*cmd)->token[(*cmd)->argc] = *tok;
 		(*cmd)->argc++;
