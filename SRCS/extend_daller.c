@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 01:33:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 12:35:03 by kosakats         ###   ########.fr       */
+/*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
+/*   Updated: 2025/06/27 17:21:27 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,23 @@ static void	check_and_expand_normal_mode(char *daller_str_ptr,
 	token_ptr->value = temp_str;
 }
 
+static void	check_and_expand_daller_mode(char *daller_str_ptr,
+		t_token *token_ptr)
+{
+	char	*daller_end_ptr;
+	char	*temp_str;
+	char	*ahead_str;
+	char	*behind_str;
+
+	daller_end_ptr = daller_str_ptr + 2;
+	ahead_str = ft_strndup(token_ptr->value, ((daller_str_ptr)
+				- (token_ptr->value)));
+	behind_str = ft_strndup(daller_end_ptr, ft_strlen(daller_end_ptr));
+	temp_str = combine_str_and_free_oldstr(ahead_str, behind_str);
+	free(token_ptr->value);
+	token_ptr->value = temp_str;
+}
+
 static void	check_and_expand(t_token *token_ptr, t_shell_env *t_shellenv_ptr)
 {
 	char	*daller_str_ptr;
@@ -117,7 +134,11 @@ static void	check_and_expand(t_token *token_ptr, t_shell_env *t_shellenv_ptr)
 		daller_str_ptr = serach_start_daller_ptr(token_ptr->value);
 		if (*(daller_str_ptr + 1) == '\0')
 			return ;
-		if (*(daller_str_ptr + 1) == '?')
+		if (*(daller_str_ptr + 1) == '$')
+		{
+			check_and_expand_daller_mode(daller_str_ptr, token_ptr);
+		}
+		else if (*(daller_str_ptr + 1) == '?')
 		{
 			check_and_expand_question_mode(daller_str_ptr, token_ptr,
 				t_shellenv_ptr);
