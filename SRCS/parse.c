@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 16:10:54 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 10:13:48 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,29 @@ static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 	t_pipeline	*head;
 	t_pipeline	*tail;
 	t_pipeline	*node;
+	bool		rep;
 
+	rep = true;
 	head = NULL;
 	tail = NULL;
-	do
+	while (rep == true)
 	{
 		node = mk_t_pipeline();
 		node->cmd = parse_cmd(tok, t_shellenv_ptr);
 		if (node->cmd == NULL)
 			return (NULL);
 		if (!head)
-			head = tail = node;
+		{
+			tail = node;
+			head = tail;
+		}
 		else
 		{
 			tail->next = node;
 			tail = node;
 		}
-	} while (accept_token(tok, TYPE_PIPE));
+		rep = accept_token(tok, TYPE_PIPE);
+	}
 	return (head);
 }
 
@@ -95,7 +101,10 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 		if (job_ptr == NULL)
 			return (NULL);
 		if (head == NULL)
-			head = tail = job_ptr;
+		{
+			tail = job_ptr;
+			head = tail;
+		}
 		else
 		{
 			tail->next = job_ptr;
