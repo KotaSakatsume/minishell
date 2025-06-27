@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 06:13:58 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 09:19:57 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	pad_dest(t_token **dest, int len, t_token **token)
 	char	*temp;
 	t_token	*token_ptr;
 
-	// int		marge_id;
 	i = 0;
 	(void)len;
 	token_ptr = token[i];
