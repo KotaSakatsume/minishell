@@ -6,27 +6,33 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:51:11 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 06:20:14 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 10:03:09 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	free_all_red(t_cmd *cmd_node)
+{
+	t_redirect	*now_node;
+	t_redirect	*old_node;
+
+	now_node = cmd_node->redir;
+	while (now_node != NULL)
+	{
+		free(now_node->filename);
+		old_node = now_node;
+		free(old_node);
+		now_node = now_node->next;
+	}
+}
+
 void	free_all_cmd(t_cmd *cmd_node)
 {
-	t_redirect	*freed_node;
-	t_redirect	*next_node;
 	int			i;
 
 	i = 0;
-	next_node = cmd_node->redir;
-	while (next_node != NULL)
-	{
-		free(next_node->filename);
-		freed_node = next_node;
-		free(freed_node);
-		next_node = next_node->next;
-	}
+	free_all_red(cmd_node);
 	while (cmd_node->argv[i] != NULL)
 	{
 		free(cmd_node->argv[i]);
