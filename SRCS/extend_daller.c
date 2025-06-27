@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extend_daller.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 17:21:27 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:17:47 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*search_end_daller_ptr(char *ptr)
 {
-	while (*ptr != '\0')
+	while (*ptr != '\0' && *ptr != '$')
 		ptr++;
 	return (ptr);
 }
@@ -96,9 +96,10 @@ static void	check_and_expand_normal_mode(char *daller_str_ptr,
 	char	*expandered_str;
 	char	*temp_str;
 
-	daller_end_ptr = search_end_daller_ptr(daller_str_ptr);
-	indaller_str = ft_strndup((daller_str_ptr + 1), ft_strlen(daller_str_ptr
-				+ 1));
+	daller_end_ptr = search_end_daller_ptr(daller_str_ptr + 1);
+	indaller_str = ft_strndup((daller_str_ptr + 1), (daller_end_ptr - (daller_str_ptr + 1)));
+	// printf("str = %p : end = %p\n",daller_str_ptr,daller_end_ptr);
+	// printf("indaller_str = %s\n",indaller_str);
 	expandered_str = serch_and_expand_env(indaller_str, t_shellenv_ptr);
 	temp_str = combine_str_and_free_oldstr(ft_strndup(token_ptr->value,
 				((daller_str_ptr) - (token_ptr->value))), expandered_str);
