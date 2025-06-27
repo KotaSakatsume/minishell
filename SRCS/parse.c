@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 10:13:48 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:22:59 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,9 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 	t_job	*tail;
 	t_job	*job_ptr;
 	t_token	**cur;
+	t_token *token_top_ptr;
 
+	token_top_ptr = *tokens_top;
 	head = NULL;
 	tail = NULL;
 	cur = tokens_top;
@@ -111,6 +113,7 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 			tail = job_ptr;
 		}
 	}
+	*tokens_top = token_top_ptr;
 	t_shellenv_ptr->exit_status = 0;
 	return (head);
 }

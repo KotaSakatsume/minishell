@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 05:27:42 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 16:39:13 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ int	main(int argc, char **argv, char **envp)
 		if (split_token != NULL)
 		{
 			job_head = parse_line(split_token, t_shellenv_ptr);
+			// print_token(split_token); //kakuninyoutuika
+			free_conjunc_token(split_token);
 			if (t_shellenv_ptr->exit_status != 0)
 			{
 				free_all_job(job_head);
-				free_all_token(split_token);
 				continue ;
 			}
 			expander(job_head, t_shellenv_ptr);
@@ -85,7 +86,6 @@ int	main(int argc, char **argv, char **envp)
 			ft_exec(job_head, t_shellenv_ptr);
 			// 後処理
 			free_all_job(job_head);
-			free_all_token(split_token);
 		}
 	}
 }

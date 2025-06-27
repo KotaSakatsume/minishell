@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/26 15:50:31 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 12:59:14 by kosakats         ###   ########.fr       */
+/*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
+/*   Updated: 2025/06/27 17:16:57 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ t_token						*mk_t_token(char *start_ptr, char *end_ptr);
 // utilis_free_struct.c
 void						free_all_token(t_token **dest);
 void						free_token(t_token *free_dest);
+void						free_conjunc_token(t_token **dest);
 
 // utils_initialize_struct.c
 void						initialize_t_token(t_token *t_token_node);
