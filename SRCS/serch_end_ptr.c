@@ -6,15 +6,15 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:55:53 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/24 02:04:03 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 10:31:38 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int set_mode(char *input)
+static int	set_mode(char *input)
 {
-	int mode;
+	int	mode;
 
 	if (ft_strncmp(input, "\'", 1) == 0)
 		mode = mode_single_quote;
@@ -37,7 +37,7 @@ static int set_mode(char *input)
 	return (mode);
 }
 
-char *serach_end_ptr_quote(char *input, char end_word)
+char	*serach_end_ptr_quote(char *input, char end_word)
 {
 	input++;
 	while (*input != end_word && *input != '\0')
@@ -64,7 +64,7 @@ char *serach_end_ptr_quote(char *input, char end_word)
 	}
 }
 
-char *serach_end_ptr_normal(char *input)
+char	*serach_end_ptr_normal(char *input)
 {
 	while (*input != '\0' && !is_space(*input))
 	{
@@ -74,26 +74,27 @@ char *serach_end_ptr_normal(char *input)
 			if (*input == '\0')
 				return (NULL);
 		}
-		if (*(input) == '\'' || *(input) == '"' || *(input) == ';' || *(input) == '|' || *(input) == '>' || *(input) == '<')
+		if (*(input) == '\'' || *(input) == '"' || *(input) == ';'
+			|| *(input) == '|' || *(input) == '>' || *(input) == '<')
 			return (input);
 		input++;
 	}
 	return (input);
 }
 
-char *serach_end_ptr(char *input)
+char	*serach_end_ptr(char *input)
 {
-	int mode;
+	int	mode;
 
 	mode = set_mode(input);
-
 	if (mode == mode_single_quote)
 		return (serach_end_ptr_quote(input, '\''));
 	else if (mode == mode_double_quote)
 		return (serach_end_ptr_quote(input, '"'));
 	else if (mode == mode_normal)
 		return (serach_end_ptr_normal(input));
-	else if (mode == mode_semicolon || mode == mode_pipe || mode == mode_redirect_in || mode == mode_redirect_out)
+	else if (mode == mode_semicolon || mode == mode_pipe
+		|| mode == mode_redirect_in || mode == mode_redirect_out)
 	{
 		input++;
 		return (input);

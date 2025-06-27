@@ -12,19 +12,19 @@
 
 #include "minishell.h"
 
-void advance_token(t_token **token)
+void	advance_token(t_token **token)
 {
-	if(token == NULL)
+	if (token == NULL)
 	{
 		fprintf(stderr, "parse error:advance_token\n");
-		exit (1);
+		exit(1);
 	}
 	*token = (*token)->next;
 }
 
-bool accept_token(t_token **token, t_token_type type)
+bool	accept_token(t_token **token, t_token_type type)
 {
-	if(token != NULL && *token != NULL && (*token)->status->token_type == type)
+	if (token != NULL && *token != NULL && (*token)->status->token_type == type)
 	{
 		advance_token(token);
 		return (true);
@@ -32,18 +32,19 @@ bool accept_token(t_token **token, t_token_type type)
 	return (false);
 }
 
-bool check_token(t_token **token, t_token_type type)
+bool	check_token(t_token **token, t_token_type type)
 {
-	if(token != NULL && *token != NULL && (*token)->status->token_type == type)
+	if (token != NULL && *token != NULL && (*token)->status->token_type == type)
 	{
 		return (true);
 	}
 	return (false);
 }
 
-void expect_token(t_token **tok, t_token_type type)
+void	expect_token(t_token **tok, t_token_type type)
 {
-	if (!accept_token(tok, type)) {
+	if (!accept_token(tok, type))
+	{
 		fprintf(stderr, "parse error: expected %d\n", type);
 		exit(1);
 	}
