@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 16:49:57 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 09:41:13 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	check_type_redirect(t_token_type tt)
 {
 	if (tt == TYPE_REDIRECT_IN || tt == TYPE_REDIRECT_OUT
 		|| tt == TYPE_REDIRECT_APPEND || tt == TYPE_REDIRECT_HEREDOC)
-		return(true);
+		return (true);
 	else
 		return (false);
 }

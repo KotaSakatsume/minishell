@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_set_token_vals.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 17:26:28 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:34:26 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	set_stat_token_need_expand(t_token_stat *token_stat_ptr)
 		else
 		{
 			perror("set_stat_token_need_expand : "
-					"token_stat_ptr->in_quote is not valid");
+				"token_stat_ptr->in_quote is not valid");
 			exit(1);
 		}
 	}
@@ -88,7 +88,7 @@ void	set_stat_token_in_quote(t_token_stat *token_stat_ptr, char *token_str)
 		if (token_str[0] == '\"' && token_str[ft_strlen(token_str) - 1] == '\"')
 			token_stat_ptr->in_quote = QUOTE_DOUBLE;
 		else if (token_str[0] == '\'' && token_str[ft_strlen(token_str)
-			- 1] == '\'')
+				- 1] == '\'')
 			token_stat_ptr->in_quote = QUOTE_SINGLE;
 		else
 			token_stat_ptr->in_quote = QUOTE_OUT;
@@ -124,7 +124,6 @@ void	lexer_set_token_vals(t_token **head)
 	t_token	*next_token_ptr;
 	int		marge_id;
 
-	// int		count_backslash_to_remove;
 	next_token_ptr = *head;
 	marge_id = 0;
 	set_id(head);

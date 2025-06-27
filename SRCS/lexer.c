@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 04:05:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 18:23:29 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/27 09:39:07 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@ t_token	**lexer(char *line)
 		return (NULL);
 	}
 	lexer_set_token_vals(dest);
-	// print_token(dest);
 	return (dest);
 }
