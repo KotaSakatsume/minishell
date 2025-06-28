@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 02:27:54 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 09:01:37 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,15 @@ static void	init_gstate(void)
 	sigemptyset(&g_state.sa_int.sa_mask);
 	if (sigaction(SIGINT, &(g_state.sa_int), NULL) == -1)
 	{
-		perror("sigaction");
+		perror("sigaction_int");
+		exit(1);
+	}
+	g_state.sa_quit.sa_flags = 0;
+	g_state.sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&g_state.sa_quit.sa_mask);
+	if (sigaction(SIGQUIT, &(g_state.sa_quit), NULL) == -1)
+	{
+		perror("sigaction_quit");
 		exit(1);
 	}
 }
@@ -64,7 +72,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	t_shellenv_ptr = init_tshellenv(envp);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		input = readline_seq(t_shellenv_ptr);

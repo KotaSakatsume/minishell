@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 18:48:20 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 08:57:27 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_global_state
 	// SIGINT 用の sigaction 構造体
 	struct sigaction		sa_int;
 	// （将来 BONUS で SIGQUIT 用も必要なら同様に追加）
+	struct sigaction		sa_quit;
 }							t_global_state;
 
 // 環境変数と終了ステータス
