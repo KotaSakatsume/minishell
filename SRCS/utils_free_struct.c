@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:51:27 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 14:47:03 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 16:10:47 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,37 @@ static bool token_stat_type_is_conjunc(t_token_type t_type)
 		return (false);
 }
 
+static bool token_stat_type_is_red(t_token_type t_type)
+{
+	if (t_type == TYPE_REDIRECT_IN || t_type == TYPE_REDIRECT_OUT || t_type == TYPE_REDIRECT_APPEND || t_type == TYPE_REDIRECT_HEREDOC)
+		return (true);
+	else
+		return (false);
+}
+
 void free_conjunc_token(t_token **dest)
 {
 	t_token *now_token;
 	t_token *next_token;
-
+	bool flag_red;
+	bool flag_after_red;
+	
 	next_token = *dest;
+	flag_after_red = false;
 	while (next_token != NULL)
 	{
 		now_token = next_token;
+		flag_red = token_stat_type_is_red(now_token->status->token_type);
 		// printf("now_token_type : %d\n",now_token->status->token_type);
 		next_token = now_token->next;
 		// printf("next_token = %p\n",next_token);
-		if (token_stat_type_is_conjunc(now_token->status->token_type) == true)
+		if (token_stat_type_is_conjunc(now_token->status->token_type) == true || flag_after_red == true)
 		{
 			// printf("delete = %s\n", now_token->value);
 			// fflush(stdout);
 			free_token(now_token);
 		}
+		flag_after_red = flag_red;
 	}
 	free(dest);
 }
