@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/28 16:50:12 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 08:50:11 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,73 +14,110 @@
 
 #define PATH_MAX 4096
 
+// 環境変数を更新
+void	update_env_variable(char *key, char *value, t_env **env_list)
+{
+	t_env	*node;
+	t_env	*new_node;
+
+	node = *env_list;
+	while (node)
+	{
+		if (ft_strcmp(node->key, key) == 0)
+		{
+			free(node->value);
+			node->value = ft_strdup(value);
+			return ;
+		}
+		node = node->next;
+	}
+	// キーが見つからない場合、新しいノードを追加
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+	{
+		perror("malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	new_node->key = ft_strdup(key);
+	new_node->value = ft_strdup(value);
+	new_node->next = *env_list;
+	*env_list = new_node;
+}
+
+// 現在のディレクトリ情報を環境変数に更新
+void	update_env_variables(t_env **env_list)
+{
+	char	cwd[PATH_MAX];
+	t_env	*pwd_node;
+	char	*old_pwd;
+
+	old_pwd = NULL;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("getcwd failed");
+		return ;
+	}
+	pwd_node = *env_list;
+	while (pwd_node)
+	{
+		if (ft_strcmp(pwd_node->key, "PWD") == 0)
+		{
+			old_pwd = ft_strdup(pwd_node->value);
+			break ;
+		}
+		pwd_node = pwd_node->next;
+	}
+	if (old_pwd)
+		update_env_variable("OLDPWD", old_pwd, env_list);
+	free(old_pwd);
+	update_env_variable("PWD", cwd, env_list);
+}
+
+// 指定されたディレクトリを解決
 char	*get_target_directory(char **args, t_env *env_list)
 {
 	char	*tag;
-	t_env	*tmp_list;
+	t_env	*home_node;
+	t_env	*oldpwd_node;
 
 	tag = NULL;
-	tmp_list = env_list;
 	if (!args[1])
 	{
-		while (tmp_list)
+		home_node = env_list;
+		while (home_node)
 		{
-			if (ft_strcmp(tmp_list->key, "HOME") == 0)
+			if (ft_strcmp(home_node->key, "HOME") == 0)
 			{
-				tag = getenv("HOME");
-				tag = ft_strdup(tag);
+				tag = ft_strdup(home_node->value);
+				break ;
 			}
-			tmp_list = tmp_list->next;
+			home_node = home_node->next;
 		}
 		if (!tag)
 			return (write(2, "cd: HOME not set\n", 17), NULL);
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
-		while (tmp_list)
+		oldpwd_node = env_list;
+		while (oldpwd_node)
 		{
-			if (ft_strcmp(tmp_list->key, "OLDPWD") == 0)
+			if (ft_strcmp(oldpwd_node->key, "OLDPWD") == 0)
 			{
-				tag = getenv("OLDPWD");
-				tag = ft_strdup(tag);
+				tag = ft_strdup(oldpwd_node->value);
+				break ;
 			}
-			tmp_list = tmp_list->next;
+			oldpwd_node = oldpwd_node->next;
 		}
 		if (!tag)
 			return (write(2, "cd: OLDPWD not set\n", 19), NULL);
 	}
-	else
+	else // 引数がある場合: そのままコピー
 		tag = ft_strdup(args[1]);
 	return (tag);
 }
 
-void	update_env_variables(void)
-{
-	char	cwd[PATH_MAX];
-	char	*old_pwd;
-
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd failed");
-		return ;
-	}
-	old_pwd = getenv("PWD");
-	if (old_pwd)
-	{
-		if (setenv("OLDPWD", old_pwd, 1) != 0)
-		{
-			perror("Failed to update OLDPWD");
-			return ;
-		}
-	}
-	if (setenv("PWD", cwd, 1) != 0)
-	{
-		perror("Failed to update PWD");
-		return ;
-	}
-}
-
-int	change_directory(char *tag)
+// ディレクトリ変更
+int	change_directory(char *tag, t_env **env_list)
 {
 	if (!tag)
 	{
@@ -89,7 +126,6 @@ int	change_directory(char *tag)
 	}
 	if (chdir(tag) != 0)
 	{
-		// fprintf(stderr, "Failed to change directory to %s: ", tag);
 		write(2, "Failed to change directory to ", 30);
 		write(2, tag, ft_strlen(tag));
 		write(2, ":", 1);
@@ -98,21 +134,22 @@ int	change_directory(char *tag)
 		return (1);
 	}
 	free(tag);
-	update_env_variables();
+	update_env_variables(env_list);
 	return (0);
 }
 
+// cdビルトインコマンド
 void	builtin_cd(char **av, t_shell_env *shell_env)
 {
 	char	*tag;
 	int		status;
 
-	if (av[2] == NULL)
+	if (!av[1] || av[2] == NULL)
 	{
 		tag = get_target_directory(av, shell_env->env_list);
 		if (tag)
 		{
-			status = change_directory(tag);
+			status = change_directory(tag, &shell_env->env_list);
 			update_exit_status(shell_env, status);
 		}
 		else
@@ -123,5 +160,4 @@ void	builtin_cd(char **av, t_shell_env *shell_env)
 	}
 	else
 		write(2, "bash: cd: too many arguments\n", 29);
-	return ;
 }
