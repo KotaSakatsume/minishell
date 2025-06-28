@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 16:54:05 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 16:58:13 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	set_id(t_token **head)
 		i++;
 	}
 }
-
 
 static int	set_token_marge_id(t_token *current_token_ptr, int marge_id)
 {
