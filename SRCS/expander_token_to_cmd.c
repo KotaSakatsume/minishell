@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 07:53:21 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 09:26:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 09:40:38 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	token_to_char_cmd(t_pipeline *pipeline_ptr)
 		printf("error\n");
 		exit(1);
 	}
+	if(cmd_ptr->token == NULL)
+		return; // red taiou
 	while (cmd_ptr->argv[i] != NULL)
 	{
 		if (i >= (cmd_ptr->argc))

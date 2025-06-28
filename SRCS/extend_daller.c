@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 03:00:38 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 09:39:27 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ void	extend_daller(t_pipeline *pipeline_ptr, t_shell_env *t_shellenv_ptr)
 
 	i = 0;
 	cmd_ptr = pipeline_ptr->cmd;
+	if(cmd_ptr->token == NULL) // red taiou
+		return;
 	token_ptr = cmd_ptr->token[i];
 	while (token_ptr != NULL)
 	{

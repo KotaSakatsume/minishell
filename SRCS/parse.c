@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 09:25:01 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 09:32:59 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ static t_cmd	*parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr)
 		t_shellenv_ptr->exit_status = 2;
 		return (NULL);
 	}
-	if (cmd->argc == 0)
-	{
-		printf("parse error: 構文エラーがあります (cmd)\n");
-		return (NULL);
-	}
+	// if (cmd->argc == 0)
+	// {
+	// 	printf("parse error: 構文エラーがあります (cmd)\n");
+	// 	return (NULL);
+	// }
 	return (cmd);
 }
 

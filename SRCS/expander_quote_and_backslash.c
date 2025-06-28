@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:50:06 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 09:24:52 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 09:38:58 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	delete_quote_cmd(t_pipeline *pipeline_ptr)
 
 	i = 0;
 	cmd_ptr = pipeline_ptr->cmd;
+	if(cmd_ptr->token == NULL) // red taiou
+		return;
 	token_ptr = cmd_ptr->token[i];
 	while (token_ptr != NULL)
 	{
