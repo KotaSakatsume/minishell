@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 11:48:45 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:43:59 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,16 @@ void	process_pipeline(t_pipeline *pipeline, t_shell_env *shell_env,
 
 	while (pipeline)
 	{
-		if (!pipeline->cmd || !pipeline->cmd->argv || !pipeline->cmd->argv[0])
-			return ; // または continue ;
-		if (is_builtin(pipeline->cmd->argv[0]))
-			// ビルトインコマンドの処理
-			handle_builtin(pipeline, shell_env, prev_pipe, pipe_fd);
+		if (pipeline->cmd->argv != NULL)
+		{
+			if (is_builtin(pipeline->cmd->argv[0]))
+				// ビルトインコマンドの処理
+				handle_builtin(pipeline, shell_env, prev_pipe, pipe_fd);
+			else
+				// 外部コマンドの処理
+				handle_external(pipeline, shell_env, prev_pipe, pipe_fd);
+		}
 		else
-			// 外部コマンドの処理
 			handle_external(pipeline, shell_env, prev_pipe, pipe_fd);
 		pipeline = pipeline->next;
 	}
