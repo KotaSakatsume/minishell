@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/28 16:56:16 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 17:22:20 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,14 @@ void						expander(t_job *job_head,
 // extend_daller.c
 void						extend_daller(t_pipeline *pipeline_ptr,
 								t_shell_env *t_shellenv_ptr);
+
+// extend_daller_check_and_expand_mode.c
+void	check_and_expand_question_mode(char *daller_str_ptr,
+		t_token *token_ptr, t_shell_env *t_shellenv_ptr);
+void	check_and_expand_normal_mode(char *daller_str_ptr,
+		t_token *token_ptr, t_shell_env *t_shellenv_ptr);
+void	check_and_expand_daller_mode(char *daller_str_ptr,
+		t_token *token_ptr);
 
 // expander_utils.c
 void						fx_extend_to_all_pipeline(t_job *job_head,

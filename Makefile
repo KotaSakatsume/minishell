@@ -43,6 +43,7 @@ SRC_FILES = main.c\
 			utils_free_struct.c\
 			expander.c\
 			extend_daller.c\
+			extend_daller_check_and_expand_mode.c\
 			expander_utils.c\
 			expander_quote_and_backslash.c\
 			expander_nospace.c\
