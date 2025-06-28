@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/28 08:57:27 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 14:38:05 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,8 @@ typedef struct s_shell_env
 {
 	t_env *env_list; // 環境変数を格納する配列
 	char					**envp;
-	int exit_status; // 終了ステータス
+	int exit_status; // 前回の終了ステータス
+	int exit_status_now; // 使用する終了ステータス
 }							t_shell_env;
 
 // 唯一のグローバル変数
