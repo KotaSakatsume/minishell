@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:50:06 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 09:38:58 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 16:34:58 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,23 @@ void	delete_quote_cmd(t_pipeline *pipeline_ptr)
 {
 	int		i;
 	t_cmd	*cmd_ptr;
-	t_token	*token_ptr;
 	int		count_backslash_to_remove_check;
 
 	i = 0;
 	cmd_ptr = pipeline_ptr->cmd;
-	if(cmd_ptr->token == NULL) // red taiou
-		return;
-	token_ptr = cmd_ptr->token[i];
-	while (token_ptr != NULL)
+	if (cmd_ptr->token == NULL) // red taiou
+		return ;
+	while (cmd_ptr->token[i] != NULL)
 	{
-		token_ptr = cmd_ptr->token[i];
-		if (token_ptr != NULL)
+		if (cmd_ptr->token[i] != NULL)
 		{
-			if (token_ptr->status->in_quote == QUOTE_SINGLE
-				|| token_ptr->status->in_quote == QUOTE_DOUBLE)
-				set_token_remove_quote(token_ptr);
-			count_backslash_to_remove_check = \
-				check_token_remove_backslash(token_ptr);
+			if (cmd_ptr->token[i]->status->in_quote == QUOTE_SINGLE
+				|| cmd_ptr->token[i]->status->in_quote == QUOTE_DOUBLE)
+				set_token_remove_quote(cmd_ptr->token[i]);
+			count_backslash_to_remove_check = 
+				check_token_remove_backslash(cmd_ptr->token[i]);
 			if (count_backslash_to_remove_check != 0)
-				set_token_remove_backslash(token_ptr,
+				set_token_remove_backslash(cmd_ptr->token[i],
 					count_backslash_to_remove_check);
 			i++;
 		}
