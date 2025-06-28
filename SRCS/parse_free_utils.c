@@ -3,53 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   parse_free_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:51:11 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 10:03:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 11:48:01 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_all_red(t_cmd *cmd_node)
+static void	free_all_red(t_redirect *redirect_node)
 {
 	t_redirect	*now_node;
 	t_redirect	*old_node;
 
-	now_node = cmd_node->redir;
+	now_node = redirect_node;
 	while (now_node != NULL)
 	{
-		free(now_node->filename);
 		old_node = now_node;
-		free(old_node);
 		now_node = now_node->next;
+		free(old_node->filename);
+		free(old_node);
 	}
 }
 
 void	free_all_cmd(t_cmd *cmd_node)
 {
-	int			i;
+	int	i;
 
-	i = 0;
-	free_all_red(cmd_node);
-	while (cmd_node->argv[i] != NULL)
+	if (!cmd_node)
+		return ;
+	free_all_red(cmd_node->redir); // 引数をcmd_node->redirに修正？ (元のままだと危険)
+	if (cmd_node->argv)
 	{
-		free(cmd_node->argv[i]);
-		i++;
+		i = 0;
+		while (cmd_node->argv[i] != NULL)
+		{
+			free(cmd_node->argv[i]);
+			i++;
+		}
+		free(cmd_node->argv);
 	}
-	i = 0;
-	while (cmd_node->token && cmd_node->token[i] != NULL)
+	if (cmd_node->token)
 	{
-		if (cmd_node->token[i]->value != NULL)
-			free(cmd_node->token[i]->value);
-		if (cmd_node->token[i]->status != NULL)
-			free(cmd_node->token[i]->status);
-		free(cmd_node->token[i]);
-		i++;
+		i = 0;
+		while (cmd_node->token[i] != NULL)
+		{
+			if (cmd_node->token[i]->value != NULL)
+				free(cmd_node->token[i]->value);
+			if (cmd_node->token[i]->status != NULL)
+				free(cmd_node->token[i]->status);
+			free(cmd_node->token[i]);
+			i++;
+		}
+		free(cmd_node->token);
 	}
-	free(cmd_node->argv);
-	free(cmd_node->token);
 	free(cmd_node);
 }
 

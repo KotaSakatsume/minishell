@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 13:13:54 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:28:42 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,5 @@ void	process_heredocs(t_pipeline *pipeline, t_shell_env *shell_env)
 		}
 		current = current->next;
 	}
-	update_exit_status(shell_env, 0); // 正常終了
+	update_exit_status(shell_env, 0);
 }
