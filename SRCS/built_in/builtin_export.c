@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/28 16:56:11 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 08:38:35 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,35 @@ void	split_key_value(char *str, t_env *new_env_list)
 {
 	char	**parts;
 	int		i;
+	char	*tmp;
 
 	parts = NULL;
+	tmp = str;
 	i = 0;
-	parts = ft_split(str, '=');
-	if (!parts)
+	while (*tmp)
 	{
-		perror("ft_split failed");
-		exit(EXIT_FAILURE);
+		if (*tmp == '=')
+		{
+			parts = ft_split(str, '=');
+			if (!parts)
+			{
+				perror("ft_split failed");
+				exit(EXIT_FAILURE);
+			}
+			new_env_list->key = ft_strdup(parts[0]);
+			if (parts[1])
+				new_env_list->value = ft_strdup(parts[1]);
+			else
+				new_env_list->value = ft_strdup("");
+			while (parts[i])
+			{
+				safe_free(parts[i]);
+				i++;
+			}
+			safe_free(parts);
+		}
+		tmp++;
 	}
-	new_env_list->key = ft_strdup(parts[0]);
-	if (parts[1])
-		new_env_list->value = ft_strdup(parts[1]);
-	else
-		new_env_list->value = ft_strdup("");
-	while (parts[i])
-	{
-		safe_free(parts[i]);
-		i++;
-	}
-	safe_free(parts);
 	return ;
 }
 
@@ -119,9 +128,7 @@ void	update_or_add_env(t_env *new_env_list, t_env **env_list,
 		existing_node->value = ft_strdup(new_env_list->value);
 	}
 	else
-	{
 		add_env(new_env_list, env_list, shell_env);
-	}
 }
 //メモリ開放
 static void	free_env_node(t_env *node)
@@ -152,8 +159,8 @@ void	main_export(char *str, t_env **env_list, t_shell_env *shell_env)
 		split_key_value(str, new_env_list);
 	if (!is_valid_key(new_env_list->key))
 	{
-		// fprintf(stderr, "Error: Invalid key '%s'\n", new_env_list->key);
-		write(2, "Error: Invalid key\n", 19);
+		if (new_env_list->key != NULL || str[0] == '=')
+			write(2, "Error: Invalid key\n", 19);
 		free_env_node(new_env_list);
 		return (update_exit_status(shell_env, 1));
 	}
