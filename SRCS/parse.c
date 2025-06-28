@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 14:46:03 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 17:37:40 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,20 @@ static t_job	*parse_job(t_token **tok, t_shell_env *t_shellenv_ptr)
 	return (job);
 }
 
+static void	update_job_list(t_job **head, t_job **tail, t_job *job_ptr)
+{
+	if (*head == NULL)
+	{
+		*tail = job_ptr;
+		*head = *tail;
+	}
+	else
+	{
+		(*tail)->next = job_ptr;
+		*tail = job_ptr;
+	}
+}
+
 t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 {
 	t_job	*head;
@@ -101,21 +115,12 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 	head = NULL;
 	tail = NULL;
 	cur = tokens_top;
-	if (t_shellenv_ptr->exit_status == 2)
-			t_shellenv_ptr->exit_status = 0;
+	// if (t_shellenv_ptr->exit_status == 2)
+	// 		t_shellenv_ptr->exit_status = 0;
 	while (cur && *cur)
 	{
 		job_ptr = parse_job(cur, t_shellenv_ptr);
-		if (head == NULL)
-		{
-			tail = job_ptr;
-			head = tail;
-		}
-		else
-		{
-			tail->next = job_ptr;
-			tail = job_ptr;
-		}
+		update_job_list(&head, &tail, job_ptr);
 		if (t_shellenv_ptr->exit_status == 2)
 		{
 			*tokens_top = token_top_ptr;
