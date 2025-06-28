@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:50:06 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 16:34:58 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 16:39:20 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	delete_quote_cmd(t_pipeline *pipeline_ptr)
 			if (cmd_ptr->token[i]->status->in_quote == QUOTE_SINGLE
 				|| cmd_ptr->token[i]->status->in_quote == QUOTE_DOUBLE)
 				set_token_remove_quote(cmd_ptr->token[i]);
-			count_backslash_to_remove_check = 
+			count_backslash_to_remove_check = \
 				check_token_remove_backslash(cmd_ptr->token[i]);
 			if (count_backslash_to_remove_check != 0)
 				set_token_remove_backslash(cmd_ptr->token[i],

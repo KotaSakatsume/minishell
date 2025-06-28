@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/28 14:38:05 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 16:56:16 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,12 @@ void						initialize_t_token(t_token *t_token_node);
 
 // lexer_set_token_vals.c
 void						lexer_set_token_vals(t_token **head);
+
+// lexer_set_token_stat_vals.c
+void						set_token_stat_vals(t_token_stat *token_stat_ptr, char *token_str);
+void						set_stat_token_type(t_token_stat *token_stat_ptr, char *token_str);
+void						set_stat_token_need_expand(t_token_stat *token_stat_ptr);
+void						set_stat_token_in_quote(t_token_stat *token_stat_ptr, char *token_str);
 
 // print_for_debag.c
 void						print_token(t_token **head);

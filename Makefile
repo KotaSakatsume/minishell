@@ -27,6 +27,7 @@ SRC_FILES = main.c\
 			print_for_debag.c\
 			lexer.c\
 			lexer_set_token_vals.c\
+			lexer_set_token_stat_vals.c\
 			lexer_tokenize.c\
 			serch_end_ptr.c\
 			marge_same_margeid_token.c\
