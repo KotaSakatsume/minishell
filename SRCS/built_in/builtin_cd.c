@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 18:33:24 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:50:12 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_target_directory(char **args, t_env *env_list)
 	{
 		while (tmp_list)
 		{
-			if (strcmp(tmp_list->key, "HOME") == 0)
+			if (ft_strcmp(tmp_list->key, "HOME") == 0)
 			{
 				tag = getenv("HOME");
 				tag = ft_strdup(tag);
@@ -39,7 +39,7 @@ char	*get_target_directory(char **args, t_env *env_list)
 	{
 		while (tmp_list)
 		{
-			if (strcmp(tmp_list->key, "OLDPWD") == 0)
+			if (ft_strcmp(tmp_list->key, "OLDPWD") == 0)
 			{
 				tag = getenv("OLDPWD");
 				tag = ft_strdup(tag);
@@ -89,7 +89,10 @@ int	change_directory(char *tag)
 	}
 	if (chdir(tag) != 0)
 	{
-		fprintf(stderr, "Failed to change directory to %s: ", tag);
+		// fprintf(stderr, "Failed to change directory to %s: ", tag);
+		write(2, "Failed to change directory to ", 30);
+		write(2, tag, ft_strlen(tag));
+		write(2, ":", 1);
 		perror("");
 		free(tag);
 		return (1);

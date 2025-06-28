@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/28 15:16:25 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:56:11 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,10 @@ void	main_export(char *str, t_env **env_list, t_shell_env *shell_env)
 		split_key_value(str, new_env_list);
 	if (!is_valid_key(new_env_list->key))
 	{
-		fprintf(stderr, "Error: Invalid key '%s'\n", new_env_list->key);
+		// fprintf(stderr, "Error: Invalid key '%s'\n", new_env_list->key);
+		write(2, "Error: Invalid key\n", 19);
 		free_env_node(new_env_list);
-		update_exit_status(shell_env, 1);
-		return ;
+		return (update_exit_status(shell_env, 1));
 	}
 	update_or_add_env(new_env_list, env_list, shell_env);
 	free_env_node(new_env_list);

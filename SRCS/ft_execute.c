@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 20:29:30 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:00:46 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,10 @@ char	*prepare_execution(char **av, t_shell_env *shell_env, char ***envp)
 	if (!path)
 	{
 		update_exit_status(shell_env, 127); // コマンドが見つからない
-		fprintf(stderr, "minishell: %s: command not found\n", av[0]);
+		// fprintf(stderr, "minishell: %s: command not found\n", av[0]);
+		write(2, "minishell: ", 11);
+		write(2, av[0], ft_strlen(av[0]));
+		write(2, ": command not found\n", 20);
 		exit(shell_env->exit_status); // 設定したステータスを反映
 	}
 	return (path);

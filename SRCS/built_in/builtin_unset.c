@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:00:28 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/26 20:23:54 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:58:53 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int	unset_key(char *args, t_env **env_list)
 {
 	if (is_valid_key(args) == 1)
 	{
-		fprintf(stderr, "unset: '%s': not a valid identifier\n", args);
+		// fprintf(stderr, "unset: '%s': not a valid identifier\n", args);
+		write(2, "unset: '", 8);
+		write(2, args, ft_strlen(args));
+		write(2, "': not a valid identifier\n", 26);
 		return (1);
 	}
 	find_env_node(args, env_list);
