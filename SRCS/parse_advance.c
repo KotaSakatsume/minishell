@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 14:18:12 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 14:46:53 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int advance_redirect(t_token **tok, t_redirect **head, t_redirect **tail,
 			advance_token(tok);
 			if (check_token(tok, TYPE_WORD) == false)
 			{
-				printf("構文エラーがあります(redirect )\n");
+				printf("構文エラーがあります (redirect)\n");
 				free(tr);
 				return (1);
 			}

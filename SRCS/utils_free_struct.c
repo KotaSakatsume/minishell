@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:51:27 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 13:56:45 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/28 14:47:03 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void free_conjunc_token(t_token **dest)
 		// printf("next_token = %p\n",next_token);
 		if (token_stat_type_is_conjunc(now_token->status->token_type) == true)
 		{
-			printf("delete = %s\n", now_token->value);
-			fflush(stdout);
+			// printf("delete = %s\n", now_token->value);
+			// fflush(stdout);
 			free_token(now_token);
 		}
 	}
