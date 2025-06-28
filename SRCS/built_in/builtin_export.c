@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 16:54:03 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:16:25 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,39 +22,30 @@ void	safe_free(void *ptr)
 }
 
 // 文字列をキーと値に分割
-void	split_key_value(const char *str, t_env *new_env_list)
+void	split_key_value(char *str, t_env *new_env_list)
 {
-	char		**parts;
-	int			i;
-	const char	*tmp;
+	char	**parts;
+	int		i;
 
 	parts = NULL;
 	i = 0;
-	tmp = str;
-	while (*tmp)
+	parts = ft_split(str, '=');
+	if (!parts)
 	{
-		if (*tmp == '=' && tmp[0] != '=')
-		{
-			parts = ft_split(str, '=');
-			if (!parts)
-			{
-				perror("ft_split failed");
-				exit(EXIT_FAILURE);
-			}
-			new_env_list->key = ft_strdup(parts[0]);
-			if (parts[1])
-				new_env_list->value = ft_strdup(parts[1]);
-			else
-				new_env_list->value = ft_strdup("");
-			while (parts[i])
-			{
-				safe_free(parts[i]);
-				i++;
-			}
-			safe_free(parts);
-		}
-		tmp++;
+		perror("ft_split failed");
+		exit(EXIT_FAILURE);
 	}
+	new_env_list->key = ft_strdup(parts[0]);
+	if (parts[1])
+		new_env_list->value = ft_strdup(parts[1]);
+	else
+		new_env_list->value = ft_strdup("");
+	while (parts[i])
+	{
+		safe_free(parts[i]);
+		i++;
+	}
+	safe_free(parts);
 	return ;
 }
 
@@ -63,17 +54,13 @@ int	is_valid_key(const char *key)
 {
 	if (!key || !((*key >= 'A' && *key <= 'Z') || (*key >= 'a' && *key <= 'z')
 			|| (*key == '_')))
-	{
-		return (0); // 無効なキー
-	}
+		return (0);
 	key++;
 	while (*key)
 	{
 		if (!((*key >= 'A' && *key <= 'Z') || (*key >= 'a' && *key <= 'z')
 				|| (*key >= '0' && *key <= '9') || (*key == '_')))
-		{
-			return (0); // 無効なキー
-		}
+			return (0);
 		key++;
 	}
 	return (1); // 有効なキー
@@ -147,7 +134,7 @@ static void	free_env_node(t_env *node)
 }
 
 // メインエクスポート処理
-void	main_export(const char *str, t_env **env_list, t_shell_env *shell_env)
+void	main_export(char *str, t_env **env_list, t_shell_env *shell_env)
 {
 	t_env	*new_env_list;
 
@@ -161,7 +148,8 @@ void	main_export(const char *str, t_env **env_list, t_shell_env *shell_env)
 	new_env_list->key = NULL;
 	new_env_list->value = NULL;
 	new_env_list->next = NULL;
-	split_key_value(str, new_env_list);
+	if (str[0] != '=')
+		split_key_value(str, new_env_list);
 	if (!is_valid_key(new_env_list->key))
 	{
 		fprintf(stderr, "Error: Invalid key '%s'\n", new_env_list->key);
