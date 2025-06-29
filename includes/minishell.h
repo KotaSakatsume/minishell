@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 13:35:34 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:43:41 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,6 +355,13 @@ void						free_envp_array(char **envp, int count);
 char						*get_env_value(t_env *env_list, char *key);
 void						ft_error(void);
 char						**allocate_envp_array(int count);
+void						update_exit_status(t_shell_env *shell_env,
+								int status);
+char						*create_env_entry(char *key, char *value);
+char						*ft_strcpy(char *dst, const char *src);
+char						*ft_strncat(char *dest, const char *src, size_t n);
+void						validate_heredoc_delimiter(char *delimiter,
+								t_shell_env *shell_env);
 
 // builtin_utils
 void						safe_free(void *ptr);

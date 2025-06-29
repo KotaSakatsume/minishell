@@ -6,18 +6,18 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 11:31:40 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:38:51 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_exit_status(t_shell_env *shell_env, int status)
-{
-	if (!shell_env)
-		return ;
-	shell_env->exit_status = status;
-}
+// void	update_exit_status(t_shell_env *shell_env, int status)
+// {
+// 	if (!shell_env)
+// 		return ;
+// 	shell_env->exit_status = status;
+// }
 
 void	cleanup_heredoc_files(t_pipeline *pipeline)
 {

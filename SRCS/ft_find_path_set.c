@@ -6,11 +6,32 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 13:35:42 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:40:57 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*create_env_entry(char *key, char *value)
+{
+	size_t	key_len;
+	size_t	value_len;
+	char	*env_entry;
+
+	key_len = ft_strlen(key);
+	value_len = ft_strlen(value);
+	env_entry = (char *)malloc(key_len + value_len + 2);
+	if (env_entry)
+		sprintf(env_entry, "%s=%s", key, value);
+	return (env_entry);
+}
+
+void	update_exit_status(t_shell_env *shell_env, int status)
+{
+	if (!shell_env)
+		return ;
+	shell_env->exit_status = status;
+}
 
 char	*join_path_and_cmd(char *path, char *cmd)
 {
