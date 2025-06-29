@@ -57,7 +57,10 @@ SRC_FILES = main.c\
             ft_handle_external.c\
             ft_handle_builtin.c\
             ft_redirects.c\
-            ft_heredoc.c
+            ft_heredoc.c\
+			ft_exec_utils.c\
+			ft_find_path_set.c\
+			ft_heredoc_utils.c
 
 SRCS_BUILT_IN = builtin_echo.c\
                 builtin_cd.c\
@@ -65,7 +68,9 @@ SRCS_BUILT_IN = builtin_echo.c\
                 builtin_exit.c\
                 builtin_export.c\
                 builtin_pwd.c\
-                builtin_unset.c
+                builtin_unset.c\
+				builtin_export_utils.c\
+				buitin_utils.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES)) \
        $(addprefix $(BUILT_IN_DIR)/, $(SRCS_BUILT_IN))
