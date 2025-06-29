@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 13:15:42 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:34:40 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	set_redirect_list(t_redirect **head, t_redirect **tail,
 {
 	if (*head == NULL)
 	{
-		*head = tr; // tail?
+		*head = tr;
 		*tail = tr;
 		(*cmd)->redir = tr;
 	}

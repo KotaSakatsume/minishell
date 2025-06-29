@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_seq.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 03:41:55 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/27 10:26:57 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:33:08 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_readline_continue(char *input)
 	while (*input != '\0')
 	{
 		end_ptr = serach_end_ptr(input);
-		if (end_ptr == NULL) // read_continue
+		if (end_ptr == NULL)
 			return (1);
 		input = end_ptr;
 		while (is_space(*input))
@@ -44,7 +44,7 @@ static void	free_all_shellenv(t_shell_env *t_shellenv_ptr)
 	free(t_shellenv_ptr);
 }
 
-char	*readline_seq(t_shell_env	*t_shellenv_ptr)
+char	*readline_seq(t_shell_env *t_shellenv_ptr)
 {
 	char	*input;
 	char	*temp;

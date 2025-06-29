@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_daller_check_and_expand_mode.c              :+:      :+:    :+:   */
+/*   extend_daller_check_and_expand_mode.c              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 17:19:56 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:36:29 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static char	*search_end_daller_ptr(char *ptr)
 	return (ptr);
 }
 
-void	check_and_expand_question_mode(char *daller_str_ptr,
-		t_token *token_ptr, t_shell_env *t_shellenv_ptr)
+void	check_and_expand_question_mode(char *daller_str_ptr, t_token *token_ptr,
+		t_shell_env *t_shellenv_ptr)
 {
 	char	*daller_end_ptr;
 	char	*temp_str;
@@ -58,8 +58,8 @@ void	check_and_expand_question_mode(char *daller_str_ptr,
 	token_ptr->value = temp_str;
 }
 
-void	check_and_expand_normal_mode(char *daller_str_ptr,
-		t_token *token_ptr, t_shell_env *t_shellenv_ptr)
+void	check_and_expand_normal_mode(char *daller_str_ptr, t_token *token_ptr,
+		t_shell_env *t_shellenv_ptr)
 {
 	char	*daller_end_ptr;
 	char	*indaller_str;
@@ -69,8 +69,6 @@ void	check_and_expand_normal_mode(char *daller_str_ptr,
 	daller_end_ptr = search_end_daller_ptr(daller_str_ptr + 1);
 	indaller_str = ft_strndup((daller_str_ptr + 1), (daller_end_ptr
 				- (daller_str_ptr + 1)));
-	// printf("str = %p : end = %p\n",daller_str_ptr,daller_end_ptr);
-	// printf("indaller_str = %s\n",indaller_str);
 	expandered_str = serch_and_expand_env(indaller_str, t_shellenv_ptr);
 	free(indaller_str);
 	temp_str = combine_str_and_free_oldstr(ft_strndup(token_ptr->value,
@@ -81,8 +79,7 @@ void	check_and_expand_normal_mode(char *daller_str_ptr,
 	token_ptr->value = temp_str;
 }
 
-void	check_and_expand_daller_mode(char *daller_str_ptr,
-		t_token *token_ptr)
+void	check_and_expand_daller_mode(char *daller_str_ptr, t_token *token_ptr)
 {
 	char	*daller_end_ptr;
 	char	*temp_str;

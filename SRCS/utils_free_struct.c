@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_free_struct.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:51:27 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 15:44:20 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:32:32 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	free_conjunc_token(t_token **dest)
 	bool	flag_red;
 	bool	flag_after_red;
 
-	if(dest == NULL)
+	if (dest == NULL)
 		return ;
 	next_token = *dest;
 	flag_after_red = false;
@@ -78,14 +78,10 @@ void	free_conjunc_token(t_token **dest)
 	{
 		now_token = next_token;
 		flag_red = token_stat_type_is_red(now_token->status->token_type);
-		// printf("now_token_type : %d\n",now_token->status->token_type);
 		next_token = now_token->next;
-		// printf("next_token = %p\n",next_token);
 		if (token_stat_type_is_conjunc(now_token->status->token_type) == true
 			|| flag_after_red == true)
 		{
-			// printf("delete = %s\n", now_token->value);
-			// fflush(stdout);
 			free_token(now_token);
 		}
 		flag_after_red = flag_red;

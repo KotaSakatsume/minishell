@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extend_daller.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 17:23:54 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:36:23 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	extend_daller(t_pipeline *pipeline_ptr, t_shell_env *t_shellenv_ptr)
 
 	i = 0;
 	cmd_ptr = pipeline_ptr->cmd;
-	if (cmd_ptr->token == NULL) // red taiou
+	if (cmd_ptr->token == NULL)
 		return ;
 	token_ptr = cmd_ptr->token[i];
 	while (token_ptr != NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_free_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:51:11 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 10:22:06 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:33:40 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_all_cmd(t_cmd *cmd_node)
 
 	if (!cmd_node)
 		return ;
-	free_all_red(cmd_node->redir); // 引数をcmd_node->redirに修正？ (元のままだと危険)
+	free_all_red(cmd_node->redir);
 	if (cmd_node->argv)
 	{
 		i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 10:32:19 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:32:43 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strstr(const char *haystack, const char *needle)
 	const char	*h = haystack;
 	const char	*n = needle;
 
-	if (!*needle) // needle が空文字列の場合
+	if (!*needle)
 		return ((char *)haystack);
 	while (*haystack)
 	{
@@ -54,11 +54,11 @@ char	*ft_strstr(const char *haystack, const char *needle)
 			h++;
 			n++;
 		}
-		if (!*n) // needle の最後まで一致した場合
+		if (!*n)
 			return ((char *)haystack);
 		haystack++;
 	}
-	return (NULL); // 見つからなかった場合
+	return (NULL);
 }
 
 static void	copy_data(char *dst, char *src, size_t size)

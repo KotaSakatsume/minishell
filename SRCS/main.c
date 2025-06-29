@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 15:47:37 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:34:05 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ t_global_state		g_state;
 void	handle_sigint(int signo)
 {
 	(void)signo;
-	// Ctrl-C の処理: プロンプトを再表示
 	write(STDOUT_FILENO, "\n", 1);
-	// update_exit_status(shell_env, 130); // 実行失敗
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -65,9 +63,9 @@ static t_shell_env	*init_tshellenv(char **envp)
 
 static void	minishell_main_loop(t_shell_env *t_shellenv_ptr)
 {
-	char		*input;
-	t_token		**split_token;
-	t_job		*job_head;
+	char	*input;
+	t_token	**split_token;
+	t_job	*job_head;
 
 	t_shellenv_ptr->exit_status_now = t_shellenv_ptr->exit_status;
 	input = readline_seq(t_shellenv_ptr);
@@ -77,19 +75,16 @@ static void	minishell_main_loop(t_shell_env *t_shellenv_ptr)
 	if (split_token != NULL)
 	{
 		job_head = parse_line(split_token, t_shellenv_ptr);
-		// print_token(split_token); //kakuninyoutuika
-		// fflush(stdout);
 		if (t_shellenv_ptr->exit_status != 3)
 			free_conjunc_token(split_token);
-		if (t_shellenv_ptr->exit_status == 2 || t_shellenv_ptr->exit_status == 3)
+		if (t_shellenv_ptr->exit_status == 2
+			|| t_shellenv_ptr->exit_status == 3)
 		{
 			free_all_job(job_head);
 			return ;
 		}
 		expander(job_head, t_shellenv_ptr);
-		// dump_jobs(job_head);
 		ft_exec(job_head, t_shellenv_ptr);
-		// 後処理
 		free_all_job(job_head);
 	}
 }

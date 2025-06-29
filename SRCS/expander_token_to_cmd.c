@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_token_to_cmd.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 07:53:21 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 16:44:37 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:36:42 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	token_to_char_cmd(t_pipeline *pipeline_ptr)
 		exit(1);
 	}
 	if (cmd_ptr->token == NULL)
-		return ;//red_taiou
+		return ;
 	while (cmd_ptr->argv[i] != NULL)
 	{
 		if (i >= (cmd_ptr->argc))

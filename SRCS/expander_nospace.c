@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_nospace.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 07:53:28 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 16:29:48 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:37:04 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	combine_main(t_pipeline *pipeline_ptr)
 	t_token	**dest;
 
 	cmd_ptr = pipeline_ptr->cmd;
-	if (cmd_ptr->token == NULL) // red_taiou
+	if (cmd_ptr->token == NULL)
 		return ;
 	len = count_resized_token_len(cmd_ptr->token);
 	cmd_ptr->argc = len;
