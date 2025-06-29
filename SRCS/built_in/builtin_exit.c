@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 11:41:51 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 12:44:41 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	builtin_exit(char **args)
 	if (args[1])
 	{
 		exit_status = convert_exit_status(args[1]);
-		printf("exit_status: %d\n", exit_status);
+		// printf("exit_status: %d\n", exit_status);
 	}
 	else
 		exit_status = 0;
