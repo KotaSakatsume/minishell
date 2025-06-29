@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 11:41:36 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:58:28 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,26 @@ void	safe_free(void *ptr)
 		free(ptr);
 }
 
+void	free_string_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		safe_free(arr[i]);
+		i++;
+	}
+	safe_free(arr);
+}
+
 void	split_key_value(char *str, t_env *new_env_list)
 {
 	char	**parts;
-	int		i;
 	char	*tmp;
 
 	parts = NULL;
 	tmp = str;
-	i = 0;
 	while (*tmp)
 	{
 		if (*tmp == '=')
@@ -42,12 +53,7 @@ void	split_key_value(char *str, t_env *new_env_list)
 				new_env_list->value = ft_strdup(parts[1]);
 			else
 				new_env_list->value = ft_strdup("");
-			while (parts[i])
-			{
-				safe_free(parts[i]);
-				i++;
-			}
-			safe_free(parts);
+			free_string_array(parts);
 		}
 		tmp++;
 	}
