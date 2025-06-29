@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:51:27 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 09:05:08 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 13:27:21 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_all_token(t_token **dest)
 	t_token	*next_token;
 
 	now_token = *dest;
-	if (now_token != NULL)
+	while (now_token != NULL)
 	{
 		next_token = now_token->next;
 		free_token(now_token);
@@ -30,10 +30,17 @@ void	free_all_token(t_token **dest)
 void	free_token(t_token *free_dest)
 {
 	if (free_dest->value != NULL)
+	{
 		free(free_dest->value);
+		free_dest->value = NULL;
+	}
 	if (free_dest->status != NULL)
+	{
 		free(free_dest->status);
+		free_dest->status = NULL;
+	}
 	free(free_dest);
+	free_dest = NULL;
 }
 
 static bool	token_stat_type_is_conjunc(t_token_type t_type)
