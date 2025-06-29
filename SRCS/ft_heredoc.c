@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 11:35:31 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 12:34:48 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,62 @@ void	validate_heredoc_delimiter(char *delimiter, t_shell_env *shell_env)
 	}
 }
 
-int	create_temporary_file(char *tmp_filename, size_t size, int heredoc_count)
+char	*ft_strcpy(char *dst, const char *src)
 {
-	snprintf(tmp_filename, size, "/tmp/minishell_heredoc_%d_%d", getpid(),
-		heredoc_count);
+	int	i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+char	*ft_strncat(char *dest, const char *src, size_t n)
+{
+	size_t	dest_len;
+	size_t	i;
+
+	dest_len = 0;
+	i = 0;
+	while (dest[dest_len] != '\0')
+		dest_len++;
+	while (i < n && src[i] != '\0')
+	{
+		dest[dest_len + i] = src[i];
+		i++;
+	}
+	dest[dest_len + i] = '\0';
+	return (dest);
+}
+
+int	create_temporary_file(char *tmp_filename, int size, int heredoc_count)
+{
+	char	*base_path;
+	int		i;
+	char	count_str[12];
+
+	base_path = "/tmp/heredoc_";
+	if (ft_strlen(base_path) + 12 >= size)
+	{
+		return (-1);
+	}
+	ft_strcpy(tmp_filename, base_path);
+	i = 0;
+	while (heredoc_count > 0 || i == 0)
+	{
+		count_str[i] = (heredoc_count % 10) + '0';
+		heredoc_count /= 10;
+		i++;
+	}
+	while (i > 0)
+	{
+		i--;
+		ft_strncat(tmp_filename, &count_str[i], 1);
+	}
 	return (open(tmp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0600));
 }
 
