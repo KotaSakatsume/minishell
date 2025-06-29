@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 12:23:49 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:47:37 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,9 @@ static void	minishell_main_loop(t_shell_env *t_shellenv_ptr)
 		job_head = parse_line(split_token, t_shellenv_ptr);
 		// print_token(split_token); //kakuninyoutuika
 		// fflush(stdout);
-		free_conjunc_token(split_token);
-		if (t_shellenv_ptr->exit_status == 2)
+		if (t_shellenv_ptr->exit_status != 3)
+			free_conjunc_token(split_token);
+		if (t_shellenv_ptr->exit_status == 2 || t_shellenv_ptr->exit_status == 3)
 		{
 			free_all_job(job_head);
 			return ;
