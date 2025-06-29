@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 11:28:42 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:35:31 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	validate_heredoc_delimiter(char *delimiter, t_shell_env *shell_env)
 	{
 		write(STDERR_FILENO,
 			"minishell: syntax error near unexpected token `newline'\n", 56);
-		update_exit_status(shell_env, 2); // シンタックスエラー
-		exit(2);                          // 即時終了
+		update_exit_status(shell_env, 2);
+		exit(2);
 	}
 }
 
@@ -41,19 +41,19 @@ void	process_heredoc_input(int tmp_fd, char *delimiter,
 	while (1)
 	{
 		line = readline("> ");
-		if (!line) // EOFやシグナルで中断
+		if (!line)
 		{
-			update_exit_status(shell_env, 130); // Ctrl+Cのような中断
+			update_exit_status(shell_env, 130);
 			close(tmp_fd);
-			exit(130); // 即時終了
+			exit(130);
 		}
-		if (ft_strcmp(line, delimiter) == 0) // 終了文字列
+		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
 		write(tmp_fd, line, ft_strlen(line));
-		write(tmp_fd, "\n", 1); // 改行を追加
+		write(tmp_fd, "\n", 1);
 		free(line);
 	}
 	close(tmp_fd);
@@ -67,11 +67,11 @@ void	replace_heredoc_with_tempfile(t_redirect *redir, char *tmp_filename,
 	if (!redir->filename)
 	{
 		write(STDERR_FILENO, "minishell: strdup: Out of memory\n", 33);
-		unlink(tmp_filename);             // 作成したファイルを削除
-		update_exit_status(shell_env, 1); // メモリ不足エラー
+		unlink(tmp_filename);
+		update_exit_status(shell_env, 1);
 		exit(1);
 	}
-	redir->type = TYPE_REDIRECT_IN; // HEREDOCを通常のファイル入力に置き換え
+	redir->type = TYPE_REDIRECT_IN;
 }
 
 void	process_single_heredoc(t_redirect *redir, int heredoc_count,
@@ -80,20 +80,16 @@ void	process_single_heredoc(t_redirect *redir, int heredoc_count,
 	char	tmp_filename[256];
 	int		tmp_fd;
 
-	// HEREDOCの区切り文字チェック
 	validate_heredoc_delimiter(redir->filename, shell_env);
-	// 一時ファイルを作成
 	tmp_fd = create_temporary_file(tmp_filename, sizeof(tmp_filename),
 			heredoc_count);
 	if (tmp_fd < 0)
 	{
 		perror("minishell: open");
-		update_exit_status(shell_env, 1); // ファイル作成エラー
+		update_exit_status(shell_env, 1);
 		exit(1);
 	}
-	// HEREDOCの入力処理
 	process_heredoc_input(tmp_fd, redir->filename, shell_env);
-	// 一時ファイル名に置き換え
 	replace_heredoc_with_tempfile(redir, tmp_filename, shell_env);
 }
 
