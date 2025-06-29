@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 16:18:07 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:28:19 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,6 @@ static void	update_job_list(t_job **head, t_job **tail, t_job *job_ptr)
 	}
 }
 
-static void	free_all_token_ptr(t_token *dest)
-{
-	t_token	*now_token;
-	t_token	*next_token;
-
-	now_token = dest;
-	while (now_token != NULL)
-	{
-		next_token = now_token->next;
-		free_token(now_token);
-		now_token = next_token;
-	}
-}
-
 static int	set_next_token_null(t_token *tokens_top, t_token *target_ptr)
 {
 	t_token *now_token = tokens_top;
@@ -139,7 +125,7 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 				free_all_token(tokens_top);
 				return(head);
 			}
-			free_all_token_ptr(*cur);
+			free_alltoken_ptr(*cur);
 			*tokens_top = token_top_ptr;
 			return (head);
 		}
