@@ -6,11 +6,30 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 13:40:57 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:51:33 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	size_t		i;
+	char		*dest_char;
+	const char	*src_char;
+
+	if (!dest || !src)
+		return (NULL);
+	dest_char = (char *)dest;
+	src_char = (const char *)src;
+	i = 0;
+	while (i < n)
+	{
+		dest_char[i] = src_char[i];
+		i++;
+	}
+	return (dest);
+}
 
 char	*create_env_entry(char *key, char *value)
 {
@@ -21,8 +40,12 @@ char	*create_env_entry(char *key, char *value)
 	key_len = ft_strlen(key);
 	value_len = ft_strlen(value);
 	env_entry = (char *)malloc(key_len + value_len + 2);
-	if (env_entry)
-		sprintf(env_entry, "%s=%s", key, value);
+	if (!env_entry)
+		return (NULL);
+	ft_memcpy(env_entry, key, key_len);
+	env_entry[key_len] = '=';
+	ft_memcpy(env_entry + key_len + 1, value, value_len);
+	env_entry[key_len + value_len + 1] = '\0';
 	return (env_entry);
 }
 
