@@ -6,26 +6,11 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 16:28:19 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:30:08 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	update_pipeline_node(t_pipeline **head, t_pipeline **tail,
-		t_pipeline *node)
-{
-	if (*head == NULL)
-	{
-		*head = node;
-		*tail = node;
-	}
-	else
-	{
-		(*tail)->next = node;
-		*tail = node;
-	}
-}
 
 static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
@@ -65,20 +50,6 @@ static t_job	*parse_job(t_token **tok, t_shell_env *t_shellenv_ptr)
 		job->sep = SEP_NONE;
 	job->next = NULL;
 	return (job);
-}
-
-static void	update_job_list(t_job **head, t_job **tail, t_job *job_ptr)
-{
-	if (*head == NULL)
-	{
-		*tail = job_ptr;
-		*head = *tail;
-	}
-	else
-	{
-		(*tail)->next = job_ptr;
-		*tail = job_ptr;
-	}
 }
 
 static int	set_next_token_null(t_token *tokens_top, t_token *target_ptr)
