@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 11:33:55 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 14:52:33 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ void	fork_and_execute(t_pipeline *pipeline, t_shell_env *shell_env,
 		close(pipe_fd[0]);
 	}
 	handle_redirects(pipeline->cmd->redir, shell_env);
-	execute(pipeline->cmd->argv, shell_env);
-	perror("execute");
-	exit(EXIT_FAILURE);
+	if (pipeline->cmd->argv > 0)
+	{
+		execute(pipeline->cmd->argv, shell_env);
+		perror("execute");
+		exit(EXIT_FAILURE);
+	}
+	exit(EXIT_SUCCESS);
 }
 
 void	handle_exit_status(t_shell_env *shell_env, int status)

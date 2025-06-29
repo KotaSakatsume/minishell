@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 14:12:19 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 14:47:24 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ char	*prepare_execution(char **av, t_shell_env *shell_env, char ***envp)
 		update_exit_status(shell_env, 1);
 		ft_error();
 	}
-	if (!av || !av[0] || !shell_env || shell_env->env_list)
-		exit(shell_env->exit_status);
+	// if (!av || !av[0])
+	// 	return (NULL);
 	path = find_path(av[0], *envp);
 	if (!path)
 	{

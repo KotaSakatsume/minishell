@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 13:51:33 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 14:43:26 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*find_path(char *cmd, char **envp)
 	char	*path;
 
 	i = 0;
-	if (!access(cmd, X_OK))
+	if (!access(cmd, X_OK) || cmd == NULL)
 		return (cmd);
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
