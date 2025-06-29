@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 09:22:09 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 12:01:55 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,6 @@ char	**ft_split(char const *s, char c)
 	char	**ret;
 	int		i;
 
-	// if (c == '=')
-	// {
-	// 	words = 2;
-	// }
-	// else
 	words = get_word_count(s, c);
 	ret = malloc(sizeof(char *) * (words + 1));
 	i = 0;
@@ -97,7 +92,6 @@ char	**ft_split(char const *s, char c)
 			free_all(ret);
 			return (NULL);
 		}
-		// if (c != '=' && i != 1)
 		while (*s && !is_sep(*s, c))
 			s++;
 		i++;
