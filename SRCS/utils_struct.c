@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:16:12 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/19 19:30:15 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:30:14 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,47 @@ int	check_token_cont(t_token **dest)
 		next = next->next;
 	}
 	return (i);
+}
+
+void	free_alltoken_ptr(t_token *dest)
+{
+	t_token	*now_token;
+	t_token	*next_token;
+
+	now_token = dest;
+	while (now_token != NULL)
+	{
+		next_token = now_token->next;
+		free_token(now_token);
+		now_token = next_token;
+	}
+}
+
+void	update_pipeline_node(t_pipeline **head, t_pipeline **tail,
+		t_pipeline *node)
+{
+	if (*head == NULL)
+	{
+		*head = node;
+		*tail = node;
+	}
+	else
+	{
+		(*tail)->next = node;
+		*tail = node;
+	}
+}
+
+void	update_job_list(t_job **head, t_job **tail, t_job *job_ptr)
+{
+	if (*head == NULL)
+	{
+		*tail = job_ptr;
+		*head = *tail;
+	}
+	else
+	{
+		(*tail)->next = job_ptr;
+		*tail = job_ptr;
+	}
 }

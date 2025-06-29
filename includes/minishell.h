@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 13:45:51 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:30:53 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,10 @@ char						*ft_itoa(int n);
 
 // utils_struct.c
 int							check_token_cont(t_token **dest);
+void						free_alltoken_ptr(t_token *dest);
+void						update_pipeline_node(t_pipeline **head, t_pipeline **tail,
+							t_pipeline *node);
+void						update_job_list(t_job **head, t_job **tail, t_job *job_ptr);
 
 // utils_mk_struct.c
 t_cmd						*mk_t_cmd(void);
