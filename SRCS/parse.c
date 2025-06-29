@@ -6,13 +6,14 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 10:40:03 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 10:43:03 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_pipeline_node(t_pipeline **head, t_pipeline **tail, t_pipeline *node)
+static void	update_pipeline_node(t_pipeline **head, t_pipeline **tail,
+		t_pipeline *node)
 {
 	if (*head == NULL)
 	{
@@ -86,7 +87,7 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 	t_job	*tail;
 	t_job	*job_ptr;
 	t_token	**cur;
-	t_token *token_top_ptr;
+	t_token	*token_top_ptr;
 
 	token_top_ptr = *tokens_top;
 	head = NULL;
