@@ -6,11 +6,25 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 10:34:50 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 10:40:03 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	update_pipeline_node(t_pipeline **head, t_pipeline **tail, t_pipeline *node)
+{
+	if (*head == NULL)
+	{
+		*head = node;
+		*tail = node;
+	}
+	else
+	{
+		(*tail)->next = node;
+		*tail = node;
+	}
+}
 
 static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
@@ -26,16 +40,7 @@ static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 	{
 		node = mk_t_pipeline();
 		node->cmd = parse_cmd(tok, t_shellenv_ptr);
-		if (!head)
-		{
-			tail = node;
-			head = tail;
-		}
-		else
-		{
-			tail->next = node;
-			tail = node;
-		}
+		update_pipeline_node(&head, &tail, node);
 		if (t_shellenv_ptr->exit_status == 2)
 			return (head);
 		rep = accept_token(tok, TYPE_PIPE);
