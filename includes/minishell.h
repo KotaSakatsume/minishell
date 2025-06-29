@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 16:30:53 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 17:36:15 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,125 +37,119 @@
 # define READLINE_CONTINUE 1
 
 // for_utils
-# define mode_normal 0
-# define mode_single_quote 1
-# define mode_double_quote 2
-# define mode_semicolon 3
-# define mode_pipe 4
-# define mode_redirect_in 5
-# define mode_redirect_out 6
-# define mode_redirect_append 7
-# define mode_redirect_heredoc 8
-
-// def_struct
-
-// lexer struct
+# define MODE_NORMAL 0
+# define MODE_SINGLE_QUOTE 1
+# define MODE_DOUBLE_QUOTE 2
+# define MODE_SEMICOLON 3
+# define MODE_PIPE 4
+# define MODE_REDIRECT_IN 5
+# define MODE_REDIRECT_OUT 6
+# define MODE_REDIRECT_APPEND 7
+# define MODE_REDIRECT_HEREDOC 8
 
 typedef enum token_type
 {
 	TYPE_INITIAL,
-	TYPE_WORD,             //  else
-	TYPE_PIPE,             //  |
-	TYPE_REDIRECT_IN,      //  >
-	TYPE_REDIRECT_OUT,     //  <
-	TYPE_REDIRECT_APPEND,  //  >>
-	TYPE_REDIRECT_HEREDOC, //  <<
-	TYPE_QUOTE_SINGLE,     //  '
-	TYPE_QUOTE_DOUBLE,     //  "
-	TYPE_SEMICOLON,        //  ;
-	TYPE_EOF               //
+	TYPE_WORD,
+	TYPE_PIPE,
+	TYPE_REDIRECT_IN,
+	TYPE_REDIRECT_OUT,
+	TYPE_REDIRECT_APPEND,
+	TYPE_REDIRECT_HEREDOC,
+	TYPE_QUOTE_SINGLE,
+	TYPE_QUOTE_DOUBLE,
+	TYPE_SEMICOLON,
+	TYPE_EOF
 }							t_token_type;
 
 typedef enum in_quote
 {
 	QUOTE_INITIAL,
-	QUOTE_OUT,    //
-	QUOTE_SINGLE, //  '
-	QUOTE_DOUBLE  //  "
+	QUOTE_OUT,
+	QUOTE_SINGLE,
+	QUOTE_DOUBLE
 }							t_in_quote;
 
 typedef struct s_token_stat
 {
-	t_token_type token_type; // トークンのタイプ
-	t_in_quote in_quote;     // 何のクオート内にいるかどうか
-	int need_expand;         // 変数展開の必要があるかどうか
-	int after_space_is;      // 後ろにスペースがあるかどうか
+	t_token_type			token_type;
+	t_in_quote				in_quote;
+	int						need_expand;
+	int						after_space_is;
 }							t_token_stat;
 
 typedef struct s_token
 {
-	int id;               // 管理ID
-	int marge_id;         // スペースの有無から、コマンド結合グループ作成
-	char *value;          // トークンの値
-	t_token_stat *status; // 詳細項目
-	struct s_token *next; // 次のt_token(連結リスト)
+	int						id;
+	int						marge_id;
+	char					*value;
+	t_token_stat			*status;
+	struct s_token			*next;
 }							t_token;
 
 // Paser struct
 
 typedef enum e_seq_type
 {
-	SEP_NONE, // 未設定初期値、使用しない
-	SEP_SEQ,  // “;” または 文末（これのみ使用予定）
-	SEP_AND,  // “&&”（使用なし、一応BONUS拡張できるように＆BASH構造理解のため形だけ）
-	SEP_OR    // “||”（使用なし、一応BONUS拡張できるように＆BASH構造理解のため形だけ）
+	SEP_NONE,
+	SEP_SEQ,
+	SEP_AND,
+	SEP_OR
 }							t_seq_type;
 
 typedef struct s_redirect
 {
-	t_token_type type;       // 　４種類のenum（>,>>,<,<<）※lexerで使用したenumの再利用
-	char *filename;          // 　リダイレクト先ファイル名
-	struct s_redirect *next; // 　次リダイレクト設定（NULL終端）
+	t_token_type			type;
+	char					*filename;
+	struct s_redirect		*next;
 }							t_redirect;
 
 typedef struct s_cmd
 {
-	char **argv;       // NULL 終端の文字列配列 argv[0] = cmd_name argv[1]以降はオプション
-	int argc;          // argvの要素数
-	t_token **token;   // 試し
-	t_redirect *redir; // リダイレクトリスト
+	char					**argv;
+	int						argc;
+	t_token					**token;
+	t_redirect				*redir;
 }							t_cmd;
 
 typedef struct s_pipeline
 {
-	t_cmd *cmd;              // 先頭コマンド
-	struct s_pipeline *next; // パイプ接続された次のコマンド(あれば)
+	t_cmd					*cmd;
+	struct s_pipeline		*next;
 }							t_pipeline;
 
 typedef struct s_job
 {
-	t_pipeline *pipeline; // ひとまとまりのパイプライン
-	t_seq_type sep;       // 次の job との区切り
-	struct s_job *next;   // 次のシーケンス要素(あれば)
+	t_pipeline				*pipeline;
+	t_seq_type				sep;
+	struct s_job			*next;
 }							t_job;
 
 // global struct
 typedef struct s_global_state
 {
-	// シグナルハンドラからメインに通知するフラグ
 	volatile sig_atomic_t	sigint_received;
-	// 必要なら子プロセスPID もここに入れておく
+
 	volatile sig_atomic_t	child_pid;
-	// SIGINT 用の sigaction 構造体
+
 	struct sigaction		sa_int;
-	// （将来 BONUS で SIGQUIT 用も必要なら同様に追加）
+
 	struct sigaction		sa_quit;
 }							t_global_state;
 
-// 環境変数と終了ステータス
 typedef struct s_env
 {
-	char *key;          // 環境変数のキー
-	char *value;        // 環境変数の値
-	struct s_env *next; // 次のノード
+	char					*key;
+	char					*value;
+	struct s_env			*next;
 }							t_env;
 
 typedef struct s_shell_env
 {
-	t_env *env_list; // 環境変数を格納する配列
+	t_env					*env_list;
 	char					**envp;
-	int exit_status;     // 前回の終了ステータス
-	int exit_status_now; // 使用する終了ステータス
+	int						exit_status;
+	int						exit_status_now;
 }							t_shell_env;
 
 // 唯一のグローバル変数
@@ -211,10 +205,10 @@ char						*ft_strndup(char *str, int n);
 char						*ft_strchr(const char *s, int c);
 char						*combine_str_and_free_oldstr(char *str1,
 								char *str2);
-size_t						ft_strlcpy(char *dst, char *src, size_t dstsize);
 
 // utils_3.c
 char						**ft_split(char const *s, char c);
+size_t						ft_strlcpy(char *dst, char *src, size_t dstsize);
 
 // utils_4.c
 char						*ft_strnstr(const char *big, const char *little,
@@ -230,9 +224,10 @@ char						*ft_itoa(int n);
 // utils_struct.c
 int							check_token_cont(t_token **dest);
 void						free_alltoken_ptr(t_token *dest);
-void						update_pipeline_node(t_pipeline **head, t_pipeline **tail,
-							t_pipeline *node);
-void						update_job_list(t_job **head, t_job **tail, t_job *job_ptr);
+void						update_pipeline_node(t_pipeline **head,
+								t_pipeline **tail, t_pipeline *node);
+void						update_job_list(t_job **head, t_job **tail,
+								t_job *job_ptr);
 
 // utils_mk_struct.c
 t_cmd						*mk_t_cmd(void);
@@ -325,7 +320,7 @@ void						token_to_char_cmd(t_pipeline *pipeline_ptr);
 // exec
 void						ft_exec(t_job *job_head, t_shell_env *shell_envp);
 void						free_env_list(t_env *head);
-// void						print_env_list(t_env *head);
+
 void						update_exit_status(t_shell_env *shell_env,
 								int status);
 void						execute(char **av, t_shell_env *shell_env);
