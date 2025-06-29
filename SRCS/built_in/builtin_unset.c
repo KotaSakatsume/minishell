@@ -6,14 +6,14 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:00:28 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 11:40:49 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:10:58 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // 有効なキーを判定する関数
-static int	is_valid_key(char *args)
+static int	is_valid_key_unset(char *args)
 {
 	int	i;
 
@@ -38,14 +38,14 @@ static int	is_valid_key(char *args)
 	return (0);
 }
 
-static void	free_env_node(t_env *node)
-{
-	if (!node)
-		return ;
-	free(node->key);
-	free(node->value);
-	free(node);
-}
+// static void	free_env_node(t_env *node)
+// {
+// 	if (!node)
+// 		return ;
+// 	free(node->key);
+// 	free(node->value);
+// 	free(node);
+// }
 
 void	delete_env_node(char *args, t_env **env_list)
 {
@@ -92,7 +92,7 @@ void	find_env_node(char *args, t_env **env_list)
 
 int	unset_key(char *args, t_env **env_list)
 {
-	if (is_valid_key(args) == 1)
+	if (is_valid_key_unset(args) == 1)
 	{
 		write(2, "unset: '", 8);
 		write(2, args, ft_strlen(args));

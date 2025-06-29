@@ -6,30 +6,30 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 11:58:28 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:09:27 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	safe_free(void *ptr)
-{
-	if (ptr)
-		free(ptr);
-}
+// void	safe_free(void *ptr)
+// {
+// 	if (ptr)
+// 		free(ptr);
+// }
 
-void	free_string_array(char **arr)
-{
-	int	i;
+// void	free_string_array(char **arr)
+// {
+// 	int	i;
 
-	i = 0;
-	while (arr[i])
-	{
-		safe_free(arr[i]);
-		i++;
-	}
-	safe_free(arr);
-}
+// 	i = 0;
+// 	while (arr[i])
+// 	{
+// 		safe_free(arr[i]);
+// 		i++;
+// 	}
+// 	safe_free(arr);
+// }
 
 void	split_key_value(char *str, t_env *new_env_list)
 {
@@ -60,32 +60,32 @@ void	split_key_value(char *str, t_env *new_env_list)
 	return ;
 }
 
-int	is_valid_key(const char *key)
-{
-	if (!key || !((*key >= 'A' && *key <= 'Z') || (*key >= 'a' && *key <= 'z')
-			|| (*key == '_')))
-		return (0);
-	key++;
-	while (*key)
-	{
-		if (!((*key >= 'A' && *key <= 'Z') || (*key >= 'a' && *key <= 'z')
-				|| (*key >= '0' && *key <= '9') || (*key == '_')))
-			return (0);
-		key++;
-	}
-	return (1);
-}
+// int	is_valid_key(const char *key)
+// {
+// 	if (!key || !((*key >= 'A' && *key <= 'Z') || (*key >= 'a' && *key <= 'z')
+// 			|| (*key == '_')))
+// 		return (0);
+// 	key++;
+// 	while (*key)
+// 	{
+// 		if (!((*key >= 'A' && *key <= 'Z') || (*key >= 'a' && *key <= 'z')
+// 				|| (*key >= '0' && *key <= '9') || (*key == '_')))
+// 			return (0);
+// 		key++;
+// 	}
+// 	return (1);
+// }
 
-t_env	*get_env_by_key(char *key, t_env *env_list)
-{
-	while (env_list)
-	{
-		if (ft_strcmp(env_list->key, key) == 0)
-			return (env_list);
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
+// t_env	*get_env_by_key(char *key, t_env *env_list)
+// {
+// 	while (env_list)
+// 	{
+// 		if (ft_strcmp(env_list->key, key) == 0)
+// 			return (env_list);
+// 		env_list = env_list->next;
+// 	}
+// 	return (NULL);
+// }
 
 void	add_env(t_env *new_env_list, t_env **env_list, t_shell_env *shell_env)
 {
@@ -128,14 +128,14 @@ void	update_or_add_env(t_env *new_env_list, t_env **env_list,
 		add_env(new_env_list, env_list, shell_env);
 }
 
-static void	free_env_node(t_env *node)
-{
-	if (!node)
-		return ;
-	safe_free(node->key);
-	safe_free(node->value);
-	safe_free(node);
-}
+// void	free_env_node(t_env *node)
+// {
+// 	if (!node)
+// 		return ;
+// 	safe_free(node->key);
+// 	safe_free(node->value);
+// 	safe_free(node);
+// }
 
 void	main_export(char *str, t_env **env_list, t_shell_env *shell_env)
 {

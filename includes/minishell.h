@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 10:35:35 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 13:09:21 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ typedef struct s_shell_env
 {
 	t_env *env_list; // 環境変数を格納する配列
 	char					**envp;
-	int exit_status; // 前回の終了ステータス
+	int exit_status;     // 前回の終了ステータス
 	int exit_status_now; // 使用する終了ステータス
 }							t_shell_env;
 
@@ -181,10 +181,13 @@ void						initialize_t_token(t_token *t_token_node);
 void						lexer_set_token_vals(t_token **head);
 
 // lexer_set_token_stat_vals.c
-void						set_token_stat_vals(t_token_stat *token_stat_ptr, char *token_str);
-void						set_stat_token_type(t_token_stat *token_stat_ptr, char *token_str);
+void						set_token_stat_vals(t_token_stat *token_stat_ptr,
+								char *token_str);
+void						set_stat_token_type(t_token_stat *token_stat_ptr,
+								char *token_str);
 void						set_stat_token_need_expand(t_token_stat *token_stat_ptr);
-void						set_stat_token_in_quote(t_token_stat *token_stat_ptr, char *token_str);
+void						set_stat_token_in_quote(t_token_stat *token_stat_ptr,
+								char *token_str);
 
 // print_for_debag.c
 void						print_token(t_token **head);
@@ -218,7 +221,8 @@ char						*ft_strnstr(const char *big, const char *little,
 								size_t len);
 char						*ft_strstr(const char *haystack,
 								const char *needle);
-void						*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+void						*ft_realloc(void *ptr, size_t old_size,
+								size_t new_size);
 
 // ft_itoa.c
 char						*ft_itoa(int n);
@@ -264,7 +268,8 @@ void						free_all_pipeline(t_pipeline *pipeline_node);
 void						free_all_cmd(t_cmd *cmd_node);
 
 // parse_advance
-t_cmd						*parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr);
+t_cmd						*parse_cmd(t_token **tok,
+								t_shell_env *t_shellenv_ptr);
 int							advance_redirect(t_token **tok, t_redirect **head,
 								t_redirect **tail, t_cmd **cmd);
 int							advance_cmd(t_token **tok, t_cmd **cmd);
@@ -278,12 +283,14 @@ void						extend_daller(t_pipeline *pipeline_ptr,
 								t_shell_env *t_shellenv_ptr);
 
 // extend_daller_check_and_expand_mode.c
-void	check_and_expand_question_mode(char *daller_str_ptr,
-		t_token *token_ptr, t_shell_env *t_shellenv_ptr);
-void	check_and_expand_normal_mode(char *daller_str_ptr,
-		t_token *token_ptr, t_shell_env *t_shellenv_ptr);
-void	check_and_expand_daller_mode(char *daller_str_ptr,
-		t_token *token_ptr);
+void						check_and_expand_question_mode(char *daller_str_ptr,
+								t_token *token_ptr,
+								t_shell_env *t_shellenv_ptr);
+void						check_and_expand_normal_mode(char *daller_str_ptr,
+								t_token *token_ptr,
+								t_shell_env *t_shellenv_ptr);
+void						check_and_expand_daller_mode(char *daller_str_ptr,
+								t_token *token_ptr);
 
 // expander_utils.c
 void						fx_extend_to_all_pipeline(t_job *job_head,
@@ -341,5 +348,13 @@ void						builtin_pwd(t_env **env_list,
 void						builtin_unset(char **args, t_env **env_list,
 								t_shell_env *shell_env);
 t_env						*env_to_list(char **envp);
+// builtin_utils
+char						*get_env_value(t_env *env_list, char *key);
 
+// builtin_export_utils
+void						safe_free(void *ptr);
+void						free_string_array(char **arr);
+t_env						*get_env_by_key(char *key, t_env *env_list);
+void						free_env_node(t_env *node);
+int							is_valid_key(const char *key);
 #endif

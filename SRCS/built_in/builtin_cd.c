@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 11:46:27 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 12:57:21 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ void	update_env_variables(t_env **env_list)
 	update_env_variable("PWD", cwd, env_list);
 }
 
-char	*get_env_value(t_env *env_list, char *key)
-{
-	t_env	*node;
+// char	*get_env_value(t_env *env_list, char *key)
+// {
+// 	t_env	*node;
 
-	node = env_list;
-	while (node)
-	{
-		if (ft_strcmp(node->key, key) == 0)
-			return (ft_strdup(node->value));
-		node = node->next;
-	}
-	return (NULL);
-}
+// 	node = env_list;
+// 	while (node)
+// 	{
+// 		if (ft_strcmp(node->key, key) == 0)
+// 			return (ft_strdup(node->value));
+// 		node = node->next;
+// 	}
+// 	return (NULL);
+// }
 
 char	*get_target_directory(char **args, t_env *env_list)
 {
