@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:10:32 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 13:11:19 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 12:06:23 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,20 @@ t_env	*create_node(char *env_str)
 	return (node);
 }
 
+void	append_env_node(t_env **head, t_env **tail, t_env *new_node)
+{
+	if (!*head)
+	{
+		*head = new_node;
+		*tail = new_node;
+	}
+	else
+	{
+		(*tail)->next = new_node;
+		*tail = new_node;
+	}
+}
+
 t_env	*env_to_list(char **envp)
 {
 	t_env	*head;
@@ -64,25 +78,14 @@ t_env	*env_to_list(char **envp)
 	t_env	*new_node;
 	int		i;
 
-	i = 0;
 	head = NULL;
 	tail = NULL;
+	i = 0;
 	while (envp[i] != NULL)
 	{
 		new_node = create_node(envp[i]);
-		if (new_node) // エラー時以外の処理
-		{
-			if (!head)
-			{
-				head = new_node;
-				tail = head;
-			}
-			else
-			{
-				tail->next = new_node;
-				tail = new_node;
-			}
-		}
+		if (new_node)
+			append_env_node(&head, &tail, new_node);
 		i++;
 	}
 	return (head);
