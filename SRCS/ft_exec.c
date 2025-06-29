@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 16:43:59 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:35:59 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	cleanup_heredoc_files(t_pipeline *pipeline)
 			if (redir->filename && ft_strstr(redir->filename,
 					"/tmp/minishell_heredoc_"))
 			{
-				unlink(redir->filename); // 一時ファイルを削除
+				unlink(redir->filename);
 			}
 			redir = redir->next;
 		}
@@ -44,12 +44,18 @@ void	cleanup_heredoc_files(t_pipeline *pipeline)
 
 int	is_builtin(char *cmd)
 {
-	char	*builtins[] = {"cd", "echo", "exit", "env", "export", "pwd",
-			"unset"};
+	char	*builtins[7];
 	int		i;
 
+	builtins[0] = "cd";
+	builtins[1] = "echo";
+	builtins[2] = "exit";
+	builtins[3] = "env";
+	builtins[4] = "export";
+	builtins[5] = "pwd";
+	builtins[6] = "unset";
 	i = 0;
-	while (i < 7) // 配列サイズを7に修正（pwdが抜けていた）
+	while (i < 7)
 	{
 		if (ft_strcmp(cmd, builtins[i]) == 0)
 			return (1);
@@ -69,20 +75,16 @@ void	process_pipeline(t_pipeline *pipeline, t_shell_env *shell_env,
 		if (pipeline->cmd->argv != NULL)
 		{
 			if (is_builtin(pipeline->cmd->argv[0]))
-				// ビルトインコマンドの処理
 				handle_builtin(pipeline, shell_env, prev_pipe, pipe_fd);
 			else
-				// 外部コマンドの処理
 				handle_external(pipeline, shell_env, prev_pipe, pipe_fd);
 		}
 		else
 			handle_external(pipeline, shell_env, prev_pipe, pipe_fd);
 		pipeline = pipeline->next;
 	}
-	// 最後に残ったパイプをクリーンアップ
 	if (prev_pipe[0] != -1)
 		close(prev_pipe[0]);
-	// パイプライン内のすべてのプロセスが終了するまで待機
 	while ((pid = wait(&status)) > 0)
 	{
 		if (WIFEXITED(status))
@@ -105,13 +107,10 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 	while (current_job)
 	{
 		current_pipeline = current_job->pipeline;
-		prev_pipe[0] = -1; // 各ジョブの開始時にリセット
+		prev_pipe[0] = -1;
 		prev_pipe[1] = -1;
-		// パイプライン実行前にすべてのheredocを事前処理
 		process_heredocs(current_pipeline, shell_env);
-		// パイプラインの処理
 		process_pipeline(current_pipeline, shell_env, prev_pipe, pipe_fd);
-		// 一時ファイルをクリーンアップ
 		cleanup_heredoc_files(current_job->pipeline);
 		current_job = current_job->next;
 	}
