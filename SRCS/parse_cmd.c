@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 08:34:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 16:34:40 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:32:08 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	advance_redirect(t_token **tok, t_redirect **head, t_redirect **tail,
 				free(tr);
 				return (1);
 			}
-			tr->filename = strdup((*tok)->value);
+			tr->filename = ft_strdup((*tok)->value);
 			advance_token(tok);
 			set_redirect_list(head, tail, tr, cmd);
 		}

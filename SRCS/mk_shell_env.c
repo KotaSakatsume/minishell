@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mk_shell_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:50:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 19:30:41 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 18:32:00 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**mk_shell_env_envp(char **envp)
 	}
 	while (i < envp_num)
 	{
-		envp_ptr[i] = strdup(envp[i]);
+		envp_ptr[i] = ft_strdup(envp[i]);
 		if (envp_ptr[i] == NULL)
 		{
 			perror("mk_shell_env: strdup failed");
