@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 16:34:05 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:10:31 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	minishell_main_loop(t_shell_env *t_shellenv_ptr)
 	t_token	**split_token;
 	t_job	*job_head;
 
+	t_shellenv_ptr->exit_status = 0;
 	t_shellenv_ptr->exit_status_now = t_shellenv_ptr->exit_status;
 	input = readline_seq(t_shellenv_ptr);
 	add_history(input);

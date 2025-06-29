@@ -24,7 +24,6 @@ LDFLAGS = -lreadline
 SRC_FILES = main.c\
 			readline_seq.c\
 			mk_shell_env.c\
-			print_for_debag.c\
 			lexer.c\
 			lexer_set_token_vals.c\
 			lexer_set_token_stat_vals.c\
