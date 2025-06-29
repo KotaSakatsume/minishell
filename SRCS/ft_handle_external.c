@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 11:11:39 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:33:55 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	setup_pipe(t_pipeline *pipeline, int pipe_fd[2], t_shell_env *shell_env)
 	if (pipeline->next && pipe(pipe_fd) < 0)
 	{
 		perror("pipe");
-		update_exit_status(shell_env, 1); // パイプ作成失敗
+		update_exit_status(shell_env, 1);
 	}
 }
 
@@ -33,13 +33,12 @@ void	fork_and_execute(t_pipeline *pipeline, t_shell_env *shell_env,
 	{
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
-		close(pipe_fd[0]); // 子プロセスでは読み取り側は不要
+		close(pipe_fd[0]);
 	}
-	// リダイレクト処理（heredocを含む）
 	handle_redirects(pipeline->cmd->redir, shell_env);
 	execute(pipeline->cmd->argv, shell_env);
 	perror("execute");
-	exit(EXIT_FAILURE); // 子プロセス終了
+	exit(EXIT_FAILURE);
 }
 
 void	handle_exit_status(t_shell_env *shell_env, int status)
