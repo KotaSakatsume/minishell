@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/26 20:22:09 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:16:28 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	parse_option_n(char **args)
 		{
 			if (args[i][j] != 'n')
 			{
-				return (1); // `-n` 以外の文字が含まれる場合終了
+				return (1);
 			}
 			j++;
 		}
 		i++;
 	}
-	return (i); // オプション以外の引数の開始インデックスを返す
+	return (i);
 }
 
 void	builtin_echo(char **args)
@@ -40,9 +40,9 @@ void	builtin_echo(char **args)
 	int	start_index;
 	int	newline_flag;
 
-	start_index = parse_option_n(args); // オプション解析
+	start_index = parse_option_n(args);
 	i = start_index;
-	newline_flag = (start_index == 1); // `-n` がなければ改行フラグをオン
+	newline_flag = (start_index == 1);
 	while (args[i])
 	{
 		write(1, args[i], ft_strlen(args[i]));
@@ -51,7 +51,7 @@ void	builtin_echo(char **args)
 		i++;
 	}
 	if (newline_flag)
-		write(1, "\n", 1); // 改行フラグがオンの場合のみ改行を出力
+		write(1, "\n", 1);
 }
 
 // int	main(int ac, char **av)
