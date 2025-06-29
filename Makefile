@@ -35,7 +35,10 @@ SRC_FILES = main.c\
 			parse.c\
 			parse_free_utils.c\
 			parse_advance.c\
-			utils.c\
+			utils_1.c\
+			utils_2.c\
+			utils_3.c\
+			utils_4.c\
 			ft_itoa.c\
 			utils_struct.c\
 			utils_mk_struct.c\

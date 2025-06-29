@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/28 17:22:20 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 09:19:40 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,17 +201,27 @@ char						*ft_strjoin(char const *s1, char const *s2);
 int							ft_strncmp(char *s1, char *s2, int n);
 int							ft_strcmp(char *s1, char *s2);
 int							ft_strlen(char *str);
+
+
 char						*ft_strdup(char *s);
 char						*ft_strndup(char *str, int n);
 char						*ft_strchr(const char *s, int c);
 char						*combine_str_and_free_oldstr(char *str1,
 								char *str2);
 size_t						ft_strlcpy(char *dst, char *src, size_t dstsize);
+
+
 char						**ft_split(char const *s, char c);
+
+
 char						*ft_strnstr(const char *big, const char *little,
 								size_t len);
 char						*ft_strstr(const char *haystack,
 								const char *needle);
+
+
+// utils_2.c
+
 
 // ft_itoa.c
 char						*ft_itoa(int n);
