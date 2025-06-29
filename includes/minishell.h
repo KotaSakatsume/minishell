@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 10:31:43 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 10:35:35 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ void						free_all_pipeline(t_pipeline *pipeline_node);
 void						free_all_cmd(t_cmd *cmd_node);
 
 // parse_advance
+t_cmd						*parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr);
 int							advance_redirect(t_token **tok, t_redirect **head,
 								t_redirect **tail, t_cmd **cmd);
 int							advance_cmd(t_token **tok, t_cmd **cmd);

@@ -6,40 +6,11 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 09:31:24 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 10:34:50 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static t_cmd	*parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr)
-{
-	t_cmd		*cmd;
-	t_redirect	*head;
-	t_redirect	*tail;
-
-	cmd = mk_t_cmd();
-	head = NULL;
-	tail = NULL;
-	if (advance_redirect(tok, &head, &tail, &cmd) != 0)
-	{
-		t_shellenv_ptr->exit_status = 2;
-		return (cmd);
-	}
-	advance_cmd(tok, &cmd);
-	if (advance_redirect(tok, &head, &tail, &cmd) != 0)
-	{
-		t_shellenv_ptr->exit_status = 2;
-		return (cmd);
-	}
-	if (cmd->argc == 0 && cmd->redir == NULL)
-	{
-		printf("構文エラーがあります (no cmd)\n");
-		t_shellenv_ptr->exit_status = 2;
-		return (cmd);
-	}
-	return (cmd);
-}
 
 static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 {
