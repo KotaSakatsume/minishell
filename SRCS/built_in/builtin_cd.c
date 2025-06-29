@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 08:50:11 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:15:38 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #define PATH_MAX 4096
 
-// 環境変数を更新
 void	update_env_variable(char *key, char *value, t_env **env_list)
 {
 	t_env	*node;
@@ -31,7 +30,6 @@ void	update_env_variable(char *key, char *value, t_env **env_list)
 		}
 		node = node->next;
 	}
-	// キーが見つからない場合、新しいノードを追加
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 	{
@@ -44,7 +42,6 @@ void	update_env_variable(char *key, char *value, t_env **env_list)
 	*env_list = new_node;
 }
 
-// 現在のディレクトリ情報を環境変数に更新
 void	update_env_variables(t_env **env_list)
 {
 	char	cwd[PATH_MAX];
@@ -73,7 +70,6 @@ void	update_env_variables(t_env **env_list)
 	update_env_variable("PWD", cwd, env_list);
 }
 
-// 指定されたディレクトリを解決
 char	*get_target_directory(char **args, t_env *env_list)
 {
 	char	*tag;
@@ -111,12 +107,11 @@ char	*get_target_directory(char **args, t_env *env_list)
 		if (!tag)
 			return (write(2, "cd: OLDPWD not set\n", 19), NULL);
 	}
-	else // 引数がある場合: そのままコピー
+	else
 		tag = ft_strdup(args[1]);
 	return (tag);
 }
 
-// ディレクトリ変更
 int	change_directory(char *tag, t_env **env_list)
 {
 	if (!tag)
@@ -138,7 +133,6 @@ int	change_directory(char *tag, t_env **env_list)
 	return (0);
 }
 
-// cdビルトインコマンド
 void	builtin_cd(char **av, t_shell_env *shell_env)
 {
 	char	*tag;
