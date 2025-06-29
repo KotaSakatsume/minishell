@@ -6,13 +6,11 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/19 20:37:29 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:42:03 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	builtin_env(char **argv, t_shell_env **head, t_shell_env *shell_env)
 {

@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 10:17:49 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:41:51 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,12 @@ int	convert_exit_status(char *arg)
 	return (status % 256);
 }
 
-// プログラム終了
 void	execute_exit(int exit_status)
 {
 	printf("exit\n");
 	exit(exit_status);
 }
 
-// メインの exit 処理
 void	builtin_exit(char **args)
 {
 	int	validation_result;

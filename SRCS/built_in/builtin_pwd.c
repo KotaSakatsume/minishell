@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/27 18:48:13 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:41:10 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #define PATH_MAX 4096
 
-// 現在のディレクトリを取得
 int	get_current_directory(char *cwd, size_t size)
 {
 	if (getcwd(cwd, size) == NULL)
@@ -25,7 +24,6 @@ int	get_current_directory(char *cwd, size_t size)
 	return (0);
 }
 
-// PWD環境変数を更新または追加
 void	update_or_add_pwd(t_env **env_list, t_shell_env *shell_env, char *cwd)
 {
 	t_env	*node;
@@ -54,18 +52,15 @@ void	update_or_add_pwd(t_env **env_list, t_shell_env *shell_env, char *cwd)
 	update_exit_status(shell_env, 0);
 }
 
-// メイン関数
 void	sync_pwd_env(t_env **env_list, t_shell_env *shell_env)
 {
 	char	cwd[PATH_MAX];
 
-	// 現在のディレクトリを取得
 	if (get_current_directory(cwd, sizeof(cwd)) != 0)
 	{
 		update_exit_status(shell_env, 1);
 		return ;
 	}
-	// PWDを更新または追加
 	update_or_add_pwd(env_list, shell_env, cwd);
 }
 
@@ -74,7 +69,6 @@ void	builtin_pwd(t_env **env_list, t_shell_env *shell_env)
 	t_env	*node;
 
 	sync_pwd_env(env_list, shell_env);
-	// 環境変数リストからPWDを取得して出力
 	node = *env_list;
 	while (node)
 	{

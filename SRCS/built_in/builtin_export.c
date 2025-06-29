@@ -6,20 +6,18 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 10:19:16 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:41:36 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// ヘルパー関数: メモリを安全に解放する
 void	safe_free(void *ptr)
 {
 	if (ptr)
 		free(ptr);
 }
 
-// 文字列をキーと値に分割
 void	split_key_value(char *str, t_env *new_env_list)
 {
 	char	**parts;
@@ -56,7 +54,6 @@ void	split_key_value(char *str, t_env *new_env_list)
 	return ;
 }
 
-// 環境変数のキーが有効かどうか確認
 int	is_valid_key(const char *key)
 {
 	if (!key || !((*key >= 'A' && *key <= 'Z') || (*key >= 'a' && *key <= 'z')
@@ -73,7 +70,6 @@ int	is_valid_key(const char *key)
 	return (1);
 }
 
-// リスト内でキーを検索
 t_env	*get_env_by_key(char *key, t_env *env_list)
 {
 	while (env_list)
@@ -111,7 +107,6 @@ void	add_env(t_env *new_env_list, t_env **env_list, t_shell_env *shell_env)
 	}
 }
 
-// リストを更新または追加
 void	update_or_add_env(t_env *new_env_list, t_env **env_list,
 		t_shell_env *shell_env)
 {
@@ -126,7 +121,7 @@ void	update_or_add_env(t_env *new_env_list, t_env **env_list,
 	else
 		add_env(new_env_list, env_list, shell_env);
 }
-//メモリ開放
+
 static void	free_env_node(t_env *node)
 {
 	if (!node)
@@ -136,7 +131,6 @@ static void	free_env_node(t_env *node)
 	safe_free(node);
 }
 
-// メインエクスポート処理
 void	main_export(char *str, t_env **env_list, t_shell_env *shell_env)
 {
 	t_env	*new_env_list;
@@ -165,7 +159,6 @@ void	main_export(char *str, t_env **env_list, t_shell_env *shell_env)
 	update_exit_status(shell_env, 0);
 }
 
-// ビルトインエクスポート
 void	builtin_export(char **av, t_shell_env *shell_env)
 {
 	if (!av[1])

@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 10:15:38 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:43:24 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,42 +70,41 @@ void	update_env_variables(t_env **env_list)
 	update_env_variable("PWD", cwd, env_list);
 }
 
+char	*get_env_value(t_env *env_list, const char *key)
+{
+	t_env	*node;
+
+	node = env_list;
+	while (node)
+	{
+		if (ft_strcmp(node->key, key) == 0)
+			return (ft_strdup(node->value));
+		node = node->next;
+	}
+	return (NULL);
+}
+
 char	*get_target_directory(char **args, t_env *env_list)
 {
 	char	*tag;
-	t_env	*home_node;
-	t_env	*oldpwd_node;
 
-	tag = NULL;
 	if (!args[1])
 	{
-		home_node = env_list;
-		while (home_node)
-		{
-			if (ft_strcmp(home_node->key, "HOME") == 0)
-			{
-				tag = ft_strdup(home_node->value);
-				break ;
-			}
-			home_node = home_node->next;
-		}
+		tag = get_env_value(env_list, "HOME");
 		if (!tag)
-			return (write(2, "cd: HOME not set\n", 17), NULL);
+		{
+			write(2, "cd: HOME not set\n", 17);
+			return (NULL);
+		}
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
-		oldpwd_node = env_list;
-		while (oldpwd_node)
-		{
-			if (ft_strcmp(oldpwd_node->key, "OLDPWD") == 0)
-			{
-				tag = ft_strdup(oldpwd_node->value);
-				break ;
-			}
-			oldpwd_node = oldpwd_node->next;
-		}
+		tag = get_env_value(env_list, "OLDPWD");
 		if (!tag)
-			return (write(2, "cd: OLDPWD not set\n", 19), NULL);
+		{
+			write(2, "cd: OLDPWD not set\n", 19);
+			return (NULL);
+		}
 	}
 	else
 		tag = ft_strdup(args[1]);
