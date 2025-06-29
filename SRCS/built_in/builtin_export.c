@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:05:51 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 08:38:35 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:19:16 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 void	safe_free(void *ptr)
 {
 	if (ptr)
-	{
 		free(ptr);
-	}
 }
 
 // 文字列をキーと値に分割
@@ -72,7 +70,7 @@ int	is_valid_key(const char *key)
 			return (0);
 		key++;
 	}
-	return (1); // 有効なキー
+	return (1);
 }
 
 // リスト内でキーを検索
@@ -81,9 +79,7 @@ t_env	*get_env_by_key(char *key, t_env *env_list)
 	while (env_list)
 	{
 		if (ft_strcmp(env_list->key, key) == 0)
-		{
 			return (env_list);
-		}
 		env_list = env_list->next;
 	}
 	return (NULL);
