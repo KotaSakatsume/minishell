@@ -6,86 +6,86 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 11:28:29 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:35:38 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_error(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
-}
+// void	ft_error(void)
+// {
+// 	perror("Error");
+// 	exit(EXIT_FAILURE);
+// }
 
-void	free_envp(char **envp)
-{
-	int	i;
+// void	free_envp(char **envp)
+// {
+// 	int	i;
 
-	if (!envp)
-		return ;
-	i = 0;
-	while (envp[i])
-	{
-		free(envp[i]);
-		i++;
-	}
-	free(envp);
-}
+// 	if (!envp)
+// 		return ;
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		free(envp[i]);
+// 		i++;
+// 	}
+// 	free(envp);
+// }
 
-void	free_paths(char **paths)
-{
-	int	i;
+// void	free_paths(char **paths)
+// {
+// 	int	i;
 
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
-}
+// 	i = 0;
+// 	while (paths[i])
+// 		free(paths[i++]);
+// 	free(paths);
+// }
 
-static char	*join_path_and_cmd(char *path, char *cmd)
-{
-	char	*part_path;
-	char	*full_path;
+// char	*join_path_and_cmd(char *path, char *cmd)
+// {
+// 	char	*part_path;
+// 	char	*full_path;
 
-	part_path = ft_strjoin(path, "/");
-	if (!part_path)
-		ft_error();
-	full_path = ft_strjoin(part_path, cmd);
-	free(part_path);
-	if (!full_path)
-		ft_error();
-	return (full_path);
-}
+// 	part_path = ft_strjoin(path, "/");
+// 	if (!part_path)
+// 		ft_error();
+// 	full_path = ft_strjoin(part_path, cmd);
+// 	free(part_path);
+// 	if (!full_path)
+// 		ft_error();
+// 	return (full_path);
+// }
 
-char	*find_path(char *cmd, char **envp)
-{
-	char	**paths;
-	int		i;
-	char	*path;
+// char	*find_path(char *cmd, char **envp)
+// {
+// 	char	**paths;
+// 	int		i;
+// 	char	*path;
 
-	i = 0;
-	if (!access(cmd, X_OK))
-		return (cmd);
-	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
-		i++;
-	if (envp[i] == NULL)
-		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
-	if (!paths)
-		ft_error();
-	i = 0;
-	while (paths[i])
-	{
-		path = join_path_and_cmd(paths[i], cmd);
-		if (access(path, X_OK) == 0)
-			return (free_paths(paths), path);
-		free(path);
-		i++;
-	}
-	free_paths(paths);
-	return (NULL);
-}
+// 	i = 0;
+// 	if (!access(cmd, X_OK))
+// 		return (cmd);
+// 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
+// 		i++;
+// 	if (envp[i] == NULL)
+// 		return (NULL);
+// 	paths = ft_split(envp[i] + 5, ':');
+// 	if (!paths)
+// 		ft_error();
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		path = join_path_and_cmd(paths[i], cmd);
+// 		if (access(path, X_OK) == 0)
+// 			return (free_paths(paths), path);
+// 		free(path);
+// 		i++;
+// 	}
+// 	free_paths(paths);
+// 	return (NULL);
+// }
 
 int	calculate_env_list_size(t_env *env_list)
 {
@@ -102,15 +102,15 @@ int	calculate_env_list_size(t_env *env_list)
 	return (count);
 }
 
-char	**allocate_envp_array(int count)
-{
-	char	**envp;
+// char	**allocate_envp_array(int count)
+// {
+// 	char	**envp;
 
-	envp = (char **)malloc(sizeof(char *) * (count + 1));
-	if (envp)
-		envp[count] = NULL;
-	return (envp);
-}
+// 	envp = (char **)malloc(sizeof(char *) * (count + 1));
+// 	if (envp)
+// 		envp[count] = NULL;
+// 	return (envp);
+// }
 
 char	*create_env_entry(char *key, char *value)
 {
@@ -126,18 +126,18 @@ char	*create_env_entry(char *key, char *value)
 	return (env_entry);
 }
 
-void	free_envp_array(char **envp, int count)
-{
-	int	i;
+// void	free_envp_array(char **envp, int count)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < count)
-	{
-		free(envp[i]);
-		i++;
-	}
-	free(envp);
-}
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		free(envp[i]);
+// 		i++;
+// 	}
+// 	free(envp);
+// }
 
 char	**env_list_to_envp(t_env *env_list)
 {

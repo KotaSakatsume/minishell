@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 13:09:21 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:35:34 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,9 @@ void						handle_external(t_pipeline *pipeline,
 void						process_heredocs(t_pipeline *pipeline,
 								t_shell_env *shell_env);
 
+// exec
+void						free_envp(char **envp);
+void						free_paths(char **paths);
 // builtin
 void						handle_builtin(t_pipeline *pipeline,
 								t_shell_env *shell_env, int prev_pipe[2],
@@ -348,13 +351,20 @@ void						builtin_pwd(t_env **env_list,
 void						builtin_unset(char **args, t_env **env_list,
 								t_shell_env *shell_env);
 t_env						*env_to_list(char **envp);
-// builtin_utils
+void						free_envp_array(char **envp, int count);
 char						*get_env_value(t_env *env_list, char *key);
+void						ft_error(void);
+char						**allocate_envp_array(int count);
 
-// builtin_export_utils
+// builtin_utils
 void						safe_free(void *ptr);
 void						free_string_array(char **arr);
 t_env						*get_env_by_key(char *key, t_env *env_list);
 void						free_env_node(t_env *node);
 int							is_valid_key(const char *key);
+
+// find_path
+char						*find_path(char *cmd, char **envp);
+char						*join_path_and_cmd(char *path, char *cmd);
+
 #endif
