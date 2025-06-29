@@ -34,7 +34,7 @@ SRC_FILES = main.c\
 			paser_utils.c\
 			parse.c\
 			parse_free_utils.c\
-			parse_advance.c\
+			parse_cmd.c\
 			utils_1.c\
 			utils_2.c\
 			utils_3.c\

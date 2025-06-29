@@ -6,39 +6,25 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 09:31:24 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 10:43:03 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmd	*parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr)
+static void	update_pipeline_node(t_pipeline **head, t_pipeline **tail,
+		t_pipeline *node)
 {
-	t_cmd		*cmd;
-	t_redirect	*head;
-	t_redirect	*tail;
-
-	cmd = mk_t_cmd();
-	head = NULL;
-	tail = NULL;
-	if (advance_redirect(tok, &head, &tail, &cmd) != 0)
+	if (*head == NULL)
 	{
-		t_shellenv_ptr->exit_status = 2;
-		return (cmd);
+		*head = node;
+		*tail = node;
 	}
-	advance_cmd(tok, &cmd);
-	if (advance_redirect(tok, &head, &tail, &cmd) != 0)
+	else
 	{
-		t_shellenv_ptr->exit_status = 2;
-		return (cmd);
+		(*tail)->next = node;
+		*tail = node;
 	}
-	if (cmd->argc == 0 && cmd->redir == NULL)
-	{
-		printf("構文エラーがあります (no cmd)\n");
-		t_shellenv_ptr->exit_status = 2;
-		return (cmd);
-	}
-	return (cmd);
 }
 
 static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
@@ -55,16 +41,7 @@ static t_pipeline	*parse_pipeline(t_token **tok, t_shell_env *t_shellenv_ptr)
 	{
 		node = mk_t_pipeline();
 		node->cmd = parse_cmd(tok, t_shellenv_ptr);
-		if (!head)
-		{
-			tail = node;
-			head = tail;
-		}
-		else
-		{
-			tail->next = node;
-			tail = node;
-		}
+		update_pipeline_node(&head, &tail, node);
 		if (t_shellenv_ptr->exit_status == 2)
 			return (head);
 		rep = accept_token(tok, TYPE_PIPE);
@@ -110,7 +87,7 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 	t_job	*tail;
 	t_job	*job_ptr;
 	t_token	**cur;
-	t_token *token_top_ptr;
+	t_token	*token_top_ptr;
 
 	token_top_ptr = *tokens_top;
 	head = NULL;

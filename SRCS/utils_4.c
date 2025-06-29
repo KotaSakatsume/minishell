@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 09:19:37 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 10:32:19 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,44 @@ char	*ft_strstr(const char *haystack, const char *needle)
 		haystack++;
 	}
 	return (NULL); // 見つからなかった場合
+}
+
+static void	copy_data(char *dst, char *src, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+}
+
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+	size_t	copy_size;
+	char	*src;
+	char	*dst;
+
+	if (new_size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	if (ptr == NULL)
+		return (malloc(new_size));
+	new_ptr = malloc(new_size);
+	if (new_ptr == NULL)
+		exit(1);
+	if (old_size < new_size)
+		copy_size = old_size;
+	else
+		copy_size = new_size;
+	src = (char *)ptr;
+	dst = (char *)new_ptr;
+	copy_data(dst, src, copy_size);
+	free(ptr);
+	return (new_ptr);
 }

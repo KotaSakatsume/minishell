@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 09:19:40 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 10:35:35 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,14 +195,14 @@ void						dump_jobs(t_job *job);
 // serch_end_ptr.c
 char						*serach_end_ptr(char *input);
 
-// utils.c
+// utils_1.c
 int							is_space(char c);
 char						*ft_strjoin(char const *s1, char const *s2);
 int							ft_strncmp(char *s1, char *s2, int n);
 int							ft_strcmp(char *s1, char *s2);
 int							ft_strlen(char *str);
 
-
+// utils_2.c
 char						*ft_strdup(char *s);
 char						*ft_strndup(char *str, int n);
 char						*ft_strchr(const char *s, int c);
@@ -210,18 +210,15 @@ char						*combine_str_and_free_oldstr(char *str1,
 								char *str2);
 size_t						ft_strlcpy(char *dst, char *src, size_t dstsize);
 
-
+// utils_3.c
 char						**ft_split(char const *s, char c);
 
-
+// utils_4.c
 char						*ft_strnstr(const char *big, const char *little,
 								size_t len);
 char						*ft_strstr(const char *haystack,
 								const char *needle);
-
-
-// utils_2.c
-
+void						*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // ft_itoa.c
 char						*ft_itoa(int n);
@@ -267,6 +264,7 @@ void						free_all_pipeline(t_pipeline *pipeline_node);
 void						free_all_cmd(t_cmd *cmd_node);
 
 // parse_advance
+t_cmd						*parse_cmd(t_token **tok, t_shell_env *t_shellenv_ptr);
 int							advance_redirect(t_token **tok, t_redirect **head,
 								t_redirect **tail, t_cmd **cmd);
 int							advance_cmd(t_token **tok, t_cmd **cmd);

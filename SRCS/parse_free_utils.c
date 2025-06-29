@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_free_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:51:11 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 13:32:40 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:22:06 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@ static void	free_all_red(t_redirect *redirect_node)
 		free(old_node->filename);
 		free(old_node);
 	}
+}
+
+static void	free_all_token_ptr(t_token **token_node_ptr)
+{
+	int	i;
+
+	i = 0;
+	while (token_node_ptr[i] != NULL)
+	{
+		if (token_node_ptr[i]->value != NULL)
+			free(token_node_ptr[i]->value);
+		if (token_node_ptr[i]->status != NULL)
+			free(token_node_ptr[i]->status);
+		free(token_node_ptr[i]);
+		i++;
+	}
+	free(token_node_ptr);
 }
 
 void	free_all_cmd(t_cmd *cmd_node)
@@ -46,17 +63,7 @@ void	free_all_cmd(t_cmd *cmd_node)
 	}
 	if (cmd_node->token)
 	{
-		i = 0;
-		while (cmd_node->token[i] != NULL)
-		{
-			if (cmd_node->token[i]->value != NULL)
-				free(cmd_node->token[i]->value);
-			if (cmd_node->token[i]->status != NULL)
-				free(cmd_node->token[i]->status);
-			free(cmd_node->token[i]);
-			i++;
-		}
-		free(cmd_node->token);
+		free_all_token_ptr(cmd_node->token);
 	}
 	free(cmd_node);
 }
