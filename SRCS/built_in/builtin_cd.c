@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 11:43:24 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:46:27 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	update_env_variables(t_env **env_list)
 	update_env_variable("PWD", cwd, env_list);
 }
 
-char	*get_env_value(t_env *env_list, const char *key)
+char	*get_env_value(t_env *env_list, char *key)
 {
 	t_env	*node;
 
