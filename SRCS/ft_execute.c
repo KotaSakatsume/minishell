@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 10:42:07 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:28:29 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,10 @@ char	**env_list_to_envp(t_env *env_list)
 	t_env	*current;
 	int		i;
 
-	// リストのサイズを計算
 	count = calculate_env_list_size(env_list);
-	// 配列を確保
 	envp = allocate_envp_array(count);
 	if (!envp)
 		return (NULL);
-	// リストを配列に変換
 	current = env_list;
 	i = 0;
 	while (current)
