@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/26 20:30:04 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:38:28 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	process_input_redirect(const char *filename, t_shell_env *shell_env)
 	if (fd < 0)
 	{
 		perror("open");
-		update_exit_status(shell_env, 1); // ファイルオープン失敗
+		update_exit_status(shell_env, 1);
 		exit(1);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -31,14 +31,15 @@ void	process_output_redirect(const char *filename, t_shell_env *shell_env,
 		int append)
 {
 	int	fd;
-	int	flags;
 
-	flags = O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC);
-	fd = open(filename, flags, 0644);
+	if (append)
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		perror("open");
-		update_exit_status(shell_env, 1); // ファイルオープン失敗
+		update_exit_status(shell_env, 1);
 		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -64,10 +65,10 @@ void	handle_redirects(t_redirect *redir, t_shell_env *shell_env)
 		else
 		{
 			write(STDERR_FILENO, "Unknown redirect type\n", 22);
-			update_exit_status(shell_env, 1); // 未知のリダイレクトタイプ
+			update_exit_status(shell_env, 1);
 			exit(1);
 		}
 		redir = redir->next;
 	}
-	update_exit_status(shell_env, 0); // リダイレクト成功
+	update_exit_status(shell_env, 0);
 }
