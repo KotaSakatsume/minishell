@@ -6,13 +6,11 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 13:43:46 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:45:14 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 int	create_temporary_file(char *tmp_filename, int size, int heredoc_count)
 {

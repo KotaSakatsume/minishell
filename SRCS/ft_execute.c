@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 13:40:51 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:44:55 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,6 @@ int	calculate_env_list_size(t_env *env_list)
 	}
 	return (count);
 }
-
-// char	*create_env_entry(char *key, char *value)
-// {
-// 	size_t	key_len;
-// 	size_t	value_len;
-// 	char	*env_entry;
-
-// 	key_len = ft_strlen(key);
-// 	value_len = ft_strlen(value);
-// 	env_entry = (char *)malloc(key_len + value_len + 2);
-// 	if (env_entry)
-// 		sprintf(env_entry, "%s=%s", key, value);
-// 	return (env_entry);
-// }
 
 char	**env_list_to_envp(t_env *env_list)
 {
