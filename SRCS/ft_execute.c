@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 17:00:46 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:42:07 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,8 @@ char	**allocate_envp_array(int count)
 	char	**envp;
 
 	envp = (char **)malloc(sizeof(char *) * (count + 1));
-	//+1 for NULL terminator
 	if (envp)
-		envp[count] = NULL; // Ensure NULL terminator is set
+		envp[count] = NULL;
 	return (envp);
 }
 
@@ -121,7 +120,7 @@ char	*create_env_entry(char *key, char *value)
 
 	key_len = ft_strlen(key);
 	value_len = ft_strlen(value);
-	env_entry = (char *)malloc(key_len + value_len + 2); // '=' + '\0'
+	env_entry = (char *)malloc(key_len + value_len + 2);
 	if (env_entry)
 		sprintf(env_entry, "%s=%s", key, value);
 	return (env_entry);
@@ -161,7 +160,7 @@ char	**env_list_to_envp(t_env *env_list)
 		envp[i] = create_env_entry(current->key, current->value);
 		if (!envp[i])
 		{
-			free_envp_array(envp, i); // メモリ解放
+			free_envp_array(envp, i);
 			return (NULL);
 		}
 		i++;
@@ -177,18 +176,17 @@ char	*prepare_execution(char **av, t_shell_env *shell_env, char ***envp)
 	*envp = env_list_to_envp(shell_env->env_list);
 	if (!(*envp))
 	{
-		update_exit_status(shell_env, 1); // メモリ不足の可能性
+		update_exit_status(shell_env, 1);
 		ft_error();
 	}
 	path = find_path(av[0], *envp);
 	if (!path)
 	{
-		update_exit_status(shell_env, 127); // コマンドが見つからない
-		// fprintf(stderr, "minishell: %s: command not found\n", av[0]);
+		update_exit_status(shell_env, 127);
 		write(2, "minishell: ", 11);
 		write(2, av[0], ft_strlen(av[0]));
 		write(2, ": command not found\n", 20);
-		exit(shell_env->exit_status); // 設定したステータスを反映
+		exit(shell_env->exit_status);
 	}
 	return (path);
 }
@@ -198,11 +196,11 @@ void	execute_command(char *path, char **av, char **envp,
 {
 	if (execve(path, av, envp) == -1)
 	{
-		update_exit_status(shell_env, 126); // 実行失敗
+		update_exit_status(shell_env, 126);
 		perror("minishell");
-		free(path); // パスの解放
+		free(path);
 		free_envp(envp);
-		exit(shell_env->exit_status); // 設定したステータスを反映
+		exit(shell_env->exit_status);
 	}
 }
 
