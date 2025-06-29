@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 16:30:08 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:35:56 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ t_job	*parse_line(t_token **tokens_top, t_shell_env *t_shellenv_ptr)
 	{
 		job_ptr = parse_job(cur, t_shellenv_ptr);
 		update_job_list(&head, &tail, job_ptr);
-		fflush(stdout);
 		if (t_shellenv_ptr->exit_status == 2)
 		{
 			if(set_next_token_null(token_top_ptr,*cur) == 1)
