@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 13:57:36 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 09:20:30 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 18:28:44 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		exit(1);
 	i = 0;

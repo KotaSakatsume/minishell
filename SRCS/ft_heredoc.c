@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 13:45:14 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:28:22 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	process_heredoc_input(int tmp_fd, char *delimiter,
 	char	*line;
 
 	write(STDOUT_FILENO, "Here-doc (end with '", 20);
-	write(STDOUT_FILENO, delimiter, strlen(delimiter));
+	write(STDOUT_FILENO, delimiter, ft_strlen(delimiter));
 	write(STDOUT_FILENO, "'):\n", 4);
 	while (1)
 	{

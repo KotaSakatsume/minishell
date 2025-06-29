@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 17:10:31 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/06/29 18:01:18 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	handle_sigint(int signo)
 
 static void	init_gstate(void)
 {
-	g_state.sigint_received = 0;
-	g_state.child_pid = 0;
 	g_state.sa_int.sa_flags = SA_RESTART;
 	g_state.sa_int.sa_handler = handle_sigint;
 	sigemptyset(&g_state.sa_int.sa_mask);
