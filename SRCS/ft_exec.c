@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 10:35:59 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:31:40 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	update_exit_status(t_shell_env *shell_env, int status)
 	shell_env->exit_status = status;
 }
 
-// 一時ファイルをクリーンアップする関数
 void	cleanup_heredoc_files(t_pipeline *pipeline)
 {
 	t_pipeline	*current;
@@ -64,12 +63,9 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	process_pipeline(t_pipeline *pipeline, t_shell_env *shell_env,
+void	process_pipeline_commands(t_pipeline *pipeline, t_shell_env *shell_env,
 		int *prev_pipe, int *pipe_fd)
 {
-	pid_t	pid;
-	int		status;
-
 	while (pipeline)
 	{
 		if (pipeline->cmd->argv != NULL)
@@ -80,17 +76,28 @@ void	process_pipeline(t_pipeline *pipeline, t_shell_env *shell_env,
 				handle_external(pipeline, shell_env, prev_pipe, pipe_fd);
 		}
 		else
+		{
 			handle_external(pipeline, shell_env, prev_pipe, pipe_fd);
+		}
 		pipeline = pipeline->next;
 	}
 	if (prev_pipe[0] != -1)
 		close(prev_pipe[0]);
-	while ((pid = wait(&status)) > 0)
+}
+
+void	wait_for_all_children(t_shell_env *shell_env)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = wait(&status);
+	while (pid > 0)
 	{
 		if (WIFEXITED(status))
 			update_exit_status(shell_env, WEXITSTATUS(status));
 		else if (WIFSIGNALED(status))
 			update_exit_status(shell_env, 128 + WTERMSIG(status));
+		pid = wait(&status);
 	}
 }
 
@@ -110,7 +117,9 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 		prev_pipe[0] = -1;
 		prev_pipe[1] = -1;
 		process_heredocs(current_pipeline, shell_env);
-		process_pipeline(current_pipeline, shell_env, prev_pipe, pipe_fd);
+		process_pipeline_commands(current_pipeline, shell_env, prev_pipe,
+			pipe_fd);
+		wait_for_all_children(shell_env);
 		cleanup_heredoc_files(current_job->pipeline);
 		current_job = current_job->next;
 	}
