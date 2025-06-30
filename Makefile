@@ -12,7 +12,7 @@
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS =# -Wall -Wextra -Werror -g
 #CFLAGS += -fsanitize=address -g -O1
 SRC_DIR = ./SRCS
 BUILT_IN_DIR = ./SRCS/built_in
@@ -22,6 +22,7 @@ INCLUDES = -I includes
 LDFLAGS = -lreadline
 
 SRC_FILES = main.c\
+			signal_handle.c\
 			readline_seq.c\
 			mk_shell_env.c\
 			lexer.c\

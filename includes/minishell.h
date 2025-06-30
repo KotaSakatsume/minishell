@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/06/29 17:36:15 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/01 07:52:21 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,16 +126,7 @@ typedef struct s_job
 }							t_job;
 
 // global struct
-typedef struct s_global_state
-{
-	volatile sig_atomic_t	sigint_received;
-
-	volatile sig_atomic_t	child_pid;
-
-	struct sigaction		sa_int;
-
-	struct sigaction		sa_quit;
-}							t_global_state;
+extern volatile sig_atomic_t	g_sigatm;
 
 typedef struct s_env
 {
@@ -152,8 +143,11 @@ typedef struct s_shell_env
 	int						exit_status_now;
 }							t_shell_env;
 
-// 唯一のグローバル変数
-extern t_global_state		g_state;
+//signal_handle.c
+void						handle_sigint(int signo);
+void						handle_signal(int signo);
+void						set_sigint_for_readline(void);
+void						set_sigint_default(void);
 
 // mk_shell_env.c
 t_shell_env					*mk_shell_env(char **envp);

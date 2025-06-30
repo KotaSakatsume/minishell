@@ -3,44 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 18:01:18 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/01 07:50:37 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_global_state		g_state;
-
-void	handle_sigint(int signo)
-{
-	(void)signo;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+volatile sig_atomic_t	g_sigatm;
 
 static void	init_gstate(void)
 {
-	g_state.sa_int.sa_flags = SA_RESTART;
-	g_state.sa_int.sa_handler = handle_sigint;
-	sigemptyset(&g_state.sa_int.sa_mask);
-	if (sigaction(SIGINT, &(g_state.sa_int), NULL) == -1)
-	{
-		perror("sigaction_int");
-		exit(1);
-	}
-	g_state.sa_quit.sa_flags = 0;
-	g_state.sa_quit.sa_handler = SIG_IGN;
-	sigemptyset(&g_state.sa_quit.sa_mask);
-	if (sigaction(SIGQUIT, &(g_state.sa_quit), NULL) == -1)
-	{
-		perror("sigaction_quit");
-		exit(1);
-	}
+	struct sigaction sa;
+	
+	sa.sa_handler = handle_signal;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 static t_shell_env	*init_tshellenv(char **envp)
@@ -59,15 +41,22 @@ static t_shell_env	*init_tshellenv(char **envp)
 	return (t_shellenv_ptr);
 }
 
+static void	loop_initialize(t_shell_env *t_shellenv_ptr)
+{
+	set_sigint_for_readline();
+	t_shellenv_ptr->exit_status = 0;
+	t_shellenv_ptr->exit_status_now = t_shellenv_ptr->exit_status;
+}
+
 static void	minishell_main_loop(t_shell_env *t_shellenv_ptr)
 {
 	char	*input;
 	t_token	**split_token;
 	t_job	*job_head;
 
-	t_shellenv_ptr->exit_status = 0;
-	t_shellenv_ptr->exit_status_now = t_shellenv_ptr->exit_status;
+	loop_initialize(t_shellenv_ptr);
 	input = readline_seq(t_shellenv_ptr);
+	set_sigint_default();
 	add_history(input);
 	split_token = lexer(input);
 	free(input);
@@ -97,6 +86,13 @@ int	main(int argc, char **argv, char **envp)
 	init_gstate();
 	t_shellenv_ptr = init_tshellenv(envp);
 	while (1)
+	{
+		if(g_sigatm == SIGINT)
+		{
+			write(1,"\n",1);
+			g_sigatm = 0;
+		}
 		minishell_main_loop(t_shellenv_ptr);
+	}
 	return (1);
 }
