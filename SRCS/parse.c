@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:24:14 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 17:22:29 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/01 10:53:38 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ static int	set_next_token_null(t_token *tokens_top, t_token *target_ptr)
 		}
 		now_token = now_token->next;
 	}
-	printf("error at set_next_token_null\n");
-	exit(1);
+	return (0);
 }
 
 static t_job	*pl_sup(t_token **tokens_top, t_shell_env *t_shellenv_ptr,
