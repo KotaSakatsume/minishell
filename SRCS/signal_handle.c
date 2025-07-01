@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 07:45:18 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 19:41:45 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/02 07:42:13 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int signo)
+void	get_signal(int signo)
+{
+	g_sigatm = signo;
+}
+
+void	display_newline_in_readline(int signo)
 {
 	(void)signo;
 	write(STDOUT_FILENO, "\n", 1);
@@ -21,18 +26,13 @@ void	handle_sigint(int signo)
 	rl_redisplay();
 }
 
-void	handle_signal(int signo)
-{
-	g_sigatm = signo;
-}
-
 void	set_sigint_for_readline(void)
 {
 	struct sigaction	sa;
 	struct sigaction	sa_quit;
 
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = handle_sigint;
+	sa.sa_handler = display_newline_in_readline;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	sigemptyset(&sa_quit.sa_mask);
@@ -41,12 +41,12 @@ void	set_sigint_for_readline(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-void	set_sigint_default(void)
+void	set_signal_default(void)
 {
 	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = handle_signal;
+	sa.sa_handler = get_signal;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	// kosakats

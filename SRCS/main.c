@@ -6,24 +6,13 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 16:47:35 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/02 07:41:57 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_sigatm;
-
-static void	init_gstate(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = handle_signal;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-}
 
 static t_shell_env	*init_tshellenv(char **envp)
 {
@@ -57,7 +46,7 @@ static void	minishell_main_loop(t_shell_env *t_shellenv_ptr)
 
 	loop_initialize(t_shellenv_ptr);
 	input = readline_seq(t_shellenv_ptr);
-	set_sigint_default();
+	set_signal_default();
 	add_history(input);
 	split_token = lexer(input);
 	free(input);
@@ -84,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	init_gstate();
+	set_signal_default();
 	t_shellenv_ptr = init_tshellenv(envp);
 	while (1)
 	{

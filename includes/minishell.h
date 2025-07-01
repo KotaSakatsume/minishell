@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/07/01 10:03:47 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/02 07:42:38 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,10 @@ typedef struct s_shell_env
 }							t_shell_env;
 
 //signal_handle.c
-void						handle_sigint(int signo);
-void						handle_signal(int signo);
+void						get_signal(int signo);
+void						display_newline_in_readline(int signo);
 void						set_sigint_for_readline(void);
-void						set_sigint_default(void);
+void						set_signal_default(void);
 
 // mk_shell_env.c
 t_shell_env					*mk_shell_env(char **envp);
