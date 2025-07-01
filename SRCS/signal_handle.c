@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 07:45:18 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 10:04:13 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:09:56 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,16 @@ void	handle_signal(int signo)
 void	set_sigint_for_readline(void)
 {
 	struct sigaction	sa;
+	struct sigaction	sa_quit;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = handle_sigint;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
 void	set_sigint_default(void)
