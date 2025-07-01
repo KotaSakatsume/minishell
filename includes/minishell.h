@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/07/01 07:52:21 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/01 10:03:47 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,10 @@ void						set_token_stat_vals(t_token_stat *token_stat_ptr,
 								char *token_str);
 void						set_stat_token_type(t_token_stat *token_stat_ptr,
 								char *token_str);
-void						set_stat_token_need_expand(t_token_stat *token_stat_ptr);
-void						set_stat_token_in_quote(t_token_stat *token_stat_ptr,
+void						set_stat_token_need_expand(
+								t_token_stat *token_stat_ptr);
+void						set_stat_token_in_quote(
+								t_token_stat *token_stat_ptr,
 								char *token_str);
 
 // print_for_debag.c
@@ -188,7 +190,7 @@ char						*serach_end_ptr(char *input);
 
 // utils_1.c
 int							is_space(char c);
-char						*ft_strjoin(char const *s1, char const *s2);
+char						*ft_strjoin(char *s1, char *s2);
 int							ft_strncmp(char *s1, char *s2, int n);
 int							ft_strcmp(char *s1, char *s2);
 int							ft_strlen(char *str);
@@ -237,7 +239,8 @@ void						free_conjunc_token(t_token **dest);
 
 // utils_initialize_struct.c
 void						initialize_t_token(t_token *t_token_node);
-void						initialize_t_token_stat(t_token_stat *t_token_stat_node);
+void						initialize_t_token_stat(
+								t_token_stat *t_token_stat_node);
 
 // mk_shell_env.c
 t_shell_env					*mk_shell_env(char **envp);
@@ -298,7 +301,8 @@ void						delete_quote_cmd(t_pipeline *pipeline_ptr);
 void						set_token_remove_quote(t_token *next_token_ptr);
 void						set_token_remove_backslash(t_token *next_token_ptr,
 								int count_backslash_to_remove);
-int							check_token_remove_backslash(t_token *next_token_ptr);
+int							check_token_remove_backslash(
+								t_token *next_token_ptr);
 
 // expander_nospace.c
 void						combine_main(t_pipeline *pipeline_ptr);

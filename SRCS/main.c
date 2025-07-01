@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 07:50:37 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/01 10:04:24 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ volatile sig_atomic_t	g_sigatm;
 
 static void	init_gstate(void)
 {
-	struct sigaction sa;
-	
+	struct sigaction	sa;
+
 	sa.sa_handler = handle_signal;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
@@ -87,9 +87,9 @@ int	main(int argc, char **argv, char **envp)
 	t_shellenv_ptr = init_tshellenv(envp);
 	while (1)
 	{
-		if(g_sigatm == SIGINT)
+		if (g_sigatm == SIGINT)
 		{
-			write(1,"\n",1);
+			write(1, "\n", 1);
 			g_sigatm = 0;
 		}
 		minishell_main_loop(t_shellenv_ptr);
