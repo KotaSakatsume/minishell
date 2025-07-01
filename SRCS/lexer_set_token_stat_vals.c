@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_set_token_stat_vals.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:54:48 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/28 16:55:15 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/01 10:29:08 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ void	set_stat_token_type(t_token_stat *token_stat_ptr, char *token_str)
 		perror("set_stat_token_type : token_str is NULL");
 		exit(1);
 	}
-	if (strcmp(token_str, "|") == 0)
+	if (ft_strcmp(token_str, "|") == 0)
 		token_stat_ptr->token_type = TYPE_PIPE;
-	else if (strcmp(token_str, ">") == 0)
+	else if (ft_strcmp(token_str, ">") == 0)
 		token_stat_ptr->token_type = TYPE_REDIRECT_OUT;
-	else if (strcmp(token_str, "<") == 0)
+	else if (ft_strcmp(token_str, "<") == 0)
 		token_stat_ptr->token_type = TYPE_REDIRECT_IN;
-	else if (strcmp(token_str, ">>") == 0)
+	else if (ft_strcmp(token_str, ">>") == 0)
 		token_stat_ptr->token_type = TYPE_REDIRECT_APPEND;
-	else if (strcmp(token_str, "<<") == 0)
+	else if (ft_strcmp(token_str, "<<") == 0)
 		token_stat_ptr->token_type = TYPE_REDIRECT_HEREDOC;
-	else if (strcmp(token_str, "'") == 0)
+	else if (ft_strcmp(token_str, "'") == 0)
 		token_stat_ptr->token_type = TYPE_QUOTE_SINGLE;
-	else if (strcmp(token_str, "\"") == 0)
+	else if (ft_strcmp(token_str, "\"") == 0)
 		token_stat_ptr->token_type = TYPE_QUOTE_DOUBLE;
-	else if (strcmp(token_str, ";") == 0)
+	else if (ft_strcmp(token_str, ";") == 0)
 		token_stat_ptr->token_type = TYPE_SEMICOLON;
 	else
 		token_stat_ptr->token_type = TYPE_WORD;
