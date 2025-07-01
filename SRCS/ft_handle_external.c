@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/06/29 14:52:33 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:07:36 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	handle_external(t_pipeline *pipeline, t_shell_env *shell_env,
 	pid_t	pid;
 	int		status;
 
+	status = 0;
 	setup_pipe(pipeline, pipe_fd, shell_env);
 	if (pipeline->next && pipe_fd[0] < 0)
 		return ;
@@ -86,9 +87,5 @@ void	handle_external(t_pipeline *pipeline, t_shell_env *shell_env,
 	else
 	{
 		parent_process_cleanup(pipeline, prev_pipe, pipe_fd);
-		if (waitpid(pid, &status, 0) != -1)
-			handle_exit_status(shell_env, status);
-		else
-			perror("waitpid");
 	}
 }

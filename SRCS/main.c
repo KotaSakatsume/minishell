@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 10:04:24 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:02:13 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static t_shell_env	*init_tshellenv(char **envp)
 static void	loop_initialize(t_shell_env *t_shellenv_ptr)
 {
 	set_sigint_for_readline();
-	t_shellenv_ptr->exit_status = 0;
 	t_shellenv_ptr->exit_status_now = t_shellenv_ptr->exit_status;
 }
 
