@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:19:08 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 12:02:13 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:47:35 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static t_shell_env	*init_tshellenv(char **envp)
 static void	loop_initialize(t_shell_env *t_shellenv_ptr)
 {
 	set_sigint_for_readline();
+	if(t_shellenv_ptr->exit_status == 2 || t_shellenv_ptr->exit_status == 3)
+		t_shellenv_ptr->exit_status = 1;
 	t_shellenv_ptr->exit_status_now = t_shellenv_ptr->exit_status;
 }
 
