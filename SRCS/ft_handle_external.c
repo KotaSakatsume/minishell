@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 12:07:36 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:53:35 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	handle_external(t_pipeline *pipeline, t_shell_env *shell_env,
 		return ;
 	}
 	if (pid == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
 		fork_and_execute(pipeline, shell_env, prev_pipe, pipe_fd);
+	}
 	else
 	{
 		parent_process_cleanup(pipeline, prev_pipe, pipe_fd);
