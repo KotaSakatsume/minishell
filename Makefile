@@ -14,8 +14,14 @@ NAME = minishell
 CC = cc
 CFLAGS = #-Wall -Wextra -Werror -g
 #CFLAGS += -fsanitize=address -g -O1
+
 SRC_DIR = ./SRCS
 BUILT_IN_DIR = ./SRCS/built_in
+LEXER_DIR = ./SRCS/lexer
+PARSER_DIR = ./SRCS/parser
+EXPANDER_DIR = ./SRCS/expander
+UTILS_DIR = ./SRCS/utils
+
 OBJ_DIR = ./OBJS
 
 INCLUDES = -I includes
@@ -23,44 +29,39 @@ LDFLAGS = -lreadline
 
 SRC_FILES = main.c\
 			signal_handle.c\
-			readline_seq.c\
 			mk_shell_env.c\
-			lexer.c\
-			lexer_set_token_vals.c\
-			lexer_set_token_stat_vals.c\
-			lexer_tokenize.c\
-			serch_end_ptr.c\
-			marge_same_margeid_token.c\
-			paser_utils.c\
-			parse.c\
-			parse_free_utils.c\
-			parse_cmd.c\
-			utils_1.c\
-			utils_2.c\
-			utils_3.c\
-			utils_4.c\
 			ft_itoa.c\
-			utils_struct.c\
-			utils_mk_struct.c\
-			utils_initialize_struct.c\
-			utils_free_struct.c\
-			expander.c\
-			extend_daller.c\
-			extend_daller_check_and_expand_mode.c\
-			expander_utils.c\
-			expander_quote_and_backslash.c\
-			expander_nospace.c\
-			expander_token_to_cmd.c\
 			env_list.c\
 			ft_exec.c\
-            ft_execute.c\
-            ft_handle_external.c\
-            ft_handle_builtin.c\
-            ft_redirects.c\
-            ft_heredoc.c\
+			ft_execute.c\
+			ft_handle_external.c\
+			ft_handle_builtin.c\
+			ft_redirects.c\
+			ft_heredoc.c\
 			ft_exec_utils.c\
 			ft_find_path_set.c\
 			ft_heredoc_utils.c
+
+SRCS_LEXER =	lexer.c\
+				lexer_set_token_vals.c\
+				lexer_set_token_stat_vals.c\
+				lexer_tokenize.c\
+				serch_end_ptr.c\
+				readline_seq.c
+
+SRCS_PARSER =	paser_utils.c\
+				parse.c\
+				parse_free_utils.c\
+				parse_cmd.c
+
+SRCS_EXPANDER = marge_same_margeid_token.c\
+				expander.c\
+				extend_daller.c\
+				extend_daller_check_and_expand_mode.c\
+				expander_utils.c\
+				expander_quote_and_backslash.c\
+				expander_nospace.c\
+				expander_token_to_cmd.c
 
 SRCS_BUILT_IN = builtin_echo.c\
                 builtin_cd.c\
@@ -72,13 +73,26 @@ SRCS_BUILT_IN = builtin_echo.c\
 				builtin_export_utils.c\
 				buitin_utils.c
 
+SRCS_UTILS =	utils_1.c\
+				utils_2.c\
+				utils_3.c\
+				utils_4.c\
+				utils_struct.c\
+				utils_mk_struct.c\
+				utils_initialize_struct.c\
+				utils_free_struct.c
+
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES)) \
        $(addprefix $(BUILT_IN_DIR)/, $(SRCS_BUILT_IN))
 
 OBJS_SRC = $(SRC_FILES:%.c=$(OBJ_DIR)/%.o)
 OBJS_BUILT_IN = $(SRCS_BUILT_IN:%.c=$(OBJ_DIR)/built_in/%.o)
+OBJS_LEXER = $(SRCS_LEXER:%.c=$(OBJ_DIR)/lexer/%.o)
+OBJS_PARSER = $(SRCS_PARSER:%.c=$(OBJ_DIR)/parser/%.o)
+OBJS_EXPANDER = $(SRCS_EXPANDER:%.c=$(OBJ_DIR)/expander/%.o)
+OBJS_UTILS = $(SRCS_UTILS:%.c=$(OBJ_DIR)/utils/%.o)
 
-OBJS = $(OBJS_SRC) $(OBJS_BUILT_IN)
+OBJS = $(OBJS_SRC) $(OBJS_BUILT_IN) $(OBJS_LEXER) $(OBJS_PARSER) $(OBJS_EXPANDER) $(OBJS_UTILS)
 
 
 .PHONY: all clean fclean re
@@ -98,12 +112,40 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 $(OBJ_DIR)/built_in/%.o: $(BUILT_IN_DIR)/%.c | $(OBJ_DIR)/built_in
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+# Compile objects for lexer sources
+$(OBJ_DIR)/lexer/%.o: $(LEXER_DIR)/%.c | $(OBJ_DIR)/lexer
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Compile objects for parser sources
+$(OBJ_DIR)/parser/%.o: $(PARSER_DIR)/%.c | $(OBJ_DIR)/parser
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Compile objects for expander sources
+$(OBJ_DIR)/expander/%.o: $(EXPANDER_DIR)/%.c | $(OBJ_DIR)/expander
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Compile objects for utils sources
+$(OBJ_DIR)/utils/%.o: $(UTILS_DIR)/%.c | $(OBJ_DIR)/utils
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
 # Create directories
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/built_in:
 	mkdir -p $(OBJ_DIR)/built_in
+
+$(OBJ_DIR)/lexer:
+	mkdir -p $(OBJ_DIR)/lexer
+
+$(OBJ_DIR)/parser:
+	mkdir -p $(OBJ_DIR)/parser
+
+$(OBJ_DIR)/expander:
+	mkdir -p $(OBJ_DIR)/expander
+
+$(OBJ_DIR)/utils:
+	mkdir -p $(OBJ_DIR)/utils
 
 # Clean up
 clean:
