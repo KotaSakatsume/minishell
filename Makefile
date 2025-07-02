@@ -21,6 +21,7 @@ LEXER_DIR = ./SRCS/lexer
 PARSER_DIR = ./SRCS/parser
 EXPANDER_DIR = ./SRCS/expander
 UTILS_DIR = ./SRCS/utils
+EXEC_DIR = ./SRCS/exec
 
 OBJ_DIR = ./OBJS
 
@@ -32,15 +33,7 @@ SRC_FILES = main.c\
 			mk_shell_env.c\
 			ft_itoa.c\
 			env_list.c\
-			ft_exec.c\
-			ft_execute.c\
-			ft_handle_external.c\
-			ft_handle_builtin.c\
-			ft_redirects.c\
-			ft_heredoc.c\
-			ft_exec_utils.c\
-			ft_find_path_set.c\
-			ft_heredoc_utils.c
+			#ft_strndup.c
 
 SRCS_LEXER =	lexer.c\
 				lexer_set_token_vals.c\
@@ -82,6 +75,16 @@ SRCS_UTILS =	utils_1.c\
 				utils_initialize_struct.c\
 				utils_free_struct.c
 
+SRCS_EXEC =		ft_exec.c\
+				ft_execute.c\
+				ft_handle_external.c\
+				ft_handle_builtin.c\
+				ft_redirects.c\
+				ft_heredoc.c\
+				ft_exec_utils.c\
+				ft_find_path_set.c\
+				ft_heredoc_utils.c
+
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES)) \
        $(addprefix $(BUILT_IN_DIR)/, $(SRCS_BUILT_IN))
 
@@ -91,8 +94,10 @@ OBJS_LEXER = $(SRCS_LEXER:%.c=$(OBJ_DIR)/lexer/%.o)
 OBJS_PARSER = $(SRCS_PARSER:%.c=$(OBJ_DIR)/parser/%.o)
 OBJS_EXPANDER = $(SRCS_EXPANDER:%.c=$(OBJ_DIR)/expander/%.o)
 OBJS_UTILS = $(SRCS_UTILS:%.c=$(OBJ_DIR)/utils/%.o)
+OBJS_EXEC = $(SRCS_EXEC:%.c=$(OBJ_DIR)/exec/%.o)
 
-OBJS = $(OBJS_SRC) $(OBJS_BUILT_IN) $(OBJS_LEXER) $(OBJS_PARSER) $(OBJS_EXPANDER) $(OBJS_UTILS)
+
+OBJS = $(OBJS_SRC) $(OBJS_BUILT_IN) $(OBJS_LEXER) $(OBJS_PARSER) $(OBJS_EXPANDER) $(OBJS_UTILS) $(OBJS_EXEC)
 
 
 .PHONY: all clean fclean re
@@ -128,6 +133,10 @@ $(OBJ_DIR)/expander/%.o: $(EXPANDER_DIR)/%.c | $(OBJ_DIR)/expander
 $(OBJ_DIR)/utils/%.o: $(UTILS_DIR)/%.c | $(OBJ_DIR)/utils
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+# Compile objects for exec sources
+$(OBJ_DIR)/exec/%.o: $(EXEC_DIR)/%.c | $(OBJ_DIR)/exec
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
 # Create directories
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -146,6 +155,9 @@ $(OBJ_DIR)/expander:
 
 $(OBJ_DIR)/utils:
 	mkdir -p $(OBJ_DIR)/utils
+
+$(OBJ_DIR)/exec:
+	mkdir -p $(OBJ_DIR)/exec
 
 # Clean up
 clean:
