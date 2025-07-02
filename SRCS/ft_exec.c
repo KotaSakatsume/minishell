@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/01 19:49:55 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:40:25 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,22 @@ void	wait_for_all_children(t_shell_env *shell_env)
 {
 	pid_t	pid;
 	int		status;
+	int		sig;
 
 	pid = wait(&status);
 	while (pid > 0)
 	{
 		if (WIFEXITED(status))
+		{
 			update_exit_status(shell_env, WEXITSTATUS(status));
+		}
 		else if (WIFSIGNALED(status))
-			update_exit_status(shell_env, 128 + WTERMSIG(status));
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+				write(2, "Quit: (core dumped)\n", 21);
+			update_exit_status(shell_env, 128 + sig);
+		}
 		pid = wait(&status);
 	}
 }
