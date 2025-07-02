@@ -32,8 +32,7 @@ SRC_FILES = main.c\
 			signal_handle.c\
 			mk_shell_env.c\
 			ft_itoa.c\
-			env_list.c\
-			#ft_strndup.c
+			env_list.c
 
 SRCS_LEXER =	lexer.c\
 				lexer_set_token_vals.c\

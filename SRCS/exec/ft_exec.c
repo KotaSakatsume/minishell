@@ -6,7 +6,7 @@
 /*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:23:04 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/02 10:40:25 by kosakats         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:35:33 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ void	ft_exec(t_job *job_head, t_shell_env *shell_env)
 		current_pipeline = current_job->pipeline;
 		prev_pipe[0] = -1;
 		prev_pipe[1] = -1;
+		set_signal_for_readline();
 		process_heredocs(current_pipeline, shell_env);
+		set_signal_default();
 		process_pipeline_commands(current_pipeline, shell_env, prev_pipe,
 			pipe_fd);
 		wait_for_all_children(shell_env);

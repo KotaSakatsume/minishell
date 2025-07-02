@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
+/*   By: kosakats <kosakats@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 07:45:18 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/02 11:13:42 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:35:56 by kosakats         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,4 @@ void	set_signal_default(void)
 	sa.sa_handler = get_signal;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
-	// kosakats
-	sigaction(SIGQUIT, &(struct sigaction){.sa_handler = SIG_IGN}, NULL);
 }
