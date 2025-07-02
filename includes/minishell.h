@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:24:26 by kosakats          #+#    #+#             */
-/*   Updated: 2025/07/02 07:42:38 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/02 11:13:29 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ typedef struct s_shell_env
 //signal_handle.c
 void						get_signal(int signo);
 void						display_newline_in_readline(int signo);
-void						set_sigint_for_readline(void);
+void						set_signal_for_readline(void);
 void						set_signal_default(void);
 
 // mk_shell_env.c

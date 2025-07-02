@@ -6,7 +6,7 @@
 /*   By: mkuida <reprise39@yahoo.co.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 07:45:18 by mkuida            #+#    #+#             */
-/*   Updated: 2025/07/02 07:42:13 by mkuida           ###   ########.fr       */
+/*   Updated: 2025/07/02 11:13:42 by mkuida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	display_newline_in_readline(int signo)
 	rl_redisplay();
 }
 
-void	set_sigint_for_readline(void)
+void	set_signal_for_readline(void)
 {
 	struct sigaction	sa;
 	struct sigaction	sa_quit;
